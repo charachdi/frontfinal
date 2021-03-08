@@ -1,24 +1,37 @@
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Switch , useRouteMatch } from 'react-router-dom';
 import './App.css';
-
+import $ from 'jquery'
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './function'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Test from './pages/Test'
+import Userview from './component/Userview'
+import Sidebar from './component/Sidebar'
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
+
+ 
+ 
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    
+    <Router>
+      <div className="wrapper d-flex align-items-stretch">
+    <Sidebar />
+      <div id="content" className="p-4 p-md-5 pt-5">
+      <Switch>
+          <Route path='/' component={Login} exact/>
+          <Route path='/home' component={Home} exact/>
+          <Route path='/test' component={Test} exact/>
+        </Switch>
+      </div>
+     </div>
+
+     
+      
+    </Router>
   );
 }
 

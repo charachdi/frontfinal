@@ -1,0 +1,69 @@
+
+body{
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}
+#account-box {
+    height: 85vh;
+}
+#user_info {
+    width: 100%;
+}
+
+.grow { transition: all .2s ease-in-out; }
+.grow:hover {
+     transform: scale(1.1); 
+     cursor: pointer;
+    }
+
+#user-list{
+    height: 85vh;
+    overflow-y: scroll;
+}
+
+
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgb(45, 205, 148);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #2DCD94;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgb(45, 205, 148);
+	background-color: #2DCD94;
+}
+
+
+.picked{
+	background-color: #2DCD94;
+}
+#profile{
+	cursor: pointer;
+}
+#addacc{
+	cursor: pointer;
+}
+.inner-user{
+	cursor: pointer;
+}
+.mt-6{
+	margin: 150px;
+}
+.eye:hover {
+	cursor: pointer;
+}
+
+.load{
+	position: absolute;
+	top: 45%;
+	left: 48%;
+}
