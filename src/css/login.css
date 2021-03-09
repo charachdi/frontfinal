@@ -160,7 +160,26 @@ a:hover{
 	color: #38d39f;
 }
 
-
+.btn-danger{
+	display: block;
+	width: 100%;
+	height: 50px;
+	border-radius: 25px;
+	outline: none;
+	border: none;
+	background-image: linear-gradient(to right, #c42d2d, #e62121, #bb2c2c);
+	background-size: 200%;
+	font-size: 15px;
+	color: #fff;
+	font-family: 'Poppins', sans-serif;
+	text-transform: uppercase;
+	margin: 1rem 0;
+	cursor: pointer;
+	transition: .5s;
+}
+.btn-danger:hover{
+	background-position: right;
+}
 
 
 .btn{
@@ -172,7 +191,7 @@ a:hover{
 	border: none;
 	background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
 	background-size: 200%;
-	font-size: 1.2rem;
+	font-size: 15px;
 	color: #fff;
 	font-family: 'Poppins', sans-serif;
 	text-transform: uppercase;

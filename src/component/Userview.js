@@ -22,7 +22,6 @@ function Userview(props) {
         const loading_screen = ()=>{
             setshow("none")
             setisloading(true)
-            console.log(selected)
             setTimeout(() => {
                 setisloading(false)
                 setshow("block")
@@ -77,13 +76,13 @@ const switchtoedit = ()=>{
                     
                     
                     <div id="userprofile" >
-                    <Profile />
+                    <Profile user={selected}/>
                     </div>
                     <div id="userstat" style={{display:'none'}} >
                     <Statistique />
                     </div>
                     <div id="useredit" style={{display:'none'}}>
-                    <Edituser />
+                    <Edituser user={selected} />
                     </div>
                     
                         

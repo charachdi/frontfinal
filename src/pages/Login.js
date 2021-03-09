@@ -11,6 +11,7 @@ import wave from './../images/wave.png'
 import bg from './../images/bg.svg'
 import avatar from './../images/avatar.svg'
 import $ from 'jquery'
+import Stepper from './Stepperview'
 
 
 
@@ -48,10 +49,17 @@ const handellogin = (e)=>{
 
 	  if (response.status === 200) {
         dispatchState(response.data.token,JSON.stringify(response.data.user));
-        window.setTimeout(() => {
+		if(response.data.user.ftime === "true"){
+			window.setTimeout(() => {
+			history.push("/stepper")
+          }, 1500);
+		}else{
+			window.setTimeout(() => {
 			history.push("/home")
 			$('#sidebar').show()
           }, 1500);
+		}
+       
     }
 })
 

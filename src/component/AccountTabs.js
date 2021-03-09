@@ -39,7 +39,7 @@ function AccountTabs() {
                       </div>
                       <div className="row col-9 text-center align-items-center">
                         <div id="profile" onClick={gotorofile} className="col-6 shadow picked " >Profile</div>
-                        <div id="addacc" onClick={gotoadd} className="col-6 shadow ">add account</div>
+                        <div id="addacc" onClick={gotoadd} className="col-6 shadow ">ajouter</div>
                       </div>
             </div>
     )

@@ -114,6 +114,10 @@ function Home() {
 
 const oneuser = (user) =>{
   setselecteduser(user)
+  $("#add-account").hide()
+  $("#user-profile").show()
+  $("#addacc").removeClass("picked")
+  $("#profile").addClass("picked")
 }
  
        
@@ -183,7 +187,7 @@ return (
               <br />
 
               <div className="row justify-content-center mt-5">
-              <button type="submit" className="btn" style={{width:100}}  onClick={(e)=>{Adduser(e)}}>add</button>
+              <button type="submit" className="btn text-lowercase" style={{width:100}}  onClick={(e)=>{Adduser(e)}}>ajouter</button>
               </div>
               </div>
 
