@@ -1,12 +1,12 @@
-import $ from 'jquery'
-$(document).ready(function () {
+// import $ from 'jquery'
+// $(document).ready(function () {
 
-    console.log(window.location.pathname);
+//     console.log(window.location.pathname);
 
-    if(window.location.pathname === "/"){
-        $('#sidebar').hide()
-    }else{
-        $('#sidebar').show()
-    }
+//     if(window.location.pathname === "/"){
+//         $('#sidebar').hide()
+//     }else{
+//         $('#sidebar').show()
+//     }
 
-});
+// });

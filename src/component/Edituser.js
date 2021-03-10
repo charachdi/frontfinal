@@ -79,16 +79,17 @@ function Edituser(props) {
    
   
 
-        <div className="row col-12 justify-content-center  mt-4" >
+        <div className=" col-12 justify-content-center text-center  mt-4" >
             
             <div className="mt-5 mb-3 ">
-           <TextField className="mr-4" id="fullname" label="fullname" type="text" value={fullname} onChange={(e)=>{setfullname(e.target.value)}}/>
-           <TextField className="mr-4" id="email" label="email" type="email" value={email} onChange={(e)=>{setemail(e.target.value)}}/>
+           <TextField className="mr-2 col-5" variant="outlined" id="fullname" label="fullname" type="text" value={fullname} onChange={(e)=>{setfullname(e.target.value)}}/>
+           <TextField className="ml-2 col-5" variant="outlined" id="email" label="email" type="email" value={email} onChange={(e)=>{setemail(e.target.value)}}/>
            </div>
            <div className="mt-5">
-           <TextField className="mr-5" id="password" label="password"  type="password" value={pwd} onChange={(e)=>{setpwd(e.target.value)}}/>
+           <TextField className="mr-2 col-5" variant="outlined" id="password" label="password"  type="password" value={pwd} onChange={(e)=>{setpwd(e.target.value)}}/>
            <TextField
-                className="float-center"
+                className="ml-2 col-5"
+                variant="outlined"
                 id="standard-select-currency"
                 select
                 size="medium"

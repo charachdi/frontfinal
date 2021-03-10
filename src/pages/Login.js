@@ -55,7 +55,7 @@ const handellogin = (e)=>{
           }, 1500);
 		}else{
 			window.setTimeout(() => {
-			history.push("/home")
+				window.location.replace("/home"); 
 			$('#sidebar').show()
           }, 1500);
 		}

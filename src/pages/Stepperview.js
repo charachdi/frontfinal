@@ -10,6 +10,11 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import $ from 'jquery'
 import TextField from '@material-ui/core/TextField';
+import axios from 'axios'
+import Api_url from './../component/Api_url'
+import { useHistory } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { updateduser } from './../redux/actions/authAction';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-
   
   
   function getSteps() {
@@ -39,12 +43,123 @@ const useStyles = makeStyles((theme) => ({
 
 function Stepperview() {
 
+    const history = useHistory();
+    const token = localStorage.getItem('token')
+    const dispatch = useDispatch();
+    const dispatchState = (user) => dispatch(updateduser(user));
+
+
+
+
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
     const [skipped, setSkipped] = useState(new Set());
     const steps = getSteps();
 
     const [previewimage, setpreviewimage] = useState("")
+    const [img_url, setimg_url] = useState("")
+
+
+    const [Nom, setNom] = useState("")
+    const [Prenom, setPrenom] = useState("")
+    const [Address, setAddress] = useState("")
+    const [Tel, setTel] = useState()
+    const [Fax, setFax] = useState("")
+    const [Website, setWebsite] = useState("")
+
+
+    
+
+  useEffect(() => {
+    const hidesidebar = ()=>{
+      $('#sidebar').hide()
+    }
+    
+   const changestep = () =>{
+      if(activeStep === 0){
+          $('#Profilephoto').show();
+          $('#Info').hide();
+          $('#Prof').hide();
+
+          if( $('#prof-img').length )         // use this if you are using id to check
+          {
+             $( "#Fax" ).change(function(e) {
+              e.preventDefault();
+              var val = $("#Fax").val()
+              setFax(val)
+            });
+          }
+        }
+        else if (activeStep === 1){
+          $('#Info').show();
+          $('#Profilephoto').hide();
+          $('#Prof').hide();
+          if( $('#Nom').length )         // use this if you are using id to check
+            {
+               $( "#Nom" ).keyup(function(e) {
+                e.preventDefault();
+                var val = $("#Nom").val()
+                setNom(val)
+              });
+            }
+            if( $('#prenom').length )         // use this if you are using id to check
+            {
+               $( "#prenom" ).keyup(function(e) {
+                e.preventDefault();
+                var val = $("#prenom").val()
+                setPrenom(val)
+              });
+            }
+            if( $('#tel').length )         // use this if you are using id to check
+            {
+               $( "#tel" ).keyup(function(e) {
+                e.preventDefault();
+                var val = $("#tel").val()
+                setTel(val)
+              });
+            }
+            if( $('#address').length )         // use this if you are using id to check
+            {
+               $( "#address" ).keyup(function(e) {
+                e.preventDefault();
+                var val = $("#address").val()
+                setAddress(val)
+              });
+            }
+
+        }
+        else if (activeStep === 2){
+          $('#Prof').show();
+          $('#Info').hide();
+          $('#Profilephoto').hide();
+
+          if( $('#Fax').length )         // use this if you are using id to check
+          {
+             $( "#Fax" ).keyup(function(e) {
+              e.preventDefault();
+              var val = $("#Fax").val()
+              setFax(val)
+            });
+          }
+
+          if( $('#Website').length )         // use this if you are using id to check
+          {
+             $( "#Website" ).keyup(function(e) {
+              e.preventDefault();
+              var val = $("#Website").val()
+              setWebsite(val)
+            });
+          }
+        }
+
+   }
+   hidesidebar()
+   changestep()
+  }, [activeStep])
+
+   
+
+   
 
     const isStepOptional = (step) => {
         return step === 1;
@@ -62,7 +177,11 @@ function Stepperview() {
         }
     
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+       
+       
         setSkipped(newSkipped);
+        
       };
     
       const handleBack = () => {
@@ -73,62 +192,58 @@ function Stepperview() {
        const url = URL.createObjectURL(document.getElementById('prof-img').files[0])
        setpreviewimage(url)
       }
-    
-      function Profilephoto() {
 
-    
-        return(
-          <div className="col-12 text-center mb-5 mt-5">
-             <div  className="d-flex justify-content-center mt-5" >
-             <Avatar style={{width:160, height:160}}  alt="Haboubi amine" src={previewimage} />
-             </div>
-            <div  className="d-flex justify-content-center mt-3" >
-            <input accept="image/*"  id="prof-img" type="file"  style={{display:'none'}} onChange={()=>{prev()}}/>
-            <label htmlFor="prof-img">
-              <IconButton color="primary"  aria-label="upload picture" component="span">
-                <PhotoCamera style={{color:'#2DCD94'}}/>
-              </IconButton>
-            </label>
-             </div>
-            
-          </div>
-        )
-      }
-    
-      function Info() {
-        return(
-          <div className=" col-12 text-center mb-5 mt-5 justify-content-center">
-            
-                <TextField className="mr-4" id="nom" label="Nom" variant="outlined" />
-                <TextField className="ml-4" id="prenom" label="Prenom" variant="outlined" /><br/>
-                <TextField className="mr-4 mt-4" id="tel" label="N°tel" variant="outlined" /> 
-                <TextField className="ml-4 mt-4" size="medium" id="address" label="address" variant="outlined" />
 
-              
-          </div>
-        )
+      const show = () =>{
+          console.log(`
+            nom :  ${Nom}
+            prenom :${Prenom}
+            tel : ${Tel}
+            address : ${Address}
+            fax : ${Fax}
+            website : ${Website}
+          `)
+      }
+
+
+
+      const updateprofile = async (e)=>{
+        const formData = new FormData();
+        formData.append('myImage',document.getElementById('prof-img').files[0]);
+        formData.append('nom',Nom);
+        formData.append('prenom',Prenom);
+        formData.append('address',Address);
+        formData.append('tel',Tel);
+        formData.append('fax',Fax);
+        formData.append('website',Website);
+
+
+
+        console.log(formData)
+        const res = await axios({
+          headers: {'Authorization': `Bearer ${token}`},
+          method: 'put',
+          url : `${Api_url}user/update/profile`,
+          data : formData
+          
+          });
+          console.log(res)
+
+          if(res.status === 200){
+            window.setTimeout(() => {
+              dispatchState(JSON.stringify(res.data.user));
+              window.location.replace("/home"); 
+              $('#sidebar').show()
+                  }, 1500);
+          }
+                 
+
+
+
       }
     
-      function Prof() {
-        return(
-          <div className="col-12 text-center">
-              Prof
-          </div>
-        )
-      }
     
-      function getStepContent(step) {
-        switch (step) {
-          case 0:
-            return <Profilephoto />;
-          case 1:
-            return <Info />;
-          case 2:
-            return  <Prof />;
-          default:
-            return 'Unknown step';
-        }
-      }
+     
    
     return (
         <div className={classes.root}>
@@ -157,21 +272,85 @@ function Stepperview() {
           </div>
         ) : (
           <div className="row justify-content-center">
-            {getStepContent(activeStep)}
+           
+
+             {/* step1!! */}
+
+         <div id="Profilephoto" className="col-12 text-center mb-5 mt-5">
+             <div  className="d-flex justify-content-center mt-5" >
+             <Avatar style={{width:160, height:160}}  alt="Haboubi amine" src={previewimage} />
+             </div>
+            <div  className="d-flex justify-content-center mt-3" >
+            <input accept="image/*"  id="prof-img" type="file"  style={{display:'none'}} onChange={()=>{prev()}} required/>
+            <label htmlFor="prof-img">
+              <IconButton color="primary"  aria-label="upload picture" component="span">
+                <PhotoCamera style={{color:'#2DCD94'}}/>
+              </IconButton>
+            </label>
+             </div>
+            
+          </div>
+
+          {/* step1!! */}
+
+
+          {/* step2!!! */}
+          <div id="Info" className=" col-12 text-center mb-5 mt-5 justify-content-center" style={{display :"none"}}>
+               
+               <TextField className="mr-4 mt-5" id="Nom" label="Nom" variant="outlined" type="text" required/>
+               <TextField className="ml-4 mt-5" id="prenom" label="Prenom" variant="outlined"  required/><br/>
+               <TextField className="mr-4 mt-4 mt-2" id="tel" label="N°tel" variant="outlined" required/> 
+               <TextField className="ml-4 mt-4 mt-2" size="medium" id="address" label="address" variant="outlined" required/>
+
+           
+         </div>
+
+         {/* step2!!! */}
+
+          {/* step3 */}
+
+         <div id="Prof" className="col-12 mb-5 mt-5 text-center" style={{display :"none"}}>
+                <TextField className="mr-4" id="Fax" label="Fax" variant="outlined" placeholder="123456***" type="text" />
+                <TextField className="ml-4" id="Website" label="Website" placeholder="www.exemple.com" variant="outlined" /><br/>
+               
+              
+          </div>
+        {/* step3 */}
+
+
             <div>
               <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                 Back
               </Button>
               
 
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={classes.button}
-              >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
+                  {
+                    activeStep === steps.length - 1 ?(
+                      <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={()=>updateprofile()}
+                      className={classes.button}
+                      style={{backgroundColor:'#2DCD94'}}
+                    >
+                      Finish
+                    </Button>
+                    ):(
+                      <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                      style={{backgroundColor:'#2DCD94'}}
+                    >
+                      Next
+                    </Button>
+                    )
+                  }
+             
+
+
+              
             </div>
           </div>
         )}

@@ -3,8 +3,45 @@ import './../css/sidebar.css'
 import './../js/sidebar'
 import Avatar from '@material-ui/core/Avatar';
 import profile from './../images/profile.jpg'
-
+import { Logout } from "../redux/actions/authAction";
+import {useDispatch} from 'react-redux';
+import { useHistory } from "react-router-dom";
+import $ from 'jquery'
 function Sidebar() {
+
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+  
+  const [url, seturl] = useState("")
+  const [fullname, setfullname] = useState("")
+  const user = JSON.parse(localStorage.getItem('user')) ;
+  
+  
+
+  useEffect(() => {
+   
+    const info = () =>{
+     
+
+    }
+
+    info()
+  }, [])
+  
+  
+
+  const handelLogout = () =>{
+      dispatch( Logout() );
+      seturl("")
+      window.setTimeout(() => {
+        window.location.replace("/"); 
+      
+            }, 500);
+  
+  }
+
+  
 
     return (
        
@@ -20,9 +57,10 @@ function Sidebar() {
         <ul className="list-unstyled components mb-5">
         <li className="text-center d-flex flex-column mb-3">
           <div className="d-flex justify-content-center mb-2">
-          <Avatar style={{width:80, height:80}} alt="Haboubi amine" src={profile} />
+
+          <Avatar  style={{width:80, height:80}} className="profile_img" alt="Haboubi amine" src={user.user_img} />
           </div>
-        <h6 className="text-capitalize">haboubi amine</h6>
+        <h6 id="username" className="text-capitalize">{user.full_name}</h6>
         
           </li>
           <li className="active">
@@ -45,6 +83,9 @@ function Sidebar() {
           </li>
           <li>
             <a className="text-left" href="#"><span className="fa fa-paper-plane mr-3"></span> Contacts</a>
+          </li>
+          <li>
+            <a className="text-left" href="#" onClick={()=>{handelLogout()}}><i class="fas fa-sign-out-alt mr-3" style={{color:'red'}}></i> logout</a>
           </li>
         </ul>
   

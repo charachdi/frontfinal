@@ -12,7 +12,7 @@ function Profile(props) {
                 <h4>tel : {selected.tel ? selected.tel : null}</h4>
                 <h4>fax : {selected.fax ? selected.fax : null}</h4>
                 <h4>Website : {selected.Website ? selected.Website : null}</h4>
-                <h4>sex :{selected.sex ? selected.sex : null}</h4>
+               
             </div>
         </div>
     )

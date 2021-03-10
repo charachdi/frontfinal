@@ -23,4 +23,11 @@ export const Logout = () => {
     }
 };
 
+export const updateduser = (user) => {
+  localStorage.setItem('user', user);
+  return {
+      type: actionTypes.AUTH_UPDATE
+  }
+};
+
 

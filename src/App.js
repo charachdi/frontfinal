@@ -15,13 +15,14 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
 
  
- 
+    console.log(window.location.pathname)
   
   return (
     
     <Router>
       <div className="wrapper d-flex align-items-stretch">
-    <Sidebar />
+        {window.location.pathname === "/" ? null:<Sidebar />}
+   
       <div id="content" className="p-4 p-md-5 pt-5">
       <Switch>
           <Route path='/' component={Login} exact/>
