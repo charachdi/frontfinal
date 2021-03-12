@@ -15,33 +15,38 @@ import { ToastContainer, toast } from 'react-toastify';
 import Avatar from '@material-ui/core/Avatar';
 
 
+
+
+
 function Home() {
   const token = localStorage.getItem('token')
   useEffect(() => {
     const showsidebar = ()=>{
       $('#sidebar').show()
-      // console.log(token)
-      // console.log(Api_url)
     }
 
-    const getuserlist = async ()=>{
-      const res = await axios({
-        headers: {'Authorization': `Bearer ${token}`},
-        method: 'get',
-        url : `${Api_url}user/`,  
-        });
-        setusers(res.data)
-        
+      const getuserlist = async ()=>{
+        const res = await axios({
+          headers: {'Authorization': `Bearer ${token}`},
+          method: 'get',
+          url : `${Api_url}user/`,  
+          });
+
+        const equiperes = await axios({
+          headers: {'Authorization': `Bearer ${token}`},
+          method: 'get',
+          url : `${Api_url}equipe/`,  
+          });
+          setusers(res.data)
+          setequipe(equiperes.data)
+       
     }
     
     showsidebar()
     getuserlist()
     }, [])
 
-
-    // $('.eye').on("hover",()=>{
-    //   $('.add-password').attr("type","text")
-    // })
+   
 
     $('.eye').mouseenter( ()=>{
      settype("text")
@@ -50,15 +55,18 @@ function Home() {
      settype("password")
     } );
 
-   
-
+    const [equipe, setequipe] = useState([])
+    
 
     const [type, settype] = useState("password")
     const [level, setlevel] = useState("")
     const [email, setemail] = useState("")
     const [pwd, setpwd] = useState("")
-    const [selecteduser, setselecteduser] = useState({});
+    const [selecteduser, setselecteduser] = useState({
+      id : ""
+    });
     const [users, setusers] = useState([]);
+    const [usereq, setusereq] = useState("")
 
 
 
@@ -68,9 +76,9 @@ function Home() {
         email :email,
         pwd:pwd,
         level:level,
+        equipe_id : usereq
       }
 
-    
       const res = await axios({
         headers: {'Authorization': `Bearer ${token}`},
         method: 'post',
@@ -112,6 +120,31 @@ function Home() {
 
     }
 
+
+    const updateuser = (user) =>{
+      setusers(
+        users.map(item => 
+            item.id === user.id 
+            ? user 
+            : item 
+    ))
+    console.log(user)
+    setselecteduser(user)
+      
+    }
+
+    const deleteuser = (user) =>{
+      setusers(
+     users.filter(item => item.id !== user.id)
+    )
+      setselecteduser({
+        id : "",
+        
+      })
+    }
+
+
+
 const oneuser = (user) =>{
   setselecteduser(user)
   $("#add-account").hide()
@@ -141,7 +174,7 @@ return (
             {users.map((user, index) => (
 
 
-                 <div   className="card shadow grow mb-2 mt-2 mr-2 ml-2" key={index} onClick={()=>{oneuser(user)}} >
+                 <div id={user.id}  className="card shadow grow mb-2 mt-2 mr-2 ml-2" key={index} onClick={()=>{oneuser(user)}} >
                  <div className="card-body d-flex flex-row">
                      <div className="avatar float-left"> <Avatar style={{width:70, height:70}} alt={user.full_name} src={user.user_img} /></div>
                      <div id="user_info" className="ml-2">
@@ -156,7 +189,7 @@ return (
             ))}
             </div>
             <div className="col-9 border shadow">
-            <Userview selected={selecteduser} />
+            <Userview selected={selecteduser} setstate={updateuser} delete={deleteuser} />
 
             <div id="add-account" className="city" style={{display:"none"}}>
             <form className="row col-12 justify-content-center align-middle" autoComplete={"off"}>
@@ -168,8 +201,8 @@ return (
               <TextField value={pwd} onChange={(e)=>{setpwd(e.target.value)}} className="ml-5 add-password" label="Password" type={type} id="standard-size-"   size="small" required /><i className="far fa-eye mt-3 eye"></i>
               <br />
                <TextField
-                className="float-center mt-5"
-                id="standard-select-currency"
+                className="float-center mt-5 col-4 mr-5"
+                id="role"
                 select
                 size="medium"
                 label="Role"
@@ -179,12 +212,31 @@ return (
               >
 
                 <MenuItem value={"admin"}>admin</MenuItem>
-                <MenuItem value={"ChefS"}>Chef Service</MenuItem>
-                <MenuItem value={"ChefE"}>Chef équipe</MenuItem>
+                <MenuItem value={"Chef Service"}>Chef Service</MenuItem>
+                <MenuItem value={"Chef equipe"}>Chef équipe</MenuItem>
                 <MenuItem value={"Collaborateur"}>Collaborateur</MenuItem>
                 <MenuItem value={"RH"}>RH</MenuItem>
               </TextField>
-              <br />
+             
+
+              <TextField
+                className="float-center mt-5 col-4"
+                id="equipe"
+                select
+                size="medium"
+                label="equipe"
+                helperText="select equipe"
+                value={usereq}
+                onChange={(e)=>{setusereq(e.target.value)}}
+              >
+                {
+                  equipe.map((equ , index) =>(
+                    <MenuItem key={index} value={equ.id}>{equ.Nom_equipe}</MenuItem>
+                  ))
+                }
+               
+                
+              </TextField>
 
               <div className="row justify-content-center mt-5">
               <button type="submit" className="btn text-lowercase" style={{width:100}}  onClick={(e)=>{Adduser(e)}}>ajouter</button>

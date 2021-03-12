@@ -2,6 +2,7 @@ import React from 'react'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import $ from 'jquery'
+import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter , MDBCol, MDBFormInline , MDBIcon } from 'mdbreact';
 
 
 const gotoadd = ()=>{
@@ -35,7 +36,11 @@ function AccountTabs() {
     return (
         <div className="row col-12 justify-content-start mb-3">
                       <div className="col-3 text-left">
-                      <TextField id="user-search" onChange={filter} label="search" />
+                      <MDBFormInline className="md-form">
+                        <MDBIcon icon="search" className="mr-1" />
+                        <TextField id="user-search" onChange={filter} label="search" variant="outlined" size='small' />
+                    </MDBFormInline>
+                     
                       </div>
                       <div className="row col-9 text-center align-items-center">
                         <div id="profile" onClick={gotorofile} className="col-6 shadow picked " >Profile</div>

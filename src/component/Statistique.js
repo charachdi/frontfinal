@@ -3,7 +3,7 @@ import React from 'react'
 function Statistique() {
     return (
         <div>
-            <h1>Statistique</h1>
+            <h1 className="text-center">Statistique</h1>
         </div>
     )
 }

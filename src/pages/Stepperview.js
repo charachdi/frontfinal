@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import $ from 'jquery'
 import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios'
 import Api_url from './../component/Api_url'
 import { useHistory } from "react-router-dom";
@@ -66,7 +67,8 @@ function Stepperview() {
     const [Tel, setTel] = useState()
     const [Fax, setFax] = useState("")
     const [Website, setWebsite] = useState("")
-
+    const [country, setcountry] = useState("")
+    const [sex, setsex] = useState("")
 
     
 
@@ -133,11 +135,12 @@ function Stepperview() {
           $('#Info').hide();
           $('#Profilephoto').hide();
 
-          if( $('#Fax').length )         // use this if you are using id to check
+          if( $('#fax').length )         // use this if you are using id to check
           {
-             $( "#Fax" ).keyup(function(e) {
+             $( "#fax" ).keyup(function(e) {
               e.preventDefault();
-              var val = $("#Fax").val()
+              var val = $("#fax").val()
+              console.log(val)
               setFax(val)
             });
           }
@@ -148,6 +151,15 @@ function Stepperview() {
               e.preventDefault();
               var val = $("#Website").val()
               setWebsite(val)
+            });
+          }
+
+          if( $('#country').length )         // use this if you are using id to check
+          {
+             $( "#country" ).keyup(function(e) {
+              e.preventDefault();
+              var val = $("#country").val()
+              setcountry(val)
             });
           }
         }
@@ -202,6 +214,8 @@ function Stepperview() {
             address : ${Address}
             fax : ${Fax}
             website : ${Website}
+            country : ${country}
+            sex : ${sex}
           `)
       }
 
@@ -216,6 +230,8 @@ function Stepperview() {
         formData.append('tel',Tel);
         formData.append('fax',Fax);
         formData.append('website',Website);
+        formData.append('sex',sex);
+        formData.append('country',country);
 
 
 
@@ -299,8 +315,8 @@ function Stepperview() {
                
                <TextField className="mr-4 mt-5" id="Nom" label="Nom" variant="outlined" type="text" required/>
                <TextField className="ml-4 mt-5" id="prenom" label="Prenom" variant="outlined"  required/><br/>
-               <TextField className="mr-4 mt-4 mt-2" id="tel" label="N°tel" variant="outlined" required/> 
-               <TextField className="ml-4 mt-4 mt-2" size="medium" id="address" label="address" variant="outlined" required/>
+               <TextField className="mr-4 mt-4 " id="tel" label="N°tel" variant="outlined" required/> 
+               <TextField className="ml-4 mt-4" size="medium" id="address" label="address" variant="outlined" required/>
 
            
          </div>
@@ -310,8 +326,25 @@ function Stepperview() {
           {/* step3 */}
 
          <div id="Prof" className="col-12 mb-5 mt-5 text-center" style={{display :"none"}}>
-                <TextField className="mr-4" id="Fax" label="Fax" variant="outlined" placeholder="123456***" type="text" />
-                <TextField className="ml-4" id="Website" label="Website" placeholder="www.exemple.com" variant="outlined" /><br/>
+                <TextField className="mr-4 mt-5 col-2" id="country" label="country"  variant="outlined" />
+                <TextField className="ml-4 mt-5 col-2" id="fax" label="fax" placeholder="www.exemple.com" variant="outlined" /><br/>
+                <TextField className="mr-4 mt-4 col-2" id="Website" label="Website" placeholder="www.exemple.com" variant="outlined" />
+                <TextField
+                className="float-center mt-4 ml-4 col-2"
+                id="sex"
+                variant="outlined"
+                size="medium"
+                select
+                size="medium"
+                label="sex"
+                helperText="select Role"
+                value={sex}
+                onChange={(e)=>{setsex(e.target.value)}}
+              >
+
+                <MenuItem value={"Homme"}>Homme</MenuItem>
+                <MenuItem value={"Femme"}>Femme</MenuItem>
+              </TextField>
                
               
           </div>

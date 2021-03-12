@@ -29,7 +29,7 @@ function Userview(props) {
         }
     
         loading_screen()
-      }, [selected.user_email])
+      }, [selected.user_email ,selected.full_name , selected.Equipe , selected.user_level])
 
 
 const switchtoprofile = ()=>{
@@ -66,7 +66,7 @@ const switchtoedit = ()=>{
                    </div>
                        
                             <div className="row col-12 align-items-center mx-auto text-center border border-gray border-left-0 border-right-0 ">
-                                        <div onClick={()=>{switchtoprofile()}} className="col-4 text-center mt-1 mb-1 inner-user" ><i className="fas fa-user-alt fa-2x"></i></div>
+                                        <div onClick={()=>{switchtoprofile() }} className="col-4 text-center mt-1 mb-1 inner-user" ><i className="fas fa-user-alt fa-2x"></i></div>
                                         <div onClick={()=>{switchtostat()}} className="col-4 text-center mt-1 mb-1 inner-user border border-gray border-top-0 border-bottom-0"><i className="fas fa-chart-line fa-2x"></i></div>
                                         <div onClick={()=>{switchtoedit()}} className="col-4 text-center mt-1 mb-1 inner-user "><i className="fas fa-wrench fa-2x"></i></div>
                             </div>
@@ -82,7 +82,7 @@ const switchtoedit = ()=>{
                     <Statistique />
                     </div>
                     <div id="useredit" style={{display:'none'}}>
-                    <Edituser user={selected} />
+                    <Edituser user={selected} changestate={props.setstate} deleteuse={props.delete} />
                     </div>
                     
                         

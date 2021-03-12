@@ -36,7 +36,6 @@ function Sidebar() {
       seturl("")
       window.setTimeout(() => {
         window.location.replace("/"); 
-      
             }, 500);
   
   }
@@ -58,16 +57,16 @@ function Sidebar() {
         <li className="text-center d-flex flex-column mb-3">
           <div className="d-flex justify-content-center mb-2">
 
-          <Avatar  style={{width:80, height:80}} className="profile_img" alt="Haboubi amine" src={user.user_img} />
+          <Avatar  style={{width:80, height:80}} className="profile_img" alt="Haboubi amine" src={user.user_img } />
           </div>
         <h6 id="username" className="text-capitalize">{user.full_name}</h6>
         
           </li>
           <li className="active">
-            <a className="text-left" href="#"><i className="fas fa-user-friends mr-3"></i> account</a>
+            <a className="text-left hover" onClick={()=>{history.push("/home")}}><i className="fas fa-user-friends mr-3"></i>Comptes</a>
           </li>
           <li>
-              <a className="text-left" href="#"><span className="fa fa-user mr-3"></span> About</a>
+              <a className="text-left hover" onClick={()=>{history.push("/equipe")}}><span className="fa fa-user mr-3"></span>equipes</a>
           </li>
           <li>
             <a className="text-left" href="#"><span className="fa fa-briefcase mr-3"></span> Works</a>
