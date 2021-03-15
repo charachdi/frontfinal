@@ -69,7 +69,7 @@ function Sidebar() {
               <a className="text-left hover" onClick={()=>{history.push("/equipe")}}><span className="fa fa-user mr-3"></span>equipes</a>
           </li>
           <li>
-            <a className="text-left" href="#"><span className="fa fa-briefcase mr-3"></span> Works</a>
+            <a className="text-left hover" onClick={()=>{history.push("/service")}}><span className="fa fa-cogs mr-2"></span> Services</a>
           </li>
           <li>
             <a className="text-left" href="#"><span className="fa fa-sticky-note mr-3"></span> Blog</a>
@@ -77,9 +77,7 @@ function Sidebar() {
           <li>
             <a className="text-left" href="#"><span className="fa fa-suitcase mr-3"></span> Gallery</a>
           </li>
-          <li>
-            <a className="text-left" href="#"><span className="fa fa-cogs mr-3"></span> Services</a>
-          </li>
+         
           <li>
             <a className="text-left" href="#"><span className="fa fa-paper-plane mr-3"></span> Contacts</a>
           </li>

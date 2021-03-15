@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './function'
 import Home from './pages/Home'
 import Equipe from './pages/Equipe'
+import Service from './pages/Service'
 import EquipeView from './pages/EquipeView'
 import Stepperview from './pages/Stepperview'
 import Login from './pages/Login'
@@ -31,6 +32,7 @@ function App() {
           <Route path='/stepper' component={Stepperview} exact/>
           <Route path='/Equipe' component={Equipe} exact/>
           <Route path='/Equipe/:id' component={EquipeView} exact/>
+          <Route path='/Service' component={Service} exact/>
           <Route path='/test' component={Test} exact/>
         </Switch>
       </div>
