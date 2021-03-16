@@ -189,7 +189,7 @@ return (
             ))}
             </div>
             <div className="col-9 border shadow">
-            <Userview selected={selecteduser} setstate={updateuser} delete={deleteuser} />
+            <Userview selected={selecteduser} setstate={updateuser} delete={deleteuser} showEdit={true} />
 
             <div id="add-account" className="city" style={{display:"none"}}>
             <form className="row col-12 justify-content-center align-middle" autoComplete={"off"}>

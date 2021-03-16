@@ -3,7 +3,7 @@ import axios from 'axios'
 import $ from 'jquery'
 import Api_url from './../component/Api_url'
 import Avatar from '@material-ui/core/Avatar';
-
+import { useHistory } from "react-router-dom";
 function EquipeView(props) {
 
     const token = localStorage.getItem('token')
@@ -12,6 +12,8 @@ function EquipeView(props) {
     const [collab, setcollab] = useState([])
     const [equipe, setequipe] = useState({})
     const [users, setusers] = useState([])
+    const history = useHistory();
+
 
     useEffect(() => {
       const getequipe = async () =>{
@@ -43,16 +45,24 @@ function EquipeView(props) {
                 <div className="col-12  " >
                           <h1>{equipe.Nom_equipe} /</h1>
                 </div>
-                <div className="col-12 card mt-4  border border-gray" >
+                <div id="team-user" className="row justufy-content-center mt-4" >
                            {chefE.map((user , index)=>(
-                               <div id={user.id}  className="card shadow grow col-3  mb-2 mt-2 mr-2 ml-2" key={index} >
-                               <div className="card-body d-flex flex-row">
-                                   <div className="avatar float-left"> <Avatar style={{width:70, height:70}} alt={user.full_name} src={user.user_img} /></div>
-                                   <div id="user_info" className="ml-2">
-                                     <h4 className="text-center" style={{fontSize:13}}>{ !user.full_name ? null :user.full_name }</h4>
-                                     <h4 className="text-center" style={{fontSize:11}}>{user.user_email}</h4>
-                                     <h6 className="text-center" style={{fontSize:13}}>{user.user_level}</h6>
-                                   </div>
+                               <div id={user.id}  className="card shadow grow mr-2 ml-2 mt-2 mb-4" style={{width:150 , height:175}} key={index} onClick={()=>{history.push(`/profile/${user.id}`)}} >
+                               <div className="card-body justufy-content-center">
+                                  <Avatar className="ml-2" style={{width:90, height:90}} alt={user.full_name} src={user.user_img} />
+                                   <div className="text-center mt-2">{user.full_name}</div>
+                                   <span className="text-center mt-1 small">{user.user_level}</span>
+                               </div>
+                              
+                             </div>
+                           ))}
+
+                          {collab.map((user , index)=>(
+                               <div id={user.id}  className="card shadow grow mr-2 ml-2 mt-2 mb-4" style={{width:150, height:175}} key={index} onClick={()=>{history.push(`/profile/${user.id}`)}} >
+                               <div className="card-body justufy-content-center">
+                                  <Avatar className="ml-2" style={{width:90, height:90}} alt={user.full_name} src={user.user_img} />
+                                   <div className="text-center mt-2">{user.full_name}</div>
+                                   <span className="text-center mt-1 small">{user.user_level}</span>
                                </div>
                               
                              </div>
@@ -60,21 +70,7 @@ function EquipeView(props) {
                          
                 </div>
 
-                <div className="col-12 border border-gray mt-4 row">
-                {collab.map((user , index)=>(
-                                <div id={user.id}  className="card shadow col-3 grow  mb-2 mt-2 mr-2 ml-2" key={index} >
-                                <div className="card-body d-flex flex-row">
-                                    <div className="avatar float-left"> <Avatar style={{width:70, height:70}} alt={user.full_name} src={user.user_img} /></div>
-                                    <div id="user_info" className="ml-2">
-                                      <h4 className="text-center" style={{fontSize:13}}>{ !user.full_name ? null :user.full_name }</h4>
-                                      <h4 className="text-center" style={{fontSize:11}}>{user.user_email}</h4>
-                                      <h6 className="text-center" style={{fontSize:13}}>{user.user_level}</h6>
-                                    </div>
-                                </div>
-                               
-                              </div>
-                           ))}
-                </div>
+               
                
             </div>
  
