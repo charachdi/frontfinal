@@ -2,6 +2,8 @@ import React , {useState , useEffect} from 'react'
 import Table from 'react-bootstrap/Table'
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import Avatar from '@material-ui/core/Avatar';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,12 +12,15 @@ import Icon from '@material-ui/core/Icon';
 import AddIcon from '@material-ui/icons/Add';
 import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter , MDBCol, MDBFormInline , MDBIcon } from 'mdbreact';
 import TextField from '@material-ui/core/TextField';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import MenuItem from '@material-ui/core/MenuItem';
 import { MDBDataTableV5 } from 'mdbreact';
 import axios from 'axios'
 import $ from 'jquery'
 import Api_url from './../component/Api_url';
 import { ToastContainer, toast } from 'react-toastify';
+import { useHistory } from "react-router-dom";
+
 // import { mdbTableEditor } from 'mdb-table-editor'
 
 
@@ -24,9 +29,38 @@ function Clients() {
     const [open, setopen] = useState(false)
     const [suppopen, setsuppopen] = useState(false)
     const [editopen, seteditopen] = useState(false)
+    const history = useHistory();
+    const [selectedrow, setselectedrow] = useState( {
+      "id": 6,
+      "Nom_compteCli": "amine",
+      "description": "aaaaaaaaaaaaa",
+      "createdAt": "2021-03-17T08:35:26.000Z",
+      "updatedAt": "2021-03-17T08:39:45.000Z",
+      "ServiceId": 1,
+      "EquipeId": 1,
+      "Equipe": {
+          "id": 1,
+          "Nom_equipe": "dream team",
+          "createdAt": "2021-03-16T15:08:53.000Z",
+          "updatedAt": "2021-03-16T15:08:53.000Z",
+          "ServiceId": 1
+      },
+      "Service": {
+          "id": 1,
+          "Nom_service": "informatiqueeeee",
+          "createdAt": "2021-03-16T15:08:36.000Z",
+          "updatedAt": "2021-03-16T15:08:36.000Z"
+      },
+      "Clientimg": {
+          "id": 2,
+          "img_profile": "http://localhost:3001/clientimg/1615970126679.jpeg",
+          "img_background": "http://localhost:3001/clientimg/1615970126707.jpeg",
+          "createdAt": "2021-03-17T08:35:26.000Z",
+          "updatedAt": "2021-03-17T08:35:26.000Z",
+          "CompteClientId": 6
+      }
+  })
 
-    const [selectedrow, setselectedrow] = useState({id: 26, Nom_client: "hhhh", createdAt: "2021-03-09T15:20:45.000Z", updatedAt: "2021-03-09T15:20:45.000Z"})
-  
     const toggle = () =>{
         setopen(!open)
     }
@@ -57,34 +91,77 @@ function Clients() {
         url : `${Api_url}clients/`,  
         });
         setclients(res.data)
+        console.log(res)
+    }
+
+    const getequipe = async() =>{
+      const res = await axios({
+        headers: {'Authorization': `Bearer ${token}`},
+        method: 'get',
+        url : `${Api_url}equipe/`,  
+        });
+        setequipe(res.data)
+        
+        // console.log(res)
+       
+    }
+    const getservice = async() =>{
+      const res = await axios({
+        headers: {'Authorization': `Bearer ${token}`},
+        method: 'get',
+        url : `${Api_url}service/`,  
+        });
+        setservice(res.data)
         
     }
 
     getclientlist()
+    getequipe()
+    getservice()
     }, [])
   
     const [nomclient, setnomclient] = useState("")
-    const [clients, setclients] = useState([]);
+    const [ServiceId, setServiceId] = useState("")
+    const [EquipeId, setEquipeId] = useState("")
 
+    const [clients, setclients] = useState([])
+    const [equipe, setequipe] = useState([])
+    const [service, setservice] = useState([])
     const [search, setsearch] = useState("")
+
+    const [service_eq, setservice_eq] = useState([])
+
+    const [profileimgprev, setprofileimgprev] = useState("")
+    const [bgprevimg, setbgprevimg] = useState("https://p7.hiclipart.com/preview/816/475/744/star-thumbnail.jpg")
+    const [description, setdescription] = useState("")
+
+    const [num, setnum] = useState("")
 
 // fonction add row table
     const Addclient = async (e) =>{
       e.preventDefault()
-      const data = {
-        nomClient :nomclient,
-       
-      }
+
+      const formData = new FormData();
+      
+        formData.append('clientimg[]',document.getElementById('client-img').files[0]);
+        formData.append('clientimg[]',document.getElementById('client-bg').files[0]);
+        formData.append('Nom_compteCli',nomclient);
+        formData.append('ServiceId',ServiceId);
+        formData.append('EquipeId',EquipeId);
+        formData.append('description',description);
+        
+
+     
       const res = await axios({
         headers: {'Authorization': `Bearer ${token}`},
         method: 'post',
         url : `${Api_url}clients/`,
-        data
+        data : formData
         
         });
         console.log(res)
         if(res.status === 200){
-          toast.success(`Le client ${res.data.client.Nom_client} a été ajoutée avec succès`, {
+          toast.success(`Le client ${res.data.client.Nom_compteCli} a été ajoutée avec succès`, {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -97,6 +174,11 @@ function Clients() {
               }, 500);
 
               setnomclient("")
+              setprofileimgprev("")
+              setbgprevimg("")
+              setServiceId("")
+              setEquipeId("")
+              setdescription("")
 
 
             
@@ -120,42 +202,179 @@ function Clients() {
   // fonction update table
     const updatedclient = async (e)=>{
       e.preventDefault()
-      const data = {
-         nomClient : selectedrow.Nom_client,
+      const formData = new FormData();
+      // formData.append('clientimg[]',document.getElementById('up-client-img').files[0]);
+      // formData.append('clientimg[]',document.getElementById('up-client-bg').files[0]);
+      formData.append('Nom_compteCli',selectedrow.Nom_compteCli);
+      formData.append('ServiceId',selectedrow.Service.id);
+      formData.append('EquipeId',selectedrow.Equipe.id);
+      formData.append('description',selectedrow.description);
+
+      
+      if (((document.getElementById('up-client-bg').files[0] !== undefined) === true) && ((document.getElementById('up-client-img').files[0] !== undefined) === false)){
+        formData.append('clientimg[]',document.getElementById('up-client-bg').files[0]);
+        const res = await axios({
+          headers: {'Authorization': `Bearer ${token}`},
+          method: 'put',
+          url : `${Api_url}clients/update/clients/bg/${selectedrow.id}`,
+          data : formData 
+      });
+     console.log(res)
+     if(res.status === 200){
+      toast.success(`Le client ${res.data.client.Nom_client} a été modifée avec succès`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        });
+          setTimeout(() => {
+            setclients(
+              clients.map(item => 
+                item.id === res.data.client.id 
+                ? res.data.client 
+                : item )
+            )
+           
+            console.log(res.data.client.Service.Nom_service)
+          }, 200);   
+          seteditopen(!editopen)
+    }
+    else {
+      toast.error('error', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        });
+    }
        
-      }
-      const res = await axios({
-        headers: {'Authorization': `Bearer ${token}`},
-        method: 'put',
-        url : `${Api_url}clients/update/clients/${selectedrow.id}`,
-        data
         
-    });
-   
-        if(res.status === 200){
-          toast.success(`Le client ${res.data.client.Nom_client} a été modifée avec succès`, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            });
-              setTimeout(() => {
-                $(`#${res.data.client.id} #Nomcli`).text(res.data.client.Nom_client)  
-              }, 200);   
-              seteditopen(!editopen)
-        }
-        else {
-          toast.error('error', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            });
-        }
+      }else if(((document.getElementById('up-client-bg').files[0] !== undefined) === false ) && ((document.getElementById('up-client-img').files[0] !== undefined) === true)){
+        formData.append('clientimg[]',document.getElementById('up-client-img').files[0]);
+        const res = await axios({
+          headers: {'Authorization': `Bearer ${token}`},
+          method: 'put',
+          url : `${Api_url}clients/update/clients/prof/${selectedrow.id}`,
+          data : formData
+          
+      });
+     console.log(res)
+     if(res.status === 200){
+      toast.success(`Le client ${res.data.client.Nom_client} a été modifée avec succès`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        });
+          setTimeout(() => {
+            setclients(
+              clients.map(item => 
+                item.id === res.data.client.id 
+                ? res.data.client 
+                : item )
+            )
+           
+            console.log(res.data.client.Service.Nom_service)
+          }, 200);   
+          seteditopen(!editopen)
+    }
+    else {
+      toast.error('error', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        });
+    }
+      }
+      else if(((document.getElementById('up-client-bg').files[0] !== undefined) === true) && ((document.getElementById('up-client-img').files[0] !== undefined) === true)){
+        formData.append('clientimg[]',document.getElementById('up-client-img').files[0]);
+      formData.append('clientimg[]',document.getElementById('up-client-bg').files[0]);
+        const res = await axios({
+          headers: {'Authorization': `Bearer ${token}`},
+          method: 'put',
+          url : `${Api_url}clients/update/clients/${selectedrow.id}`,
+          data : formData
+      });
+     console.log(res)
+     if(res.status === 200){
+              toast.success(`Le client ${res.data.client.Nom_client} a été modifée avec succès`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                });
+                  setTimeout(() => {
+                    // $(`#${res.data.client.id} #Nomcli`).text(res.data.client.Nom_compteCli)  
+                    // $(`#${res.data.client.id} #sercli`).text(res.data.client.Service.Nom_service)  
+                    // $(`#${res.data.client.id} #eqcli`).text(res.data.client.Equipe.Nom_equipe)  
+                    // $(`#${res.data.client.id} #img .prof_img`).attr("src",res.data.client.Clientimg.img_profile)
+                    
+                    setclients(
+                      clients.map(item => 
+                        item.id === res.data.client.id 
+                        ? res.data.client 
+                        : item )
+                    )
+                   
+                    console.log(res.data.client.Service.Nom_service)
+                  }, 200);   
+                  seteditopen(!editopen)
+            }
+            else {
+              toast.error('error', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                });
+            }
+      }
+
+     
+  
+     
+  //       if(res.status === 200){
+  //         toast.success(`Le client ${res.data.client.Nom_client} a été modifée avec succès`, {
+  //           position: "top-right",
+  //           autoClose: 3000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: false,
+  //           draggable: true,
+  //           });
+  //             setTimeout(() => {
+  //               $(`#${res.data.client.id} #Nomcli`).text(res.data.client.Nom_compteCli)  
+  //               $(`#${res.data.client.id} #sercli`).text(res.data.client.Service.Nom_service)  
+  //               $(`#${res.data.client.id} #eqcli`).text(res.data.client.Equipe.Nom_equipe)  
+  //               $(`#${res.data.client.id} .prof_img`).attr("src",res.data.client.Clientimg.img_profile)  
+
+  //               console.log(res.data.client.Service.Nom_service)
+  //             }, 200);   
+  //             seteditopen(!editopen)
+  //       }
+  //       else {
+  //         toast.error('error', {
+  //           position: "top-right",
+  //           autoClose: 3000,
+  //           hideProgressBar: false,
+  //           closeOnClick: true,
+  //           pauseOnHover: false,
+  //           draggable: true,
+  //           });
+  //       }
     }
 
 // fonction delete row table
@@ -170,7 +389,7 @@ const Suppclient = async (e)=>{
 });
 
     if(res.status === 200){
-      toast.success(`Le client ${res.data.client.Nom_client} a été supprimée avec succès`, {
+      toast.success(`Le client ${res.data.compteCli.Nom_compteCli} a été supprimée avec succès`, {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -180,7 +399,7 @@ const Suppclient = async (e)=>{
         });
           setTimeout(() => {
             setclients(
-                clients.filter(item =>item.id !== res.data.client.id)
+                clients.filter(item =>item.id !== res.data.compteCli.id)
             )
           }, 200);   
           setsuppopen(!suppopen)
@@ -207,7 +426,33 @@ const filter = () =>{
   
 }
 
+const prev = () =>{
+  const url = URL.createObjectURL(document.getElementById('client-img').files[0])
+  setprofileimgprev(url)
+ }
 
+ const prev2 = () =>{
+  const url = URL.createObjectURL(document.getElementById('client-bg').files[0])
+  setbgprevimg(url)
+ }
+
+
+ const upprev = () =>{
+  const url = URL.createObjectURL(document.getElementById('up-client-img').files[0])
+  // Clientimg img_profile img_background
+  setselectedrow({...selectedrow , Clientimg :{
+    ...selectedrow.Clientimg,
+    img_profile : url
+  }})
+ }
+
+ const upprev2 = () =>{
+  const url = URL.createObjectURL(document.getElementById('up-client-bg').files[0])
+  setselectedrow({...selectedrow , Clientimg :{
+    ...selectedrow.Clientimg,
+    img_background : url
+  }})
+ }
 
     return (
       <>
@@ -262,6 +507,8 @@ const filter = () =>{
                     <tr>
                         <th style={{width:50}}>#</th>
                         <th>Nom du client</th>
+                        <th>Service</th>
+                        <th>Equipe</th>
                         <th style={{width:150}}>Action</th>
                       </tr>
                     </thead>
@@ -270,15 +517,22 @@ const filter = () =>{
 
                       {
                         clients.map((client , index)=>(
-                            <tr key={index} id={client.id}>
+                            <tr key={index} id={client.id} >
                         <td> {client.id}</td>
-                        <td id="Nomcli" > {client.Nom_client}</td>
+                        <td id="img"  className=" d-flex justify-content-start align-items-center "> <Avatar className=" prof_img ml-3" src={client.Clientimg.img_profile} style={{width: 30, height :30}} /> <span id="Nomcli" className="ml-3 text-center">{client.Nom_compteCli}</span></td>
+                        <td id="sercli"  className=""> <div className="d-flex  float-center " >{client.Service.Nom_service}</div> </td>
+                        <td id="eqcli" > {client.Equipe.Nom_equipe}</td>
                         <td>
                         <IconButton className="mr-3" size="small" aria-label="delete" color="secondary" onClick={()=> {changeselected(client);toggleSupp()}}>
                         <DeleteIcon />
                         </IconButton>
-                        <IconButton size="small" aria-label="delete" color="primary" onClick={()=>{changeselected(client); toggleEdit()}}>
+                        <IconButton className="mr-3" size="small" aria-label="delete" color="primary" onClick={()=>{changeselected(client);setservice_eq(
+                          equipe.filter(item =>item.Service.id === client.Service.id)
+                        ); toggleEdit()}}>
                         <EditIcon />
+                        </IconButton>     
+                        <IconButton size="small" aria-label="delete" color="primary" onClick={()=>{history.push(`/client/${client.id}`)}} style={{color :"#388e3c"}}>
+                        <Visibility />
                         </IconButton>     
                         </td>
                       </tr>
@@ -295,15 +549,85 @@ const filter = () =>{
                 <MDBModalHeader toggle={()=>toggle()} className="text-center">Ajouter un nouveau client</MDBModalHeader>
                 <MDBModalBody>
                 <form className="row col-12 justify-content-center align-middle" >
-              <div>
-              <div className="mb-5">
-              <TextField value={nomclient} onChange={(e)=>{setnomclient(e.target.value)}} id="standard-basic" label="Nom du client" required />
+                  <div className="col-6 mt-5">
+                    <div className="text-right right_button">
+                    <input accept="image/*"  id="client-bg" type="file"  style={{display:'none'}} onChange={()=>{prev2()}} required/>
+                    <label htmlFor="client-bg">
+                      <IconButton className="" color="primary"  aria-label="upload picture" component="span">
+                        <PhotoCamera style={{color:'#c2c1c1'}}/>
+                      </IconButton>
+                    </label>
+                    </div>
+                <div  className="d-flex justify-content-center " >
+                  <div id="client-background">
+                  <img  style={{width:"100%", height:230 , borderRadius:10}} className=""  alt="" src={bgprevimg} />
+                  </div>
+                  <div id="client-image">
+                  <Avatar style={{width:160, height:160}}  alt="" src={profileimgprev} />
+                  <input accept="image/*"  id="client-img" type="file" className="mb-3"  style={{display:'none'}} onChange={()=>{prev()}}   required/>
+                  <label htmlFor="client-img">
+                    <IconButton className="mt-5" color="primary" aria-label="upload picture" component="span">
+                      <PhotoCamera style={{color:'#2DCD94'}}/>
+                    </IconButton>
+                  </label>
+                  </div>
+                
+            
+             </div>
+               
+            </div>
+            <div className="col-6">
+              <TextField className="col-8 mt-2" value={nomclient} onChange={(e)=>{setnomclient(e.target.value)}} id="standard-basic" label="Nom du client" required /><br />
+              <TextField value={description} onChange={(e)=>{setdescription(e.target.value)}} className="col-8 mt-3" id="time" type="text" label="description" multiline={true} variant="outlined" size="small" rows={7} />
+             
+              <TextField
+                        className=" ml-2 col-4 mb-5 mt-3"
+                        id="standard-select-currency"
+                        select
+                        variant="outlined"
+                        
+                        required
+                        size="small"
+                        label="Service"
+                        value={ServiceId}
+                        onChange={(e)=>{setServiceId(e.target.value); setservice_eq(
+                          equipe.filter(item =>item.Service.id === e.target.value)
+                        )}}
+                      >
+
+                      {
+                        service.map((ser , index)=>(
+                          <MenuItem key={index} value={ser.id}>{ser.Nom_service}</MenuItem>
+                        ))
+                      }
                       
-                      </div>
-                      <Button onClick={(e)=>{Addclient(e)}} variant="outlined" class="btn btn-outline-success">
+                      </TextField>
+
+
+                      <TextField
+                        className="ml-2 mt-3 mb-5 col-4"
+                        id="standard-select-currency"
+                        select
+                        required
+                        variant="outlined"
+                        size="small"
+                        label="equipe"
+                        value={EquipeId}
+                        onChange={(e)=>{setEquipeId(e.target.value)}}
+                      >
+
+                      {
+                        service_eq.map((eq , index)=>(
+                          <MenuItem key={index} value={eq.id}>{eq.Nom_equipe}</MenuItem>
+                        ))
+                      }
+                      
+                      </TextField>
+                    
+                      <Button onClick={(e)=>{Addclient(e)}} variant="outlined" class="btn btn-outline-success mb-5">
                       Ajouter
                       </Button> 
-                </div>
+                      </div>
                 </form>
                 </MDBModalBody>
                 </MDBModal>
@@ -312,15 +636,95 @@ const filter = () =>{
                 <MDBModalHeader toggle={()=>toggleEdit()} className="text-center">Modifier les données du client</MDBModalHeader>
                 <MDBModalBody>
                 <form className="row col-12 justify-content-center align-middle" >
-              <div>
-              <div className="mb-5">
-              <TextField value={selectedrow.Nom_client} onChange={(e)=>{setselectedrow({...selectedrow , Nom_client : e.target.value})}} id="standard-basic" label="Nom du client" />
+                  <div className="col-6 mt-5">
+                    <div className="text-right right_button">
+                    <input accept="image/*"  id="up-client-bg" type="file"  style={{display:'none'}} onChange={()=>{upprev2()}} required/>
+                    <label htmlFor="up-client-bg">
+                      <IconButton className="" color="primary"  aria-label="upload picture" component="span">
+                        <PhotoCamera style={{color:'#c2c1c1'}}/>
+                      </IconButton>
+                    </label>
+                    </div>
+                <div  className="d-flex justify-content-center " >
+                  <div id="client-background">
+                  <img  style={{width:"100%", height:230 , borderRadius:10}} className=""  alt="a" src={selectedrow.Clientimg.img_background} />
+                  </div>
+                  <div id="client-image">
+                  <Avatar style={{width:160, height:160}}  alt="a" src={selectedrow.Clientimg.img_profile} />
+                  <input accept="image/*"  id="up-client-img" type="file" className="mb-3"  style={{display:'none'}} onChange={()=>{upprev()}}   required/>
+                  <label htmlFor="up-client-img">
+                    <IconButton className="mt-5" color="primary" aria-label="upload picture" component="span">
+                      <PhotoCamera style={{color:'#2DCD94'}}/>
+                    </IconButton>
+                  </label>
+                  </div>
+                
+            
+             </div>
+               
+            </div>
+            <div className="col-6">
+              <TextField className="col-8 mt-2" value={selectedrow.Nom_compteCli} onChange={(e)=>{setselectedrow({...selectedrow , Nom_compteCli:e.target.value})}} id="standard-basic" label="Nom du client" required /><br />
+              <TextField value={selectedrow.description} onChange={(e)=>{setselectedrow({...selectedrow , description:e.target.value})}} className="col-8 mt-3" id="time" type="text" label="description" multiline={true} variant="outlined" size="small" rows={7} />
+             
+              <TextField
+                        className=" ml-2 col-4 mb-5 mt-3"
+                        id="standard-select-currency"
+                        select
+                        variant="outlined"
+                        
+                        required
+                        size="small"
+                        label={"Service"}
+                        value={selectedrow.Service.id}
+                        onChange={(e)=>{setselectedrow({...selectedrow , Service:{
+                          ...selectedrow.Service,
+                          id: e.target.value
+                        }}); 
+                        setservice_eq(
+                          equipe.filter(item =>item.Service.id === e.target.value)
+                        )}}
+                      >
+
+                      {
+                        service.map((ser , index)=>(
+                          <MenuItem key={index} value={ser.id}>{ser.Nom_service}</MenuItem>
+                        ))
+                      }
                       
-                      </div>
+                      </TextField>
+
+                      
+                      <TextField
+                        className="ml-2 mt-3 mb-5 col-4"
+                        id="standard-select-currency"
+                        select
+                        required
+                        variant="outlined"
+                        size="small"
+                        label="equipe"
+                        value={selectedrow.Equipe.id}
+                        onChange={(e)=>{setselectedrow({...selectedrow , Equipe : {
+                          ...selectedrow.Equipe ,
+                          id: e.target.value
+                        }})}}
+                      >
+
+                      {
+                        service_eq.map((eq , index)=>(
+                          <MenuItem key={index} value={eq.id}>{eq.Nom_equipe}</MenuItem>
+                        ))
+                      }
+                      
+                      </TextField>
                       <Button onClick={(e)=>{updatedclient(e)}} variant="outlined" class="btn btn-outline-success">
                       Modifier
                       </Button> 
-                </div>
+                     
+                      </div>
+                
+                      
+               
                 </form>
                 </MDBModalBody>
                 </MDBModal>

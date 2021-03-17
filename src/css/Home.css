@@ -134,3 +134,22 @@ body{
 		overflow-y: scroll;
 		height: 100vh;
 	  }
+
+
+#client-background{
+    position:absolute;
+}
+
+#client-image{
+    position:absolute;
+    top: 20px;
+}
+
+.right_button{
+    position: absolute;
+    z-index: 10;
+    right: 10px;
+}
+.index {
+    z-index: 10000;
+}

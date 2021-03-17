@@ -21,34 +21,15 @@ import Avatar from '@material-ui/core/Avatar';
 // import { mdbTableEditor } from 'mdb-table-editor'
 
 
-function CompteCli() {
+function CompteCli(props) {
     const token = localStorage.getItem('token')
-    const [open, setopen] = useState(false)
-    const [suppopen, setsuppopen] = useState(false)
-    const [editopen, seteditopen] = useState(false)
-
-    const [selectedrow, setselectedrow] = useState({})
-  
-    const toggle = () =>{
-        setopen(!open)
-    }
-
-    const toggleSupp = () =>{
-      setsuppopen(!suppopen)
-    }
+    const client_id = props.match.params.id
+    const [client, setclient] = useState({})
 
 
-    const changeselected = (equipe) =>{
-      setselectedrow(equipe)
-      console.log(selectedrow)
-    }
-
-    const toggleEdit = () =>{
-     
-      seteditopen(!editopen)
-
-     
-    } 
+    const [profimg, setprofimg] = useState({})
+    const [service, setservice] = useState({})
+    const [equipe, setequipe] = useState({})
 
     useEffect(() => {
    // fonction affiche table
@@ -56,159 +37,19 @@ function CompteCli() {
       const res = await axios({
         headers: {'Authorization': `Bearer ${token}`},
         method: 'get',
-        url : `${Api_url}equipe/`,  
+        url : `${Api_url}clients/${client_id}`,  
         });
-        setequipes(res.data)
-        
+        console.log(res)
+        setclient(res.data.compteCli)
+        setprofimg(res.data.compteCli.Clientimg)
+        setequipe(res.data.compteCli.Equipe)
+        setservice(res.data.compteCli.Service)
     }
 
     getequipelist()
     }, [])
   
-    const [nomequipe, setnomequipe] = useState("")
-    const [service, setservice] = useState("")
-    const [equipes, setequipes] = useState([]);
-
-    const [search, setsearch] = useState("")
-
-// fonction add row table
-    const Addequipe = async (e) =>{
-      e.preventDefault()
-      const data = {
-        nomService :nomequipe,
-        nomEquipe:service,
-      }
-      const res = await axios({
-        headers: {'Authorization': `Bearer ${token}`},
-        method: 'post',
-        url : `${Api_url}equipe/`,
-        data
-        
-        });
-        console.log(res)
-        if(res.status === 200){
-          toast.success(`L'équipe ${res.data.equipe.Nom_equipe} a été ajoutée avec succès`, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            });
-              setTimeout(() => {
-                setequipes([res.data.equipe ,...equipes])
-              }, 500);
-
-              setnomequipe("")
-              setservice("")
-
-
-            
-        }
-        else {
-          toast.error('error', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            });
-        }
-          
-        
-
-
-    }
-  
-  // fonction update table
-    const updatedequipe = async (e)=>{
-      e.preventDefault()
-      const data = {
-         nomService : selectedrow.Service,
-        nomEquipe : selectedrow.Nom_equipe
-      }
-      const res = await axios({
-        headers: {'Authorization': `Bearer ${token}`},
-        method: 'put',
-        url : `${Api_url}equipe/update/equipe/${selectedrow.id}`,
-        data
-        
-    });
-   
-        if(res.status === 200){
-          toast.success(`L'équipe ${res.data.equipe.Nom_equipe} a été modifée avec succès`, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            });
-              setTimeout(() => {
-                $(`#${res.data.equipe.id} #Nomeq`).text(res.data.equipe.Nom_equipe)
-                $(`#${res.data.equipe.id} #Ser`).text(res.data.equipe.Service)
-              }, 200);   
-              seteditopen(!editopen)
-        }
-        else {
-          toast.error('error', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            });
-        }
-    }
-
-// fonction delete row table
-const Suppequipe = async (e)=>{
-  e.preventDefault()
-  const res = await axios({
-    headers: {'Authorization': `Bearer ${token}`},
-    method: 'delete',
-    url : `${Api_url}equipe/${selectedrow.id}`
-   
     
-});
-
-    if(res.status === 200){
-      toast.success(`L'équipe ${res.data.equipe.Nom_equipe} a été supprimée avec succès`, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        });
-          setTimeout(() => {
-            $(`#${res.data.equipe.id}`).hide()
-          }, 200);   
-          setsuppopen(!suppopen)
-    }
-    else {
-      toast.error('error', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        });
-    }
-}
-
-const filter = () =>{
- 
-    var value = $("#equipe-search").val().toLocaleLowerCase()
-    $("#equipe-body tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-     console.log( $(this).text())
-    });
-  
-}
 
 
 
@@ -259,13 +100,18 @@ const filter = () =>{
     <div >
             <div className="profile-header-cover"></div>
             <div className="profile-header-content">
-                <div className="profile-header-img mb-4">
-                    <Avatar src="https://bootdey.com/img/Content/avatar/avatar1.png"className="mb-4 grow" style={{width:140,height:140}} alt=""/>
+                <div className="profile-header-img ">
+                  <span  > <img id="client-background"  src={profimg.img_background}   /></span>
+                   
+                   <span id="client-image"><Avatar  src={profimg.img_profile} className="mb-4" style={{width:140,height:140}} alt=""/></span> 
                 </div>
 
-                <div className="profile-header-info">
-                    <h4 className="m-t-sm">Clyde Stanley</h4>
-                    <p className="m-b-sm">UXUI + Frontend Developer</p>
+                <div className="profile-header-info index">
+                    <h4 className="m-t-sm">{client.Nom_compteCli}</h4>
+                    
+                    <p className="m-b-sm">{service.Nom_service}</p>
+                    <p className="m-b-sm">{equipe.Nom_equipe}</p>
+                    
                     <Button href="#" color="primary"><EditIcon />Edit Profile</Button>
                 </div>
             </div>
@@ -281,135 +127,9 @@ const filter = () =>{
 
 
             <div className="row col-12 mb-2">
-              <div className="col-9"> 
-              <MDBCol >
-                <MDBFormInline className="md-form">
-                  <MDBIcon icon="search" />
-                  <TextField className="ml-3 " size="small" label="Recherche" variant="outlined" id="equipe-search" type="text" onChange={()=>{filter()}}/>
-                </MDBFormInline>
-              </MDBCol>
-               </div> 
-               <div className="col-3"> 
-                <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={()=>toggle(!open)}> Ajouter </Button> 
-               </div>
-            </div> 
-                <Table  striped bordered hover>
-                    
-                    <thead>
-                    <tr>
-                        <th style={{width:50}}>#</th>
-                        <th>Equipe</th>
-                        <th>Service</th>
-                        <th style={{width:150}}>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="equipe-body">
-
-
-                     
-                      
-
-
-                    </tbody>
-            </Table>
-
-                        {/* MODAL ADD */}
-              <MDBModal isOpen={open} toggle={()=>toggle()} size="lg">
-                <MDBModalHeader toggle={()=>toggle()} className="text-center">Ajouter une nouvelle équipe</MDBModalHeader>
-                <MDBModalBody>
-                <form className="row col-12 justify-content-center align-middle" >
-              <div>
-              <div className="mb-5">
-              <TextField value={nomequipe} onChange={(e)=>{setnomequipe(e.target.value)}} id="standard-basic" label="Nom de l'equipe" required />
-                      <TextField
-                        className="ml-5"
-                        id="standard-select-currency"
-                        select
-                        required
-                        size="medium"
-                        label="Service"
-                        value={service}
-                        onChange={(e)=>{setservice(e.target.value)}}
-                      >
-
-                        <MenuItem value={"Informatique"}>Informatique</MenuItem>
-                        <MenuItem value={"Marketing"}>Marketing</MenuItem>
-                        <MenuItem value={"Finance"}>Finance</MenuItem>
-                        <MenuItem value={"Telephonie"}>Telephonie</MenuItem>
-                        <MenuItem value={"RH"}>RH</MenuItem>
-                      </TextField>
-
-                      
-                      </div>
-                      <Button onClick={(e)=>{Addequipe(e)}} variant="outlined" class="btn btn-outline-success">
-                      Ajouter
-                      </Button> 
-                </div>
-                </form>
-                </MDBModalBody>
-                </MDBModal>
-                        {/* MODAL EDIT */}
-                <MDBModal isOpen={editopen} toggle={()=>toggleEdit()} size="lg">
-                <MDBModalHeader toggle={()=>toggleEdit()} className="text-center">Modifier les données de l'équipe</MDBModalHeader>
-                <MDBModalBody>
-                <form className="row col-12 justify-content-center align-middle" >
-              <div>
-              <div className="mb-5">
-              <TextField value={selectedrow.Nom_equipe} onChange={(e)=>{setselectedrow({...selectedrow , Nom_equipe : e.target.value})}} id="standard-basic" label="Nom de l'equipe" />
-                      <TextField
-                        className="ml-5"
-                        id="standard-select-currency"
-                        select
-                        size="medium"
-                        label="Service"
-                        value={selectedrow.Service}
-                        onChange={(e)=>{setselectedrow({...selectedrow , Service : e.target.value})}}
-                      >
-
-                        <MenuItem value={"Informatique"}>Informatique</MenuItem>
-                        <MenuItem value={"Marketing"}>Marketing</MenuItem>
-                        <MenuItem value={"Finance"}>Finance</MenuItem>
-                        <MenuItem value={"Telephonie"}>Telephonie</MenuItem>
-                        <MenuItem value={"RH"}>RH</MenuItem>
-                      </TextField>
-
-                      
-                      </div>
-                      <Button onClick={(e)=>{updatedequipe(e)}} variant="outlined" class="btn btn-outline-success">
-                      Modifier
-                      </Button> 
-                </div>
-                </form>
-                </MDBModalBody>
-                </MDBModal>
-
-
-                      {/* MODAL SUPP */}
-                <MDBModal isOpen={suppopen} toggle={()=>toggleSupp()} size="lg">
-                <MDBModalHeader toggle={()=>toggleSupp()} className="text-center sm">Supprimer l'équipe</MDBModalHeader>
-                    <MDBModalBody>
-                        <div className="row col-12 ">
-                          <div >
-                            <p>vous les vous vraiment supprimer cette équipe ?</p>
-                          </div>
-                        </div>
-                  </MDBModalBody> 
-                  <div>
-                <MDBModalFooter>
-                        <Button color="primary" variant="contained" color="secondary" startIcon={<DeleteIcon />} onClick={(e)=>{Suppequipe(e)}}>Supprimer</Button>
-                        <Button color="primary" variant="contained" color="primary"  onClick={()=>toggleSupp()}>annuler</Button>
-                </MDBModalFooter>
-                </div>
-                </MDBModal>
-
-
-      {/* <div class="container">
-        <mdb-table-editor
-        :data="datatable"
-        striped
-        bordered
-       /> */}
-</div>
+              {client_id}
+            </div>
+            </div>
             </div>
             
             </div></>
