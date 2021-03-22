@@ -20,6 +20,9 @@ import $ from 'jquery'
 import Api_url from './../component/Api_url';
 import { ToastContainer, toast } from 'react-toastify';
 import { useHistory } from "react-router-dom";
+import { TwitterPicker } from 'react-color';
+import Slider from '@material-ui/core/Slider';
+import InputBase from '@material-ui/core/InputBase';
 
 // import { mdbTableEditor } from 'mdb-table-editor'
 
@@ -58,9 +61,24 @@ function Clients() {
           "createdAt": "2021-03-17T08:35:26.000Z",
           "updatedAt": "2021-03-17T08:35:26.000Z",
           "CompteClientId": 6
+      },
+      "Theme":{
+        "Color": "#eb144c",
+        "CompteClientId": 5,
+        "createdAt": "2021-03-22T13:15:37.000Z",
+        "id": 1,
+        "updatedAt": "2021-03-22T13:15:37.000Z",
       }
   })
 
+
+  const [themeparams, setthemeparams] = useState({
+    fontsSize : 25,
+    color : "black"
+  })
+
+  
+ 
     const toggle = () =>{
         setopen(!open)
     }
@@ -132,7 +150,7 @@ function Clients() {
     const [service_eq, setservice_eq] = useState([])
 
     const [profileimgprev, setprofileimgprev] = useState("")
-    const [bgprevimg, setbgprevimg] = useState("https://p7.hiclipart.com/preview/816/475/744/star-thumbnail.jpg")
+    const [bgprevimg, setbgprevimg] = useState("https://e7.pngegg.com/pngimages/310/447/png-clipart-white-romantic-starlight-s-white-starlight.png")
     const [description, setdescription] = useState("")
 
     const [num, setnum] = useState("")
@@ -149,6 +167,7 @@ function Clients() {
         formData.append('ServiceId',ServiceId);
         formData.append('EquipeId',EquipeId);
         formData.append('description',description);
+        formData.append('color',themeparams.color);
         
 
      
@@ -175,7 +194,7 @@ function Clients() {
 
               setnomclient("")
               setprofileimgprev("")
-              setbgprevimg("")
+              setbgprevimg("https://e7.pngegg.com/pngimages/310/447/png-clipart-white-romantic-starlight-s-white-starlight.png")
               setServiceId("")
               setEquipeId("")
               setdescription("")
@@ -209,6 +228,7 @@ function Clients() {
       formData.append('ServiceId',selectedrow.Service.id);
       formData.append('EquipeId',selectedrow.Equipe.id);
       formData.append('description',selectedrow.description);
+      formData.append('color',selectedrow.Theme.Color);
 
       
       if (((document.getElementById('up-client-bg').files[0] !== undefined) === true) && ((document.getElementById('up-client-img').files[0] !== undefined) === false)){
@@ -315,11 +335,7 @@ function Clients() {
                 draggable: true,
                 });
                   setTimeout(() => {
-                    // $(`#${res.data.client.id} #Nomcli`).text(res.data.client.Nom_compteCli)  
-                    // $(`#${res.data.client.id} #sercli`).text(res.data.client.Service.Nom_service)  
-                    // $(`#${res.data.client.id} #eqcli`).text(res.data.client.Equipe.Nom_equipe)  
-                    // $(`#${res.data.client.id} #img .prof_img`).attr("src",res.data.client.Clientimg.img_profile)
-                    
+                  
                     setclients(
                       clients.map(item => 
                         item.id === res.data.client.id 
@@ -341,6 +357,58 @@ function Clients() {
                 draggable: true,
                 });
             }
+
+            
+      }else if(((document.getElementById('up-client-bg').files[0] !== undefined) === false) && ((document.getElementById('up-client-img').files[0] !== undefined) === false)){
+        
+        const data = {
+          Nom_compteCli : selectedrow.Nom_compteCli,
+          ServiceId : selectedrow.Service.id,
+          EquipeId : selectedrow.Equipe.id,
+          description : selectedrow.description,
+          color : selectedrow.Theme.Color,
+        }
+        const res = await axios({
+          headers: {'Authorization': `Bearer ${token}`},
+          method: 'put',
+          url : `${Api_url}clients/update/clients/false/${selectedrow.id}`,
+          data 
+      });
+     console.log(res)
+     if(res.status === 200){
+              toast.success(`Le client ${res.data.client.Nom_client} a été modifée avec succès`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                });
+                  setTimeout(() => {
+                  
+                    setclients(
+                      clients.map(item => 
+                        item.id === res.data.client.id 
+                        ? res.data.client 
+                        : item )
+                    )
+                   
+                    console.log(res.data.client.Service.Nom_service)
+                  }, 200);   
+                  seteditopen(!editopen)
+            }
+            else {
+              toast.error('error', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                });
+            }
+
+            
       }
 
      
@@ -454,6 +522,20 @@ const prev = () =>{
   }})
  }
 
+
+
+
+ const handelchangecolor = (col)=>{
+      setthemeparams({...themeparams , color : col.hex})
+      console.log(themeparams)
+ }
+
+
+ const handelupdatecolor = (col)=>{
+    setselectedrow({ ...selectedrow , Theme :{
+      Color : col.hex 
+    }})
+ }
     return (
       <>
       <ToastContainer
@@ -520,8 +602,8 @@ const prev = () =>{
                             <tr key={index} id={client.id} >
                         <td> {client.id}</td>
                         <td id="img"  className=" d-flex justify-content-start align-items-center "> <Avatar className=" prof_img ml-3" src={client.Clientimg.img_profile} style={{width: 30, height :30}} /> <span id="Nomcli" className="ml-3 text-center">{client.Nom_compteCli}</span></td>
-                        <td id="sercli"  className=""> <div className="d-flex  float-center " >{client.Service.Nom_service}</div> </td>
-                        <td id="eqcli" > {client.Equipe.Nom_equipe}</td>
+                        <td id="sercli"  className=""> <div className="cursor" >{client.Service.Nom_service}</div> </td>
+                        <td id="eqcli"  > <span className="cursor" onClick={()=>{history.push(`/Equipe/${client.Equipe.id}`)}}>{client.Equipe.Nom_equipe}</span></td>
                         <td>
                         <IconButton className="mr-3" size="small" aria-label="delete" color="secondary" onClick={()=> {changeselected(client);toggleSupp()}}>
                         <DeleteIcon />
@@ -545,11 +627,11 @@ const prev = () =>{
             </Table>
 
                         {/* MODAL ADD */}
-              <MDBModal isOpen={open} toggle={()=>toggle()} size="lg">
-                <MDBModalHeader toggle={()=>toggle()} className="text-center">Ajouter un nouveau client</MDBModalHeader>
-                <MDBModalBody>
+              <MDBModal isOpen={open} toggle={()=>toggle()} backdrop="off" size="xl">
+                {/* <MDBModalHeader toggle={()=>toggle()} className="text-center">Ajouter un nouveau client</MDBModalHeader> */}
+                <MDBModalBody >
                 <form className="row col-12 justify-content-center align-middle" >
-                  <div className="col-6 mt-5">
+                  <div className="col-12 mt-2">
                     <div className="text-right right_button">
                     <input accept="image/*"  id="client-bg" type="file"  style={{display:'none'}} onChange={()=>{prev2()}} required/>
                     <label htmlFor="client-bg">
@@ -559,29 +641,39 @@ const prev = () =>{
                     </label>
                     </div>
                 <div  className="d-flex justify-content-center " >
-                  <div id="client-background">
-                  <img  style={{width:"100%", height:230 , borderRadius:10}} className=""  alt="" src={bgprevimg} />
-                  </div>
-                  <div id="client-image">
-                  <Avatar style={{width:160, height:160}}  alt="" src={profileimgprev} />
+
+                <div className="profile-header-cover">
+                <img  style={{width:"100%", borderRadius:10}} className=""  alt="" src={bgprevimg} />
+               
+               </div>
+                 
+                  
+                  <div id="client-image" className="row">
+                    <section>
+                    <Avatar className="ml-3" style={{width:140, height:140}}  alt="" src={profileimgprev} />
                   <input accept="image/*"  id="client-img" type="file" className="mb-3"  style={{display:'none'}} onChange={()=>{prev()}}   required/>
                   <label htmlFor="client-img">
-                    <IconButton className="mt-5" color="primary" aria-label="upload picture" component="span">
+                    <IconButton className="mt-2" color="primary" aria-label="upload picture" component="span">
                       <PhotoCamera style={{color:'#2DCD94'}}/>
                     </IconButton>
                   </label>
+                    </section>
+                  
+                  <h3 id="compteclientnom" className=" ml-3 mt-5"  style={{position:"relative" ,color:themeparams.color}}>{nomclient}</h3>
                   </div>
                 
             
              </div>
                
             </div>
-            <div className="col-6">
-              <TextField className="col-8 mt-2" value={nomclient} onChange={(e)=>{setnomclient(e.target.value)}} id="standard-basic" label="Nom du client" required /><br />
-              <TextField value={description} onChange={(e)=>{setdescription(e.target.value)}} className="col-8 mt-3" id="time" type="text" label="description" multiline={true} variant="outlined" size="small" rows={7} />
-             
-              <TextField
-                        className=" ml-2 col-4 mb-5 mt-3"
+            <section className="row col-12 justify-content-end">
+
+              <div className="row col-12 mt-5 ">
+                <div className="col-7">
+                <TextField className="col-12 mt-1 float-right" value={nomclient} onChange={(e)=>{setnomclient(e.target.value)}} id="standard-basic" label="Nom du client" required />
+                <TextField value={description} onChange={(e)=>{setdescription(e.target.value)}} className="col-12 mt-3" id="time" type="text" label="description" multiline={true} variant="outlined" size="small" rows={7} />
+                <TextField
+                        className=" ml-2 col-5 mb-5 mt-3"
                         id="standard-select-currency"
                         select
                         variant="outlined"
@@ -605,7 +697,7 @@ const prev = () =>{
 
 
                       <TextField
-                        className="ml-2 mt-3 mb-5 col-4"
+                        className="ml-2 mt-3 mb-5 col-5"
                         id="standard-select-currency"
                         select
                         required
@@ -623,11 +715,27 @@ const prev = () =>{
                       }
                       
                       </TextField>
-                    
-                      <Button onClick={(e)=>{Addclient(e)}} variant="outlined" class="btn btn-outline-success mb-5">
+                </div>
+
+                <div className="col-4">
+                <TwitterPicker color={"black"}  onChangeComplete={(color)=>{handelchangecolor(color)}} className="ml-1 mt-5 " /><br/>
+
+               
+               
+                </div>
+
+                <div className="row col-12 justify-content-center">
+                <Button onClick={(e)=>{Addclient(e)}} variant="outlined" class="btn btn-outline-success col-3 mb-5">
                       Ajouter
                       </Button> 
-                      </div>
+                </div>
+
+               
+             
+                
+              </div>
+            
+            </section>
                 </form>
                 </MDBModalBody>
                 </MDBModal>
@@ -636,7 +744,7 @@ const prev = () =>{
                 <MDBModalHeader toggle={()=>toggleEdit()} className="text-center">Modifier les données du client</MDBModalHeader>
                 <MDBModalBody>
                 <form className="row col-12 justify-content-center align-middle" >
-                  <div className="col-6 mt-5">
+                  <div className="col-12 mt-2">
                     <div className="text-right right_button">
                     <input accept="image/*"  id="up-client-bg" type="file"  style={{display:'none'}} onChange={()=>{upprev2()}} required/>
                     <label htmlFor="up-client-bg">
@@ -646,36 +754,46 @@ const prev = () =>{
                     </label>
                     </div>
                 <div  className="d-flex justify-content-center " >
-                  <div id="client-background">
-                  <img  style={{width:"100%", height:230 , borderRadius:10}} className=""  alt="a" src={selectedrow.Clientimg.img_background} />
-                  </div>
-                  <div id="client-image">
-                  <Avatar style={{width:160, height:160}}  alt="a" src={selectedrow.Clientimg.img_profile} />
+
+                <div className="profile-header-cover">
+                <img  style={{width:"100%", borderRadius:10}} className=""  alt="" src={selectedrow.Clientimg.img_background} />
+               
+               </div>
+                 
+                  
+                  <div id="client-image" className="row">
+                    <section>
+                    <Avatar className="ml-3" style={{width:140, height:140}}  alt="" src={selectedrow.Clientimg.img_profile} />
                   <input accept="image/*"  id="up-client-img" type="file" className="mb-3"  style={{display:'none'}} onChange={()=>{upprev()}}   required/>
                   <label htmlFor="up-client-img">
-                    <IconButton className="mt-5" color="primary" aria-label="upload picture" component="span">
+                    <IconButton className="mt-2" color="primary" aria-label="upload picture" component="span">
                       <PhotoCamera style={{color:'#2DCD94'}}/>
                     </IconButton>
                   </label>
+                    </section>
+                  
+                  <h3 id="compteclientnom" className=" ml-3 mt-5"  style={{position:"relative" ,color: selectedrow.Theme.Color}}>{selectedrow.Nom_compteCli}</h3>
                   </div>
                 
             
              </div>
                
             </div>
-            <div className="col-6">
-              <TextField className="col-8 mt-2" value={selectedrow.Nom_compteCli} onChange={(e)=>{setselectedrow({...selectedrow , Nom_compteCli:e.target.value})}} id="standard-basic" label="Nom du client" required /><br />
-              <TextField value={selectedrow.description} onChange={(e)=>{setselectedrow({...selectedrow , description:e.target.value})}} className="col-8 mt-3" id="time" type="text" label="description" multiline={true} variant="outlined" size="small" rows={7} />
-             
-              <TextField
-                        className=" ml-2 col-4 mb-5 mt-3"
+            <section className="row col-12 justify-content-end">
+
+              <div className="row col-12 mt-5 ">
+                <div className="col-7">
+                <TextField className="col-12 mt-1 float-right" value={selectedrow.Nom_compteCli} onChange={(e)=>{setselectedrow({...selectedrow , Nom_compteCli:e.target.value})}} id="standard-basic" label="Nom du client" required />
+                <TextField value={selectedrow.description} onChange={(e)=>{setselectedrow({...selectedrow , description:e.target.value})}} className="col-12 mt-3" id="time" type="text" label="description" multiline={true} variant="outlined" size="small" rows={7} />
+                <TextField
+                        className=" ml-2 col-5 mb-5 mt-3"
                         id="standard-select-currency"
                         select
                         variant="outlined"
                         
                         required
                         size="small"
-                        label={"Service"}
+                        label="Service"
                         value={selectedrow.Service.id}
                         onChange={(e)=>{setselectedrow({...selectedrow , Service:{
                           ...selectedrow.Service,
@@ -694,9 +812,9 @@ const prev = () =>{
                       
                       </TextField>
 
-                      
+
                       <TextField
-                        className="ml-2 mt-3 mb-5 col-4"
+                        className="ml-2 mt-3 mb-5 col-5"
                         id="standard-select-currency"
                         select
                         required
@@ -717,14 +835,23 @@ const prev = () =>{
                       }
                       
                       </TextField>
-                      <Button onClick={(e)=>{updatedclient(e)}} variant="outlined" class="btn btn-outline-success">
+                </div>
+
+                <div className="col-4">
+                <TwitterPicker color={"black"}  onChangeComplete={(color)=>{handelupdatecolor(color)}} className="ml-1 mt-5 " /><br/>
+
+               
+               
+                </div>
+
+                <div className="row col-12 justify-content-center">
+                <Button onClick={(e)=>{updatedclient(e)}} variant="outlined" class="btn btn-outline-success">
                       Modifier
                       </Button> 
-                     
-                      </div>
-                
-                      
-               
+                </div>
+              </div>
+            
+            </section>
                 </form>
                 </MDBModalBody>
                 </MDBModal>

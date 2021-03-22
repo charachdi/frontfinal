@@ -50,7 +50,7 @@ function CompteCli(props) {
     }, [])
   
     
-
+console.log()
 
 
     return (
@@ -89,7 +89,7 @@ function CompteCli(props) {
 
 
         <div className="row  justify-content-center">
-            <div className="col-10 text-center">
+            <div className="col-12 text-center">
             
 
 {/* Profile client */}
@@ -98,16 +98,21 @@ function CompteCli(props) {
 
 
     <div >
-            <div className="profile-header-cover"></div>
+            <div className="profile-header-cover">
+            <img  id="client-background" style={{width:"100%"}}  src={profimg.img_background}   />
+            </div>
             <div className="profile-header-content">
                 <div className="profile-header-img ">
-                  <span  > <img id="client-background"  src={profimg.img_background}   /></span>
-                   
-                   <span id="client-image"><Avatar  src={profimg.img_profile} className="mb-4" style={{width:140,height:140}} alt=""/></span> 
+                
+                   <div id="client-image" className="row ">
+                   <span ><Avatar  src={profimg.img_profile} className="mb-4" style={{width:140,height:140}} alt=""/></span> 
+                   <h4 className="mt-5 ml-2" style={{color: client.Theme ? client.Theme.Color : "black"}} >{client.Nom_compteCli}</h4>
+                   </div>
+                  
                 </div>
 
                 <div className="profile-header-info index">
-                    <h4 className="m-t-sm">{client.Nom_compteCli}</h4>
+                   
                     
                     <p className="m-b-sm">{service.Nom_service}</p>
                     <p className="m-b-sm">{equipe.Nom_equipe}</p>
