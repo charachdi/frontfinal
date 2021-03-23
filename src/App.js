@@ -25,10 +25,10 @@ function App() {
   return (
     
     <Router>
-      <div className="wrapper d-flex align-items-stretch">
+      <div className="wrapper d-flex align-items-stretch" >
         {window.location.pathname === "/" ? null:<Sidebar />}
    
-      <div id="content" className="p-4 p-md-5 pt-5">
+      <div id="content" className="p-4 p-md-5 pt-5" >
       <Switch>
           <Route path='/' component={Login} exact/>
           <Route path='/home' component={Home} exact/>
