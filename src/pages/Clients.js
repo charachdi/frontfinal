@@ -71,7 +71,13 @@ function Clients() {
       }
   })
 
-
+  const [shownrow, setshownrow] = useState([])
+  const [rowselected, setrowselected] = useState(7)
+  const [pageselected, setpageselected] = useState(1)
+  const [change, setchange] = useState({
+    first : 0,
+    second : 7,
+  })
   const [themeparams, setthemeparams] = useState({
     fontsSize : 25,
     color : "black"
@@ -109,6 +115,7 @@ function Clients() {
         url : `${Api_url}clients/`,  
         });
         setclients(res.data)
+        setshownrow(res.data.slice(0,rowselected))
         console.log(res)
     }
 
@@ -190,6 +197,7 @@ function Clients() {
             });
               setTimeout(() => {
                 setclients([res.data.client ,...clients])
+                setshownrow([res.data.client ,...shownrow])
               }, 500);
 
               setnomclient("")
@@ -256,6 +264,14 @@ function Clients() {
                 ? res.data.client 
                 : item )
             )
+
+            setshownrow(
+              shownrow.map(item => 
+                item.id === res.data.client.id 
+                ? res.data.client 
+                : item )
+            )
+           
            
             console.log(res.data.client.Service.Nom_service)
           }, 200);   
@@ -299,6 +315,13 @@ function Clients() {
                 ? res.data.client 
                 : item )
             )
+            setshownrow(
+              shownrow.map(item => 
+                item.id === res.data.client.id 
+                ? res.data.client 
+                : item )
+            )
+           
            
             console.log(res.data.client.Service.Nom_service)
           }, 200);   
@@ -342,6 +365,15 @@ function Clients() {
                         ? res.data.client 
                         : item )
                     )
+
+                    setshownrow(
+                      shownrow.map(item => 
+                        item.id === res.data.client.id 
+                        ? res.data.client 
+                        : item )
+                    )
+                   
+                    
                    
                     console.log(res.data.client.Service.Nom_service)
                   }, 200);   
@@ -392,8 +424,15 @@ function Clients() {
                         ? res.data.client 
                         : item )
                     )
+
+                    setshownrow(
+                      shownrow.map(item => 
+                        item.id === res.data.client.id 
+                        ? res.data.client 
+                        : item )
+                    )
                    
-                    console.log(res.data.client.Service.Nom_service)
+                   
                   }, 200);   
                   seteditopen(!editopen)
             }
@@ -411,38 +450,6 @@ function Clients() {
             
       }
 
-     
-  
-     
-  //       if(res.status === 200){
-  //         toast.success(`Le client ${res.data.client.Nom_client} a été modifée avec succès`, {
-  //           position: "top-right",
-  //           autoClose: 3000,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: false,
-  //           draggable: true,
-  //           });
-  //             setTimeout(() => {
-  //               $(`#${res.data.client.id} #Nomcli`).text(res.data.client.Nom_compteCli)  
-  //               $(`#${res.data.client.id} #sercli`).text(res.data.client.Service.Nom_service)  
-  //               $(`#${res.data.client.id} #eqcli`).text(res.data.client.Equipe.Nom_equipe)  
-  //               $(`#${res.data.client.id} .prof_img`).attr("src",res.data.client.Clientimg.img_profile)  
-
-  //               console.log(res.data.client.Service.Nom_service)
-  //             }, 200);   
-  //             seteditopen(!editopen)
-  //       }
-  //       else {
-  //         toast.error('error', {
-  //           position: "top-right",
-  //           autoClose: 3000,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: false,
-  //           draggable: true,
-  //           });
-  //       }
     }
 
 // fonction delete row table
@@ -469,6 +476,10 @@ const Suppclient = async (e)=>{
             setclients(
                 clients.filter(item =>item.id !== res.data.compteCli.id)
             )
+
+            setshownrow(
+              shownrow.filter(item =>item.id !== res.data.compteCli.id)
+          )
           }, 200);   
           setsuppopen(!suppopen)
     }
@@ -536,6 +547,61 @@ const prev = () =>{
       Color : col.hex 
     }})
  }
+
+
+
+ const handelchangerow = (e)=>{
+  setrowselected(e.target.value)
+  setshownrow(clients.slice(0,e.target.value))
+}
+
+const Nextpage = (e) =>{
+console.log("next")
+setpageselected(pageselected +1)
+
+if(shownrow.length != 0){
+  change.first =   parseInt(change.first) +  parseInt(rowselected)
+  change.second =   parseInt(change.first) +  parseInt(rowselected) 
+  
+  setshownrow(clients.slice(change.first,change.second))
+}
+
+
+
+setTimeout(() => {
+  console.log(`
+  prev : ${change.first}
+  new : ${change.second}
+`)
+}, 2000);
+
+}
+
+const Prevpage = (e) =>{
+  console.log("prev")
+  
+  change.first =    parseInt(change.first) -   parseInt(rowselected)
+  change.second =   parseInt(change.second) -   parseInt(rowselected)
+
+  if(change.first < 0 ){
+    change.first = 0
+    change.second = rowselected
+  }
+
+  if(pageselected != 0){
+    setpageselected(pageselected - 1)
+  }
+ 
+  
+  setshownrow(clients.slice(change.first,change.second))
+  
+  setTimeout(() => {
+    console.log(`
+    prev : ${change.first}
+    new : ${change.second}
+  `)
+  }, 2000);
+}
     return (
       <>
       <ToastContainer
@@ -571,7 +637,7 @@ const prev = () =>{
             
 
             <div className="row col-12 mb-2">
-              <div className="col-9"> 
+              <div className="col-4"> 
               <MDBCol >
                 <MDBFormInline className="md-form">
                   <MDBIcon icon="search" />
@@ -579,6 +645,10 @@ const prev = () =>{
                 </MDBFormInline>
               </MDBCol>
                </div> 
+               <div className="row col-5 d-flex justify-content-between">
+               <h5 className="text-center mt-2 ml-4 "><i class="fas fa-arrow-left mr-5 cursor" onClick={(e)=>{Prevpage(e)}}></i>{pageselected}<i class="fas fa-arrow-right ml-5 cursor" onClick={(e)=>{Nextpage(e)}}></i></h5>
+               <TextField className="col-2 mr-4 mt-2" size="medium" type="number" value={rowselected} onChange={(e)=>{handelchangerow(e)}} id="row_shown" />
+               </div>
                <div className="col-3"> 
                 <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={()=>toggle(!open)}> Ajouter </Button> 
                </div>
@@ -598,7 +668,7 @@ const prev = () =>{
 
 
                       {
-                        clients.map((client , index)=>(
+                        shownrow.map((client , index)=>(
                             <tr key={index} id={client.id} >
                         <td> {client.id}</td>
                         <td id="img"  className=" d-flex justify-content-start align-items-center "> <Avatar className=" prof_img ml-3" src={client.Clientimg.img_profile} style={{width: 30, height :30}} /> <span id="Nomcli" className="ml-3 text-center">{client.Nom_compteCli}</span></td>

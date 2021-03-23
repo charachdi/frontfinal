@@ -31,7 +31,12 @@ function Equipe() {
     
     const [selectedrow, setselectedrow] = useState({id: 26, Nom_equipe: "hhhh", Service: "Telephonie", createdAt: "2021-03-09T15:20:45.000Z", updatedAt: "2021-03-09T15:20:45.000Z"})
     const [services, setservices] = useState([])
-    const [servicename, setservicename] = useState(selectedrow.Service.Nom_service)
+    const [servicename, setservicename] = useState(selectedrow.Service ? selectedrow.Service.Nom_service :"")
+    const [change, setchange] = useState({
+      first : 0,
+      second : 7,
+    })
+   
     const toggle = () =>{
         setopen(!open)
     }
@@ -61,7 +66,7 @@ function Equipe() {
         url : `${Api_url}equipe/`,  
         });
         setequipes(res.data)
-        console.log(res)
+        setshownrow(res.data.slice(0,rowselected))
        
     }
 
@@ -86,6 +91,9 @@ function Equipe() {
     const [equipes, setequipes] = useState([]);
 
     const [search, setsearch] = useState("")
+    const [shownrow, setshownrow] = useState([])
+    const [rowselected, setrowselected] = useState(7)
+    const [pageselected, setpageselected] = useState(1)
 // fonction add row table
     const Addequipe = async (e) =>{
       e.preventDefault()
@@ -112,6 +120,7 @@ function Equipe() {
             });
               setTimeout(() => {
                 setequipes([res.data.equipe ,...equipes])
+                setshownrow([res.data.equipe ,...shownrow])
               }, 500);
 
               setnomequipe("")
@@ -140,7 +149,7 @@ function Equipe() {
     const updatedequipe = async (e)=>{
       e.preventDefault()
       const data = {
-        ServiceID :servicename,
+        ServiceID :selectedrow.Service.id,
         nomEquipe:selectedrow.Nom_equipe,
       }
       const res = await axios({
@@ -164,8 +173,19 @@ function Equipe() {
             });
            
               setTimeout(() => {
-                $(`#${res.data.equipe.id} #Nomeq`).text(res.data.equipe.Nom_equipe)
-                $(`#${res.data.equipe.id} #Ser`).text(res.data.equipe.Service.Nom_service)
+                setequipes(
+                  equipes.map(item => 
+                    item.id === res.data.equipe.id 
+                    ? res.data.equipe 
+                    : item )
+                )
+
+                setshownrow(
+                  shownrow.map(item => 
+                    item.id === res.data.equipe.id 
+                    ? res.data.equipe 
+                    : item )
+                )
               }, 200);   
               seteditopen(!editopen)
         }
@@ -201,9 +221,13 @@ const Suppequipe = async (e)=>{
         pauseOnHover: false,
         draggable: true,
         });
-          setTimeout(() => {
-            $(`#${res.data.equipe.id}`).hide()
-            $(`#${res.data.equipe.id}`).removeClass("true")
+          setTimeout(() => {          
+            setequipes(
+              equipes.filter(item =>item.id !== res.data.equipe.id)
+          )
+            setshownrow(
+              shownrow.filter(item =>item.id !== res.data.equipe.id)
+          )
           }, 200);   
           setsuppopen(!suppopen)
     }
@@ -228,6 +252,59 @@ const filter = () =>{
 }
 
 
+
+const handelchangerow = (e)=>{
+  setrowselected(e.target.value)
+  setshownrow(equipes.slice(0,e.target.value))
+}
+
+const Nextpage = (e) =>{
+console.log("next")
+setpageselected(pageselected +1)
+
+if(shownrow.length != 0){
+  change.first =   parseInt(change.first) +  parseInt(rowselected)
+  change.second =   parseInt(change.first) +  parseInt(rowselected) 
+  
+  setshownrow(equipes.slice(change.first,change.second))
+}
+
+
+
+setTimeout(() => {
+  console.log(`
+  prev : ${change.first}
+  new : ${change.second}
+`)
+}, 2000);
+
+}
+
+const Prevpage = (e) =>{
+  console.log("prev")
+  
+  change.first =    parseInt(change.first) -   parseInt(rowselected)
+  change.second =   parseInt(change.second) -   parseInt(rowselected)
+
+  if(change.first < 0 ){
+    change.first = 0
+    change.second = rowselected
+  }
+
+  if(pageselected != 0){
+    setpageselected(pageselected - 1)
+  }
+ 
+  
+  setshownrow(equipes.slice(change.first,change.second))
+  
+  setTimeout(() => {
+    console.log(`
+    prev : ${change.first}
+    new : ${change.second}
+  `)
+  }, 2000);
+}
 
     return (
       <>
@@ -261,14 +338,20 @@ const filter = () =>{
             
 
             <div className="row col-12 mb-2">
-              <div className="col-9"> 
+              <div className="col-4"> 
               <MDBCol >
-                <MDBFormInline className="md-form">
+                <MDBFormInline className="row md-form">
                   <MDBIcon icon="search" />
                   <TextField className="ml-3 " size="small" label="Recherche" variant="outlined" id="equipe-search" type="text" onChange={()=>{filter()}}/>
                 </MDBFormInline>
               </MDBCol>
+              
                </div> 
+
+               <div className="row col-5 d-flex justify-content-between">
+               <h5 className="text-center mt-2 ml-4 "><i class="fas fa-arrow-left mr-5 cursor" onClick={(e)=>{Prevpage(e)}}></i>{pageselected}<i class="fas fa-arrow-right ml-5 cursor" onClick={(e)=>{Nextpage(e)}}></i></h5>
+               <TextField className="col-2 mr-4 mt-2" size="medium" type="number" value={rowselected} onChange={(e)=>{handelchangerow(e)}} id="row_shown" />
+               </div>
                <div className="col-3"> 
                 <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={()=>toggle(!open)}> Ajouter </Button> 
                </div>
@@ -287,7 +370,7 @@ const filter = () =>{
 
 
                       {
-                        equipes.map((equipe , index)=>(
+                        shownrow.map((equipe , index)=>(
                             <tr className="true" key={index} id={equipe.id}>
                         <td> {equipe.id}</td>
                         <td id="Nomeq" > {equipe.Nom_equipe}</td>
@@ -358,8 +441,10 @@ const filter = () =>{
                         size="medium"
                         label="Service"
                         defaultValue="aaaaa"
-                        value={selectedrow.Service.id}
-                        onChange={(e)=>{setservicename(e.target.value)}}
+                        value={selectedrow.Service ? selectedrow.Service.id : null}
+                        onChange={(e)=>{setselectedrow({...selectedrow , Service : {
+                          id : e.target.value
+                        } })}}
                       >
 
                     { 
@@ -409,7 +494,11 @@ const filter = () =>{
         bordered
        /> */}
 </div>
-            </div></>
+            </div>
+            {/* pagination */}
+
+           
+            </>
       
     );
 }
