@@ -25,51 +25,70 @@ function EquipeView(props) {
              setequipe(res.data.equipe)
             //  user_level
             setchefE(res.data.chefE)
-            setcollab(res.data.collab)
-           
-           
-  
-            
+            setcollab(res.data.collab)     
       }
-
       getequipe()
     }, [])
 
 
     
     return (
-      
-            <div className=" row col-12 justify-content-center text-center">
+
+            
+
+            <div className=" row col-12 ">
+
+                  <header class="page-header">
+                    <div class="container-fluid">
+                      <h2 className="no-margin-bottom justify-content-start ">Membre de l'équipe {equipe.Nom_equipe}</h2>
+                    </div>
+                  </header> 
+                  {/* <!-- Breadcrumb--> */}
+                  <div class="breadcrumb-holder container-fluid">
+                    <ul class="breadcrumb">
+                    <li class="breadcrumb-item" ><a href="home" onClick={()=>{history.push("/home")}}>Home </a></li>
+                      <li class="breadcrumb-item active">{equipe.Nom_equipe}</li>
+                    </ul>
+                  </div>
 
 
-                <div className="col-12  " >
-                          <h1>{equipe.Nom_equipe} /</h1>
-                </div>
-                <div id="team-user" className="row justufy-content-center mt-4" >
-                           {chefE.map((user , index)=>(
-                               <div id={user.id}  className="card shadow grow mr-2 ml-2 mt-2 mb-4" style={{width:150 , height:175}} key={index} onClick={()=>{history.push(`/profile/${user.id}`)}} >
-                               <div className="card-body justufy-content-center">
-                                  <Avatar className="ml-2" style={{width:90, height:90}} alt={user.full_name} src={user.user_img} />
-                                   <div className="text-center mt-2">{user.full_name}</div>
-                                   <span className="text-center mt-1 small">{user.user_level}</span>
-                               </div>
-                              
-                             </div>
-                           ))}
+                <div className=" row col-12 justify-content-center text-center " >
+                    <div id="team-user" className="row justufy-content-center mt-4" >
+                              {chefE.map((user , index)=>(
+                                  <div id={user.id}  className="card shadow grow mr-2 ml-2 mt-2 mb-4" style={{width:150 , height:175}} key={index} onClick={()=>{history.push(`/profile/${user.id}`)}} >
+                                  <div className="card-body justufy-content-center">
+                                      <Avatar className="ml-2" style={{width:90, height:90}} alt={user.full_name} src={user.user_img} />
+                                      <div className="text-center mt-2">{user.full_name}</div>
+                                      <span className="text-center mt-1 small">{user.user_level}</span>
+                                  </div>
+                                  
+                                </div>
+                              ))}
 
-                          {collab.map((user , index)=>(
-                               <div id={user.id}  className="card shadow grow mr-2 ml-2 mt-2 mb-4" style={{width:150, height:175}} key={index} onClick={()=>{history.push(`/profile/${user.id}`)}} >
-                               <div className="card-body justufy-content-center">
-                                  <Avatar className="ml-2" style={{width:90, height:90}} alt={user.full_name} src={user.user_img} />
-                                   <div className="text-center mt-2">{user.full_name}</div>
-                                   <span className="text-center mt-1 small">{user.user_level}</span>
-                               </div>
-                              
-                             </div>
-                           ))}
-                         
-                </div>
-
+                              {collab.map((user , index)=>(
+                                  <div id={user.id}  className="card shadow grow mr-2 ml-2 mt-2 mb-4" style={{width:150, height:175}} key={index} onClick={()=>{history.push(`/profile/${user.id}`)}} >
+                                  <div className="card-body justufy-content-center">
+                                      <Avatar className="ml-2" style={{width:90, height:90}} alt={user.full_name} src={user.user_img} />
+                                      <div className="text-center mt-2">{user.full_name}</div>
+                                      <span className="text-center mt-1 small">{user.user_level}</span>
+                                  </div>
+                                  
+                                </div>
+                              ))}
+                            
+                    </div>  
+                   
+                 </div>
+                
+                 <div className="col-12 justify-content-center text-center">
+                        <ul className="profile-header-tab nav nav-tabs col-12 mt-4">
+                          <li className="nav-item"><a href="#profile-post" className="nav-link" data-toggle="tab">POSTS</a></li>
+                          <li className="nav-item"><a href="#profile-about" className="nav-link" data-toggle="tab">ABOUT</a></li>
+                          <li className="nav-item"><a href="#profile-photos" className="nav-link" data-toggle="tab">STUFF</a></li>
+                          <li className="nav-item"><a href="#profile-videos" className="nav-link" data-toggle="tab">CHARTS</a></li>
+                          <li className="nav-item"><a href="#profile-friends" className="nav-link active show" data-toggle="tab">DATA</a></li>
+                        </ul>          
+                    </div>
                
                
             </div>

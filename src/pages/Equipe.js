@@ -243,7 +243,19 @@ const filter = () =>{
       pauseOnHover
       />
       
-   
+      <header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">Liste des équipes</h2>
+            </div>
+          </header>
+          {/* <!-- Breadcrumb--> */}
+          <div class="breadcrumb-holder container-fluid">
+            <ul class="breadcrumb">
+            <li class="breadcrumb-item" ><a href="home" >Home </a></li>
+              <li class="breadcrumb-item active">Equipe</li>
+            </ul>
+          </div>
+
         <div className="row  justify-content-center">
             <div className="col-10 text-center">
             
@@ -308,34 +320,26 @@ const filter = () =>{
                 <MDBModalHeader toggle={()=>toggle()} className="text-center">Ajouter une nouvelle équipe</MDBModalHeader>
                 <MDBModalBody>
                 <form className="row col-12 justify-content-center align-middle" >
-              <div>
-              <div className="mb-5">
-              <TextField value={nomequipe} onChange={(e)=>{setnomequipe(e.target.value)}} id="standard-basic" label="Nom de l'equipe" required />
-                      <TextField
-                        className="ml-5"
-                        id="standard-select-currency"
-                        select
-                        required
-                        size="medium"
-                        label="Service"
-                        value={service}
-                        onChange={(e)=>{setservice(e.target.value)}}
-                      >
-
-                      {
-                        services.map((ser , index)=>(
-                          <MenuItem key={index} value={ser.id}>{ser.Nom_service}</MenuItem>
-                        ))
-                      }
                       
+                      <div className="mb-5 col-12">
+                      <TextField className="col-3" value={nomequipe} onChange={(e)=>{setnomequipe(e.target.value)}} id="standard-basic" label="Nom de l'equipe" required />
+                      <TextField className="ml-5 col-2" id="standard-select-currency" select required size="medium" label="Service"value={service} onChange={(e)=>{setservice(e.target.value)}}>
+
+                              {
+                                services.map((ser , index)=>(
+                                  <MenuItem key={index} value={ser.id}>{ser.Nom_service}</MenuItem>
+                                ))
+                              }
+                              
                       </TextField>
 
-                      
+                              
                       </div>
-                      <Button onClick={(e)=>{Addequipe(e)}} variant="outlined" className="btn btn-outline-success">
+                      <div className=" col-7">
+                      <Button onClick={(e)=>{Addequipe(e)}} variant="outlined" class="btn btn-outline-success">
                       Ajouter
                       </Button> 
-                </div>
+                      </div>
                 </form>
                 </MDBModalBody>
                 </MDBModal>
@@ -345,7 +349,7 @@ const filter = () =>{
                 <MDBModalBody>
                 <form className="row col-12 justify-content-center align-middle" >
               <div>
-              <div className="mb-5">
+              <div className="mb-3">
               <TextField value={selectedrow.Nom_equipe} onChange={(e)=>{setselectedrow({...selectedrow , Nom_equipe : e.target.value})}} id="standard-basic" label="Nom de l'equipe" />
                       <TextField
                         className="ml-5"
@@ -354,7 +358,7 @@ const filter = () =>{
                         size="medium"
                         label="Service"
                         defaultValue="aaaaa"
-                        value={servicename}
+                        value={selectedrow.Service.id}
                         onChange={(e)=>{setservicename(e.target.value)}}
                       >
 
@@ -367,12 +371,15 @@ const filter = () =>{
 
                       
                       </div>
-                      <Button onClick={(e)=>{updatedequipe(e)}} variant="outlined" className="btn btn-outline-success">
-                      Modifier
-                      </Button> 
+                     
                 </div>
                 </form>
                 </MDBModalBody>
+                <MDBModalFooter>
+                      <Button onClick={(e)=>{updatedequipe(e)}} variant="outlined" class="btn btn-outline-success">
+                      Modifier
+                      </Button> 
+                      </MDBModalFooter>
                 </MDBModal>
 
 
