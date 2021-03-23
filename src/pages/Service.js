@@ -31,6 +31,14 @@ function Service() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [selectedrow, setselectedrow] = useState({id: 26, Nom_service: "hhhh", createdAt: "2021-03-09T15:20:45.000Z", updatedAt: "2021-03-09T15:20:45.000Z"})
     const history = useHistory();
+
+    const [shownrow, setshownrow] = useState([])
+    const [rowselected, setrowselected] = useState(7)
+    const [pageselected, setpageselected] = useState(1)
+    const [change, setchange] = useState({
+      first : 0,
+      second : 7,
+    })
     const toggle = () =>{
         setopen(!open)
     }
@@ -61,7 +69,7 @@ function Service() {
         url : `${Api_url}service/`,  
         });
         setservices(res.data)
-        console.log(res)
+        setshownrow(res.data.slice(0,rowselected))
         
     }
 
@@ -99,6 +107,7 @@ function Service() {
             });
               setTimeout(() => {
                 setservices([res.data.service ,...services])
+                setshownrow([res.data.service ,...shownrow])
               }, 500);
 
               setnomservice("")
@@ -147,7 +156,18 @@ function Service() {
             draggable: true,
             });
               setTimeout(() => {
-                $(`#${res.data.service.id} #Nomser`).text(res.data.service.Nom_service)  
+                setservices(
+                  services.map(item => 
+                    item.id === res.data.service.id 
+                    ? res.data.service 
+                    : item )
+                )
+                setshownrow(
+                  shownrow.map(item => 
+                    item.id === res.data.service.id 
+                    ? res.data.service 
+                    : item )
+                )
               }, 200);   
               seteditopen(!editopen)
         }
@@ -187,6 +207,10 @@ const Suppservice = async (e)=>{
             setservices(
                 services.filter(item =>item.id !== res.data.service.id)
             )
+
+            setshownrow(
+              shownrow.filter(item =>item.id !== res.data.service.id)
+          )
           }, 200);   
           setsuppopen(!suppopen)
     }
@@ -212,7 +236,58 @@ const filter = () =>{
   
 }
 
+const handelchangerow = (e)=>{
+  setrowselected(e.target.value)
+  setshownrow(services.slice(0,e.target.value))
+}
 
+const Nextpage = (e) =>{
+console.log("next")
+setpageselected(pageselected +1)
+
+if(shownrow.length != 0){
+  change.first =   parseInt(change.first) +  parseInt(rowselected)
+  change.second =   parseInt(change.first) +  parseInt(rowselected) 
+  
+  setshownrow(services.slice(change.first,change.second))
+}
+
+
+
+setTimeout(() => {
+  console.log(`
+  prev : ${change.first}
+  new : ${change.second}
+`)
+}, 2000);
+
+}
+
+const Prevpage = (e) =>{
+  console.log("prev")
+  
+  change.first =    parseInt(change.first) -   parseInt(rowselected)
+  change.second =   parseInt(change.second) -   parseInt(rowselected)
+
+  if(change.first < 0 ){
+    change.first = 0
+    change.second = rowselected
+  }
+
+  if(pageselected != 0){
+    setpageselected(pageselected - 1)
+  }
+ 
+  
+  setshownrow(services.slice(change.first,change.second))
+  
+  setTimeout(() => {
+    console.log(`
+    prev : ${change.first}
+    new : ${change.second}
+  `)
+  }, 2000);
+}
 
     return (
       <>
@@ -246,7 +321,7 @@ const filter = () =>{
             
 
             <div className="row col-12 mb-2">
-              <div className="col-9"> 
+              <div className="col-4"> 
               <MDBCol >
                 <MDBFormInline className="md-form">
                   <MDBIcon icon="search" />
@@ -254,6 +329,10 @@ const filter = () =>{
                 </MDBFormInline>
               </MDBCol>
                </div> 
+               <div className="row col-5 d-flex justify-content-between">
+               <h5 className="text-center mt-2 ml-4 "><i class="fas fa-arrow-left mr-5 cursor" onClick={(e)=>{Prevpage(e)}}></i>{pageselected}<i class="fas fa-arrow-right ml-5 cursor" onClick={(e)=>{Nextpage(e)}}></i></h5>
+               <TextField className="col-2 mr-4 mt-2" size="medium" type="number" value={rowselected} onChange={(e)=>{handelchangerow(e)}} id="row_shown" />
+               </div>
                <div className="col-3"> 
                 <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={()=>toggle(!open)}> Ajouter </Button> 
                </div>
@@ -271,7 +350,7 @@ const filter = () =>{
 
 
                       {
-                        services.map((service , index)=>(
+                        shownrow.map((service , index)=>(
                             <tr key={index} id={service.id}>
                         <td> {service.id}</td>
                         <td id="Nomser" > {service.Nom_service}  <div className="col-2 float-right text-wrap"><i class="fab fa-teamspeak fa-2x cursor  float-left" aria-describedby={popopen ? service.Nom_service : undefined} onClick={(e)=>{setpopopen(!popopen);setAnchorEl(e.currentTarget);setselectedrow(service)}}>
