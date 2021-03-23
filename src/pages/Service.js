@@ -228,7 +228,19 @@ const filter = () =>{
       pauseOnHover
       />
       
-   
+      <header class="page-header">
+            <div class="container-fluid">
+              <h2 class="no-margin-bottom">Liste des services</h2>
+            </div>
+          </header>
+          {/* <!-- Breadcrumb--> */}
+          <div class="breadcrumb-holder container-fluid">
+            <ul class="breadcrumb">
+            <li class="breadcrumb-item" ><a href="home" >Home </a></li>
+              <li class="breadcrumb-item active">Service</li>
+            </ul>
+          </div>
+
         <div className="row  justify-content-center">
             <div className="col-10 text-center">
             
@@ -315,23 +327,22 @@ const filter = () =>{
 
                         {/* MODAL ADD */}
               <MDBModal isOpen={open} toggle={()=>toggle()} size="lg">
-                <MDBModalHeader toggle={()=>toggle()} className="text-center">Ajouter une nouvelle équipe</MDBModalHeader>
+                <MDBModalHeader toggle={()=>toggle()} className="text-center">Ajouter un nouveau service</MDBModalHeader>
                 <MDBModalBody>
                 <form className="row col-12 justify-content-center align-middle" >
-              <div>
-              <div className="mb-5">
-              <TextField value={nomservice} onChange={(e)=>{setnomservice(e.target.value)}} id="standard-basic" label="Nom du service" required />
-                      
-                      </div>
-                      <Button onClick={(e)=>{Addservice(e)}} variant="outlined" class="btn btn-outline-success">
-                      Ajouter
-                      </Button> 
-                </div>
+                  <div>
+                        <div className="mb-5">
+                          <TextField value={nomservice} onChange={(e)=>{setnomservice(e.target.value)}} id="standard-basic" label="Nom du service" required />
+                        </div>
+                        <Button onClick={(e)=>{Addservice(e)}} variant="outlined" class="btn btn-outline-success">
+                        Ajouter
+                        </Button> 
+                  </div>
                 </form>
                 </MDBModalBody>
                 </MDBModal>
                         {/* MODAL EDIT */}
-                <MDBModal isOpen={editopen} toggle={()=>toggleEdit()} size="lg">
+            <MDBModal isOpen={editopen} toggle={()=>toggleEdit()} size="lg">
                 <MDBModalHeader toggle={()=>toggleEdit()} className="text-center">Modifier les données du service</MDBModalHeader>
                 <MDBModalBody>
                 <form className="row col-12 justify-content-center align-middle" >

@@ -594,7 +594,7 @@ const prev = () =>{
                         <th style={{width:150}}>Action</th>
                       </tr>
                     </thead>
-                    <tbody id="service-body">
+                    <tbody id="client-body">
 
 
                       {
@@ -627,7 +627,7 @@ const prev = () =>{
             </Table>
 
                         {/* MODAL ADD */}
-              <MDBModal isOpen={open} toggle={()=>toggle()} backdrop="off" size="xl">
+              <MDBModal isOpen={open} toggle={()=>toggle()} backdrop="off" size="lg">
                 {/* <MDBModalHeader toggle={()=>toggle()} className="text-center">Ajouter un nouveau client</MDBModalHeader> */}
                 <MDBModalBody >
                 <form className="row col-12 justify-content-center align-middle" >

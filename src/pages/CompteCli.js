@@ -18,6 +18,7 @@ import $ from 'jquery'
 import Api_url from './../component/Api_url';
 import { ToastContainer, toast } from 'react-toastify';
 import Avatar from '@material-ui/core/Avatar';
+import { useHistory } from "react-router-dom";
 // import { mdbTableEditor } from 'mdb-table-editor'
 
 
@@ -25,6 +26,7 @@ function CompteCli(props) {
     const token = localStorage.getItem('token')
     const client_id = props.match.params.id
     const [client, setclient] = useState({})
+    const history = useHistory();
 
 
     const [profimg, setprofimg] = useState({})
@@ -80,9 +82,9 @@ console.log()
           {/* <!-- Breadcrumb--> */}
           <div class="breadcrumb-holder container-fluid">
             <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="home">Home</a></li>
+              <li class="breadcrumb-item"><a href="home" onClick={()=>{history.push("/home")}}>Home</a></li>
               <li class="breadcrumb-item active">Clients</li>
-              <li class="breadcrumb-item active">Compte client</li>
+              <li class="breadcrumb-item active">{client.Nom_compteCli}</li>
             </ul>
           </div>
       
