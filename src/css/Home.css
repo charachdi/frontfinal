@@ -116,6 +116,10 @@ body{
     cursor: pointer;
 }
 
+.pop :hover{
+    background-color: gray;
+}
+
 .profile-header-cover {
     background-size: 100% cover;
     position: relative;

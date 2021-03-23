@@ -16,6 +16,9 @@ import axios from 'axios'
 import $ from 'jquery'
 import Api_url from './../component/Api_url';
 import { ToastContainer, toast } from 'react-toastify';
+import Popover from '@material-ui/core/Popover';
+import { useHistory } from "react-router-dom";
+
 // import { mdbTableEditor } from 'mdb-table-editor'
 
 
@@ -24,9 +27,10 @@ function Service() {
     const [open, setopen] = useState(false)
     const [suppopen, setsuppopen] = useState(false)
     const [editopen, seteditopen] = useState(false)
-
+    const [popopen, setpopopen] = useState(false)
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const [selectedrow, setselectedrow] = useState({id: 26, Nom_service: "hhhh", createdAt: "2021-03-09T15:20:45.000Z", updatedAt: "2021-03-09T15:20:45.000Z"})
-  
+    const history = useHistory();
     const toggle = () =>{
         setopen(!open)
     }
@@ -57,6 +61,7 @@ function Service() {
         url : `${Api_url}service/`,  
         });
         setservices(res.data)
+        console.log(res)
         
     }
 
@@ -269,7 +274,8 @@ const filter = () =>{
                         services.map((service , index)=>(
                             <tr key={index} id={service.id}>
                         <td> {service.id}</td>
-                        <td id="Nomser" > {service.Nom_service}</td>
+                        <td id="Nomser" > {service.Nom_service}  <div className="col-2 float-right text-wrap"><i class="fab fa-teamspeak fa-2x cursor  float-left" aria-describedby={popopen ? service.Nom_service : undefined} onClick={(e)=>{setpopopen(!popopen);setAnchorEl(e.currentTarget);setselectedrow(service)}}>
+                          </i><span className="mr-2 float-right " style={{fontSize:16}}>{service.Equipes ? service.Equipes.length : "0"}</span></div>   </td>
                         <td>
                         <IconButton className="mr-3" size="small" aria-label="delete" color="secondary" onClick={()=> {changeselected(service);toggleSupp()}}>
                         <DeleteIcon />
@@ -286,6 +292,38 @@ const filter = () =>{
 
                     </tbody>
             </Table>
+
+                      <Popover
+                          id={popopen ? selectedrow.Nom_service : undefined}
+                          open={popopen}
+                          anchorEl={anchorEl}
+                          onClose={()=>{setpopopen(!popopen)}}
+                          anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                          }}
+                          transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                          }}
+                          className="col-12"
+                        >
+                     {selectedrow.Equipes ?(
+                         <Table className="table table-white" >
+                         <tbody className="mt-2">
+                       {selectedrow.Equipes.map((equipe ,index)=>(
+                      
+                                 <tr className="" key={index}>
+                                   <td className="text-center cursor pop grow" onClick={(e)=>{history.push(`/Equipe/${equipe.id}`)}}>{equipe.Nom_equipe}</td>
+                                 </tr>
+                          
+                      ))}
+                      </tbody>
+                        </Table> ):(
+                       null
+                     )
+                     }
+                    </Popover>
 
                         {/* MODAL ADD */}
               <MDBModal isOpen={open} toggle={()=>toggle()} size="lg">
