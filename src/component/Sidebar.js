@@ -57,7 +57,7 @@ function Sidebar() {
         <li className="text-center d-flex flex-column mb-3">
           <div className="d-flex justify-content-center mb-2">
 
-          <Avatar  style={{width:80, height:80}} className="profile_img" alt="Haboubi amine" src={user.user_img } />
+          <Avatar  style={{width:80, height:80}} className="profile_img cursor" alt="Haboubi amine" src={user.user_img } onClick={()=>{history.push("/myprofile")}} />
           </div>
         <h6 id="username" className="text-capitalize">{user.full_name}</h6>
         

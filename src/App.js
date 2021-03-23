@@ -5,6 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './function'
 import Home from './pages/Home'
+import Profile from './pages/Profile'
 import Equipe from './pages/Equipe'
 import Service from './pages/Service'
 import Clients from './pages/Clients'
@@ -40,6 +41,7 @@ function App() {
           <Route path='/Equipe/:id' component={EquipeView} exact/>
           <Route path='/profile/:id' component={UserView} exact/>
           <Route path='/Client/:id' component={CompteCli} exact/>
+          <Route path='/myProfile' component={Profile} exact/>
 
           
           <Route path='/test' component={Test} exact/>
