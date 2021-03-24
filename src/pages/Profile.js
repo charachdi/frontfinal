@@ -32,7 +32,7 @@ function Profile(props) {
 
         <div >
         <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-4" >
                    <div class="profile-card-4 z-depth-3">
                     <div class="card">
                       <div class="card-body text-center rounded-top" style={{backgroundColor:"#2DCD94"}}>
@@ -87,12 +87,7 @@ function Profile(props) {
                             </div>
                          </div>
                        </div>
-                       <div class="card-footer text-center">
-                         <a href="javascript:void()" class="btn-social btn-facebook waves-effect waves-light m-1"><i class="fa fa-facebook"></i></a>
-                         <a href="javascript:void()" class="btn-social btn-google-plus waves-effect waves-light m-1"><i class="fa fa-google-plus"></i></a>
-                         <a href="javascript:void()" class="list-inline-item btn-social btn-behance waves-effect waves-light"><i class="fa fa-behance"></i></a>
-                         <a href="javascript:void()" class="list-inline-item btn-social btn-dribbble waves-effect waves-light"><i class="fa fa-dribbble"></i></a>
-                       </div>
+                      
                      </div>
                    </div>
                 </div>

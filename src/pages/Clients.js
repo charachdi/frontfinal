@@ -588,8 +588,12 @@ const Prevpage = (e) =>{
     change.second = rowselected
   }
 
-  if(pageselected != 0){
+  if(pageselected === 1){
+    setpageselected(1)
+  }
+  else{
     setpageselected(pageselected - 1)
+
   }
  
   
@@ -673,7 +677,7 @@ const Prevpage = (e) =>{
                         <td> {client.id}</td>
                         <td id="img"  className=" d-flex justify-content-start align-items-center "> <Avatar className=" prof_img ml-3" src={client.Clientimg.img_profile} style={{width: 30, height :30}} /> <span id="Nomcli" className="ml-3 text-center">{client.Nom_compteCli}</span></td>
                         <td id="sercli"  className=""> <div className="cursor" >{client.Service.Nom_service}</div> </td>
-                        <td id="eqcli"  > <span className="cursor" onClick={()=>{history.push(`/Equipe/${client.Equipe.id}`)}}>{client.Equipe.Nom_equipe}</span></td>
+                        <td id="eqcli"  > <span className="cursor" onClick={()=>{history.push(`/Equipe/${client.Equipe.id}`)}}>{client.Equipe ? client.Equipe.Nom_equipe : ""}</span></td>
                         <td>
                         <IconButton className="mr-3" size="small" aria-label="delete" color="secondary" onClick={()=> {changeselected(client);toggleSupp()}}>
                         <DeleteIcon />
@@ -712,7 +716,7 @@ const Prevpage = (e) =>{
                     </div>
                 <div  className="d-flex justify-content-center " >
 
-                <div className="profile-header-cover">
+                <div className="profile-header-cover-modal">
                 <img  style={{width:"100%", borderRadius:10}} className=""  alt="" src={bgprevimg} />
                
                </div>
@@ -720,7 +724,7 @@ const Prevpage = (e) =>{
                   
                   <div id="client-image" className="row">
                     <section>
-                    <Avatar className="ml-3" style={{width:140, height:140}}  alt="" src={profileimgprev} />
+                    <Avatar className="ml-3" style={{width:100, height:100}}  alt="" src={profileimgprev} />
                   <input accept="image/*"  id="client-img" type="file" className="mb-3"  style={{display:'none'}} onChange={()=>{prev()}}   required/>
                   <label htmlFor="client-img">
                     <IconButton className="mt-2" color="primary" aria-label="upload picture" component="span">
@@ -825,7 +829,7 @@ const Prevpage = (e) =>{
                     </div>
                 <div  className="d-flex justify-content-center " >
 
-                <div className="profile-header-cover">
+                <div className="profile-header-cover-modal">
                 <img  style={{width:"100%", borderRadius:10}} className=""  alt="" src={selectedrow.Clientimg.img_background} />
                
                </div>
@@ -833,7 +837,7 @@ const Prevpage = (e) =>{
                   
                   <div id="client-image" className="row">
                     <section>
-                    <Avatar className="ml-3" style={{width:140, height:140}}  alt="" src={selectedrow.Clientimg.img_profile} />
+                    <Avatar className="ml-3" style={{width:100, height:100}}  alt="" src={selectedrow.Clientimg.img_profile} />
                   <input accept="image/*"  id="up-client-img" type="file" className="mb-3"  style={{display:'none'}} onChange={()=>{upprev()}}   required/>
                   <label htmlFor="up-client-img">
                     <IconButton className="mt-2" color="primary" aria-label="upload picture" component="span">
