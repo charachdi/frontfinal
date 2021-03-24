@@ -46,7 +46,10 @@ body{
 
 
 .picked{
-	background-color: #2DCD94;
+    color: #fff;
+    background-color: #2DCD94;
+    border-color: #2DCD94 #2DCD94 #fff;
+    border-top: 3px solid #2DCD94;
 }
 #profile{
 	cursor: pointer;
@@ -129,6 +132,18 @@ body{
     bottom: 0;
     overflow: hidden;
     height: 170px;
+    background-repeat: center no-repeat;
+}
+
+.profile-header-cover-modal {
+    background-size: 100% cover;
+    position: relative;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    height: 120px;
     background-repeat: center no-repeat;
 }
 

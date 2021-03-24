@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './function'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
+import Compteclientequipe from './pages/Compteclientequipe'
 import Equipe from './pages/Equipe'
 import Service from './pages/Service'
 import Clients from './pages/Clients'
@@ -37,6 +38,7 @@ function App() {
           <Route path='/Equipe' component={Equipe} exact/>
           <Route path='/Service' component={Service} exact/>
           <Route path='/Client' component={Clients} exact/>
+          <Route path='/Compteclient' component={Compteclientequipe} exact/>
 
           <Route path='/Equipe/:id' component={EquipeView} exact/>
           <Route path='/profile/:id' component={UserView} exact/>

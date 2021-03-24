@@ -224,8 +224,7 @@ function Stepperview() {
       const updateprofile = async (e)=>{
         const formData = new FormData();
         formData.append('myImage',document.getElementById('prof-img').files[0]);
-        formData.append('nom',Nom);
-        formData.append('prenom',Prenom);
+        formData.append('fullName',Nom +Prenom);
         formData.append('address',Address);
         formData.append('tel',Tel);
         formData.append('fax',Fax);
@@ -239,7 +238,7 @@ function Stepperview() {
         const res = await axios({
           headers: {'Authorization': `Bearer ${token}`},
           method: 'put',
-          url : `${Api_url}user/update/profile`,
+          url : `${Api_url}user/update/profileimg`,
           data : formData
           
           });

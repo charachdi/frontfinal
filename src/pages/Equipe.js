@@ -291,8 +291,12 @@ const Prevpage = (e) =>{
     change.second = rowselected
   }
 
-  if(pageselected != 0){
+  if(pageselected === 1){
+    setpageselected(1)
+  }
+  else{
     setpageselected(pageselected - 1)
+
   }
  
   

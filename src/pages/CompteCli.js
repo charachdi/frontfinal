@@ -106,7 +106,7 @@ console.log()
             <div className="profile-header-content">
                 <div className="profile-header-img ">
                 
-                   <div id="client-image" className="row ">
+                   <div id="client-image" className="row ml-2">
                    <span ><Avatar  src={profimg.img_profile} className="mb-4" style={{width:140,height:140}} alt=""/></span> 
                    <h4 className="mt-5 ml-2" style={{color: client.Theme ? client.Theme.Color : "black"}} >{client.Nom_compteCli}</h4>
                    </div>
