@@ -224,7 +224,7 @@ function Stepperview() {
       const updateprofile = async (e)=>{
         const formData = new FormData();
         formData.append('myImage',document.getElementById('prof-img').files[0]);
-        formData.append('fullName',Nom +Prenom);
+        formData.append('fullName',Nom+" "+Prenom);
         formData.append('address',Address);
         formData.append('tel',Tel);
         formData.append('fax',Fax);

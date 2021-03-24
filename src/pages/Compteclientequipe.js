@@ -36,9 +36,8 @@ function Compteclientequipe() {
                 <div key={index} id={cl.id} class="carde d-flex mx-3 my-3 grow cursor"  onClick={()=>{history.push(`/client/${cl.id}`)}}>
                 <div class="firstinfo text-center d-flex justify-content-center">
                     <Avatar src={cl.Clientimg.img_profile} style={{width:70, height:70 , zIndex:10}} className="" />
-                   
                     <div class="profileinfo">
-                        <h4>{cl.Nom_compteCli}</h4>
+                        <h4 style={{color :cl.Theme.Color}}>{cl.Nom_compteCli}</h4>
                         <p className="bio">{cl.description}</p>
                     </div>
                     </div>
