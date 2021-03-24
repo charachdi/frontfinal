@@ -103,7 +103,7 @@ function Profile(props) {
                     pauseOnHover: false,
                     draggable: true,
                     });
-                   
+                   console.log(res)
                   setprofile(res.data.user)
                   setuser(res.data.user)
                 }
@@ -176,7 +176,18 @@ function Profile(props) {
     
     return (
         
-        
+        <>
+      <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      />
         <div class="row">
                 <div class="col-lg-4" >
                    <div class="profile-card-4 z-depth-3">
@@ -420,7 +431,7 @@ function Profile(props) {
             </div>
      
 
-              
+            </>
  
     )
 }
