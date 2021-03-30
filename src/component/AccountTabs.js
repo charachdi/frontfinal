@@ -8,15 +8,15 @@ import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalF
 const gotoadd = ()=>{
   $("#user-profile").hide()
   $("#add-account").show()
-  $("#profile").removeClass("picked")
-  $("#addacc").addClass("picked")
+  $("#profile").removeClass("picked-right")
+  $("#addacc").addClass("picked-left")
 }
 
 const gotorofile = ()=>{
     $("#add-account").hide()
     $("#user-profile").show()
-    $("#addacc").removeClass("picked")
-    $("#profile").addClass("picked")
+    $("#addacc").removeClass("picked-left")
+    $("#profile").addClass("picked-right")
   
 }
 
@@ -35,16 +35,16 @@ const filter = ()=>{
 function AccountTabs() {
     return (
         <div className="row col-12 justify-content-start mb-3">
-                      <div className="col-3 text-left">
+                      <div className="col-3 text-left mr-2 ml-5">
                       <MDBFormInline className="md-form">
                         <MDBIcon icon="search" className="mr-1" />
                         <TextField id="user-search" onChange={filter} label="search" variant="outlined" size='small' />
                     </MDBFormInline>
                      
                       </div>
-                      <div className="row col-9 text-center align-items-center">
-                        <div id="profile" onClick={gotorofile} className="col-6 shadow picked " >Profile</div>
-                        <div id="addacc" onClick={gotoadd} className="col-6 shadow ">ajouter</div>
+                      <div className="row col-8 text-center align-items-center justify-content-center">
+                        <div id="profile" onClick={gotorofile} className="col-5 shadow link picked-right ml-5 mr-1" >Profile</div>
+                        <div id="addacc" onClick={gotoadd} className="col-5 shadow link ">ajouter</div>
                       </div>
             </div>
     )

@@ -444,7 +444,7 @@ const Prevpage = (e) =>{
 
 
                       {/* MODAL SUPP */}
-                <MDBModal isOpen={suppopen} toggle={()=>toggleSupp()} size="lg">
+                <MDBModal isOpen={suppopen} toggle={()=>toggleSupp()} size="sm">
                 <MDBModalHeader toggle={()=>toggleSupp()} className="text-center sm">Supprimer le service</MDBModalHeader>
                     <MDBModalBody>
                         <div className="row col-12 ">

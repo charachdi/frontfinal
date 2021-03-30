@@ -83,6 +83,8 @@ function Clients() {
     color : "black"
   })
 
+  const [offsetup, setoffsetup] = useState(10)
+
   
  
     const toggle = () =>{
@@ -598,14 +600,23 @@ const Prevpage = (e) =>{
  
   
   setshownrow(clients.slice(change.first,change.second))
-  
-  setTimeout(() => {
-    console.log(`
-    prev : ${change.first}
-    new : ${change.second}
-  `)
-  }, 2000);
+
 }
+
+const up = () =>{
+console.log("up")
+console.log(offsetup)
+if($("#bg").length === 1 ){
+  setoffsetup(offsetup + 10)
+  $("#bg").css("top" , `${offsetup} px`)
+}
+}
+
+const down = () =>{
+  console.log("down")
+}
+
+
     return (
       <>
       <ToastContainer
@@ -709,20 +720,22 @@ const Prevpage = (e) =>{
                     <div className="text-right right_button">
                     <input accept="image/*"  id="client-bg" type="file"  style={{display:'none'}} onChange={()=>{prev2()}} required/>
                     <label htmlFor="client-bg">
-                      <IconButton className="" color="primary"  aria-label="upload picture" component="span">
+                      <IconButton className=" mr-2" color="primary"  aria-label="upload picture" component="span">
                         <PhotoCamera style={{color:'#c2c1c1'}}/>
                       </IconButton>
-                    </label>
+                    </label><br />
+                    <i class="fas fa-arrow-up cursor fa-2x mr-3 mb-2" onClick={()=>{up()}}></i><br />
+                    <i class="fas fa-arrow-down cursor fa-2x mr-3" onClick={()=>{down()}}></i>
                     </div>
                 <div  className="d-flex justify-content-center " >
 
                 <div className="profile-header-cover-modal">
-                <img  style={{width:"100%", borderRadius:10}} className=""  alt="" src={bgprevimg} />
+                <img id="bg"  style={{width:"100%", borderRadius:10 , backgroundPositionX :  "right 20 bottom 10"}} className="bg"  alt="" src={bgprevimg} />
                
                </div>
                  
                   
-                  <div id="client-image" className="row">
+                  <div id="client-image"  className="row">
                     <section>
                     <Avatar className="ml-3" style={{width:100, height:100}}  alt="" src={profileimgprev} />
                   <input accept="image/*"  id="client-img" type="file" className="mb-3"  style={{display:'none'}} onChange={()=>{prev()}}   required/>
@@ -733,7 +746,7 @@ const Prevpage = (e) =>{
                   </label>
                     </section>
                   
-                  <h3 id="compteclientnom" className=" ml-3 mt-5"  style={{position:"relative" ,color:themeparams.color}}>{nomclient}</h3>
+                  <h3 id="compteclientnom" className=" ml-3 mt-4"  style={{position:"relative" ,color:themeparams.color}}>{nomclient}</h3>
                   </div>
                 
             
@@ -781,7 +794,7 @@ const Prevpage = (e) =>{
                         value={EquipeId}
                         onChange={(e)=>{setEquipeId(e.target.value)}}
                       >
-
+                        <MenuItem ></MenuItem>
                       {
                         service_eq.map((eq , index)=>(
                           <MenuItem key={index} value={eq.id}>{eq.Nom_equipe}</MenuItem>
@@ -932,7 +945,7 @@ const Prevpage = (e) =>{
 
 
                       {/* MODAL SUPP */}
-                <MDBModal isOpen={suppopen} toggle={()=>toggleSupp()} size="lg">
+                <MDBModal isOpen={suppopen} toggle={()=>toggleSupp()} size="sm">
                 <MDBModalHeader toggle={()=>toggleSupp()} className="text-center sm">Supprimer le client</MDBModalHeader>
                     <MDBModalBody>
                         <div className="row col-12 ">

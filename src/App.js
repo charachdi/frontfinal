@@ -10,6 +10,7 @@ import Compteclientequipe from './pages/Compteclientequipe'
 import Equipe from './pages/Equipe'
 import Service from './pages/Service'
 import Clients from './pages/Clients'
+import Notfound from './pages/Notfound'
 import CompteCli from './pages/CompteCli'
 import EquipeView from './pages/EquipeView'
 import Stepperview from './pages/Stepperview'
@@ -45,6 +46,9 @@ function App() {
           <Route path='/Client/:id' component={CompteCli} exact/>
           <Route path='/myProfile' component={Profile} exact/>
 
+
+          
+          <Route component={Notfound}/>
           
           <Route path='/test' component={Test} exact/>
         </Switch>

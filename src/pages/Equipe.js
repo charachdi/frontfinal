@@ -411,7 +411,7 @@ const Prevpage = (e) =>{
                       <div className="mb-5 col-12">
                       <TextField className="col-3" value={nomequipe} onChange={(e)=>{setnomequipe(e.target.value)}} id="standard-basic" label="Nom de l'equipe" required />
                       <TextField className="ml-5 col-2" id="standard-select-currency" select required size="medium" label="Service"value={service} onChange={(e)=>{setservice(e.target.value)}}>
-
+                      <MenuItem ></MenuItem>
                               {
                                 services.map((ser , index)=>(
                                   <MenuItem key={index} value={ser.id}>{ser.Nom_service}</MenuItem>
@@ -473,7 +473,7 @@ const Prevpage = (e) =>{
 
 
                       {/* MODAL SUPP */}
-                <MDBModal isOpen={suppopen} toggle={()=>toggleSupp()} size="lg">
+                <MDBModal isOpen={suppopen} toggle={()=>toggleSupp()} size="sm">
                 <MDBModalHeader toggle={()=>toggleSupp()} className="text-center sm">Supprimer l'équipe</MDBModalHeader>
                     <MDBModalBody>
                         <div className="row col-12 ">

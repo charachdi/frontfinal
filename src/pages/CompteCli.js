@@ -19,6 +19,7 @@ import Api_url from './../component/Api_url';
 import { ToastContainer, toast } from 'react-toastify';
 import Avatar from '@material-ui/core/Avatar';
 import { useHistory } from "react-router-dom";
+import Permission from './../component/Permission'
 // import { mdbTableEditor } from 'mdb-table-editor'
 
 
@@ -74,17 +75,15 @@ console.log()
       
    
  {/* <!-- Page Header--> */}
- <header  class="page-header">
-            <div class="container-fluid">
-              <h2 class="no-margin-bottom">Compte Client</h2>
-            </div>
+ <header  className="page-header">
+            
           </header>
           {/* <!-- Breadcrumb--> */}
-          <div class="breadcrumb-holder container-fluid">
-            <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="home" onClick={()=>{history.push("/home")}}>Home</a></li>
-              <li class="breadcrumb-item active">Clients</li>
-              <li class="breadcrumb-item active">{client.Nom_compteCli}</li>
+          <div className="breadcrumb-holder container-fluid">
+            <ul className="breadcrumb">
+              <li className="breadcrumb-item"><a href="home" onClick={()=>{history.push("/home")}}>Home</a></li>
+              <li className="breadcrumb-item active">Clients</li>
+              <li className="breadcrumb-item active">{client.Nom_compteCli}</li>
             </ul>
           </div>
       
@@ -99,7 +98,7 @@ console.log()
 
 
 
-    <div >
+    <div className="z-depth-3">
             <div className="profile-header-cover">
             <img  id="client-background" style={{width:"100%"}}  src={profimg.img_background}   />
             </div>
@@ -113,17 +112,16 @@ console.log()
                   
                 </div>
 
-                <div className="profile-header-info index">
+                <div className="profile-header-info text-right">
                    
+                    <h6 className="mr-4 ">{service.Nom_service} / {equipe.Nom_equipe}</h6>
                     
-                    <p className="m-b-sm">{service.Nom_service}</p>
-                    <p className="m-b-sm">{equipe.Nom_equipe}</p>
                     
-                    <Button href="#" color="primary"><EditIcon />Edit Profile</Button>
+                    {/* <Button href="#" color="primary"><EditIcon />Edit Profile</Button> */}
                 </div>
             </div>
 
-        <ul className="profile-header-tab nav nav-tabs col-12 mb-4">
+        <ul className="profile-header-tab nav nav-tabs row col-12 mb-4 justify-content-center">
             <li className="nav-item"><a href="#profile-post" className="nav-link" data-toggle="tab">POSTS</a></li>
             <li className="nav-item"><a href="#profile-about" className="nav-link" data-toggle="tab">ABOUT</a></li>
             <li className="nav-item"><a href="#profile-photos" className="nav-link" data-toggle="tab">STUFF</a></li>
@@ -134,7 +132,7 @@ console.log()
 
 
             <div className="row col-12 mb-2">
-              {client_id}
+              <Permission clientID={client_id}/>
             </div>
             </div>
             </div>

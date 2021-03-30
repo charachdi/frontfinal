@@ -261,6 +261,7 @@
     border-bottom: 1px solid #15ca20;
     border-right: 0;
     border-left: 3px solid #15ca20;
+    animation: slide-right .5s ;
 }
 
 .tabs-vertical-info.tabs-vertical .nav-tabs{
@@ -415,4 +416,22 @@
 .z-depth-3 {
     -webkit-box-shadow: 0 11px 7px 0 rgba(0,0,0,0.19),0 13px 25px 0 rgba(0,0,0,0.3);
     box-shadow: 0 11px 7px 0 rgba(0,0,0,0.19),0 13px 25px 0 rgba(0,0,0,0.3);
+}
+
+@keyframes slide-left {
+    0% {
+        background-position: right;
+    }
+    100% {
+        background-position: left;
+    }
+}
+
+@keyframes slide-right {
+    0% {
+        background-position: left;
+    }
+    100% {
+        background-position: right;
+    }
 }
