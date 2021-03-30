@@ -84,11 +84,11 @@ if(!showEdit){
                    </div>
                        
                             <div className="row col-12 align-items-center mx-auto text-center border border-gray border-left-0 border-right-0 ">
-                                        <div onClick={()=>{switchtoprofile() }} id="prof"  className=" text-center mt-1 mb-1 inner-user " ><i className="fas fa-user-alt fa-2x"></i></div>
-                                        <div onClick={()=>{switchtostat()}} id="stat" className=" text-center mt-1 mb-1 inner-user lnk border border-gray border-top-0 border-bottom-0"><i className="fas fa-chart-line fa-2x"></i></div>
+                                        <div onClick={()=>{switchtoprofile() }} id="prof"  className=" text-center mt-1 mb-1 inner-user link " ><i className="fas fa-user-alt fa-2x"></i></div>
+                                        <div onClick={()=>{switchtostat()}} id="stat" className=" text-center mt-1 mb-1 inner-user link picked-center "><i className="fas fa-chart-line fa-2x"></i></div>
                                      {
                                          showEdit ? (
-                                            <div onClick={()=>{switchtoedit()}} className="col-4 text-center mt-1 mb-1 inner-user "><i className="fas fa-wrench fa-2x"></i></div>
+                                            <div onClick={()=>{switchtoedit()}} className="col-4 text-center mt-1 mb-1 inner-user link   "><i className="fas fa-wrench fa-2x"></i></div>
                                          ) : (
                                              null
                                          )

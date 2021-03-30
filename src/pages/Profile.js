@@ -19,22 +19,23 @@ function Profile(props) {
     const [shownrow, setshownrow] = useState([])
     const [profileimgprev, setprofileimgprev] = useState("")
     const [editopen, seteditopen] = useState(false)
+    const [tabopen, settabopen] = useState("profile")
     const [profile, setprofile] = useState({
         "id": 1,
-        "full_name": "Chaima Rachdi",
+        "full_name": "",
         "user_name": null,
-        "ftime": "false",
-        "pwd": "$2a$10$.xFXgwU7Lpd9Rw1wtbTxHOc8lvtF0Ht3kBY6dPOIrUphSgSiu6kya",
-        "user_email": "cha.rachdi@gmail.com",
-        "user_level": "Chef equipe",
-        "user_img": "http://localhost:3001/userimg/1616425972029.JPG",
+        "ftime": "",
+        "pwd": "",
+        "user_email": "",
+        "user_level": "",
+        "user_img": "",
         "user_spec": null,
         "user_sex": "Femme",
         "address": "lafayette",
         "country": "tunisie",
-        "tel": 55462010,
-        "fax": 0,
-        "Website": "qdqs",
+        "tel":"" ,
+        "fax":"" ,
+        "Website": "",
         "user_ip": null,
         "approved": 0,
         "activation_code": null,
@@ -60,6 +61,7 @@ function Profile(props) {
         });
         setprofile(res.data.user)
         setuser(res.data.user)
+        console.log(res.data)
     }
 
     getcurrentuser()
@@ -173,6 +175,13 @@ function Profile(props) {
             const url = URL.createObjectURL(document.getElementById('profileimg').files[0])
             setprofileimgprev(url)
         }
+
+        const switchtab = (tab) =>{
+           
+         
+               settabopen(tab)
+           
+        }
     
     return (
         
@@ -188,59 +197,59 @@ function Profile(props) {
       draggable
       pauseOnHover
       />
-        <div class="row">
-                <div class="col-lg-4" >
-                   <div class="profile-card-4 z-depth-3">
-                    <div class="card">
-                      <div class="card-body text-center rounded-top" style={{backgroundColor:"#2DCD94"}}>
-                       <div class="user-box text-center">
+        <div className="row">
+                <div className="col-lg-4" >
+                   <div className="profile-card-4 z-depth-3">
+                    <div className="card">
+                      <div className="card-body text-center rounded-top" style={{backgroundColor:"#2DCD94"}}>
+                       <div className="user-box text-center">
                        <Avatar  style={{width:200, height:200}} className="profile_img cursor" alt="Haboubi amine" src={user ? user.user_img:"" } />
                       </div>
-                      <h5 class="mb-1 text-white">{user ? user.full_name:"" }</h5>
-                      <h6 class="text-light">{user ? user.user_level:""}</h6>
+                      <h5 className="mb-1 text-white">{user ? user.full_name:"" }</h5>
+                      <h6 className="text-light">{user ? user.user_level:""}</h6>
                      </div>
-                      <div class="card-body">
-                        <ul class="list-group shadow-none">
-                        <li class="list-group-item">
-                          <div class="list-icon">
-                            <i class="fa fa-phone-square"></i>
+                      <div className="card-body">
+                        <ul className="list-group shadow-none">
+                        <li className="list-group-item">
+                          <div className="list-icon">
+                            <i className="fa fa-phone-square"></i>
                           </div>
-                          <div class="list-details">
+                          <div className="list-details">
                             <span>{user ? user.tel:""}</span>
                             <small>Numéro de télephone</small>
                           </div>
                         </li>
-                        <li class="list-group-item">
-                          <div class="list-icon">
-                            <i class="fa fa-envelope"></i>
+                        <li className="list-group-item">
+                          <div className="list-icon">
+                            <i className="fa fa-envelope"></i>
                           </div>
-                          <div class="list-details">
+                          <div className="list-details">
                             <span>{user ? user.user_email:""}</span>
                             <small>Adresse Email</small>
                           </div>
                         </li>
-                        <li class="list-group-item">
-                          <div class="list-icon">
-                            <i class="fa fa-globe"></i>
+                        <li className="list-group-item">
+                          <div className="list-icon">
+                            <i className="fa fa-globe"></i>
                           </div>
-                          <div class="list-details">
+                          <div className="list-details">
                             <span>{user ? user.Website:""}</span>
                             <small>Website Address</small>
                           </div>
                         </li>
                         </ul>
-                        <div class="row text-center mt-1">
-                          <div class="col ">
-                           <h4 class="mb-1 line-height-5">154</h4>
-                            <small class="mb-0 font-weight-bold">Projects</small>
+                        <div className="row text-center mt-1">
+                          <div className="col ">
+                           <h4 className="mb-1 line-height-5">154</h4>
+                            <small className="mb-0 font-weight-bold">Projects</small>
                            </div>
-                            <div class="col ">
-                              <h4 class="mb-1 line-height-5">2.2k</h4>
-                             <small class="mb-0 font-weight-bold">Followers</small>
+                            <div className="col ">
+                              <h4 className="mb-1 line-height-5">2.2k</h4>
+                             <small className="mb-0 font-weight-bold">Followers</small>
                             </div>
-                            <div class="col ">
-                             <h4 class="mb-1 line-height-5">9.1k</h4>
-                             <small class="mb-0 font-weight-bold">Views</small>
+                            <div className="col ">
+                             <h4 className="mb-1 line-height-5">9.1k</h4>
+                             <small className="mb-0 font-weight-bold">Views</small>
                             </div>
                          </div>
                        </div>
@@ -248,181 +257,128 @@ function Profile(props) {
                      </div>
                    </div>
                 </div>
-                <div class="col-lg-8">
-                   <div class="card z-depth-3">
-                    <div class="card-body">
-                    <ul class="nav nav-pills nav-pills-primary nav-justified">
-                        <li class="nav-item">
-                            <a href="javascript:void();" data-target="#profile" data-toggle="pill" class="nav-link"><i class="icon-user"></i> <span class="hidden-xs">Profile</span></a>
+                <div className="col-lg-8">
+                   <div className="card z-depth-3">
+                    <div className="card-body">
+                    <ul className="nav nav-pills nav-pills-primary nav-justified">
+                        <li className="nav-item">
+                            <a href="javascript:void();" onClick={()=>{switchtab("profile")}} data-target="#profile" data-toggle="pill" className="nav-link active"><i className="icon-user"></i> <span className="hidden-xs">Profile</span></a>
                         </li>
-                        <li class="nav-item">
-                            <a href="javascript:void();" data-target="#messages" data-toggle="pill" class="nav-link"><i class="icon-envelope-open"></i> <span class="hidden-xs">Messages</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link active show"><i class="icon-note"></i> <span class="hidden-xs">Modifier</span></a>
+                        <li className="nav-item">
+                            <a href="javascript:void();" onClick={()=>{switchtab("edit")}} data-target="#edit" data-toggle="pill" className="nav-link active "><i className="icon-note"></i> <span className="hidden-xs">Modifier</span></a>
                         </li>
                     </ul>
+
+                    
                     {/* SHOW DATA PROFILE */}
-                    <div class="tab-content p-3">
-                        <div class="tab-pane" id="profile">
-                            <h5 class="mb-3">User Profile</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6>About</h6>
-                                    <p>
-                                        Web Designer, UI/UX Engineer
-                                    </p>
-                                    <h6>Hobbies</h6>
-                                    <p>
-                                        Indie music, skiing and hiking. I love the great outdoors.
-                                    </p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6>Recent badges</h6>
-                                    <a href="javascript:void();" class="badge badge-dark badge-pill">html5</a>
-                                    <a href="javascript:void();" class="badge badge-dark badge-pill">react</a>
-                                    <a href="javascript:void();" class="badge badge-dark badge-pill">codeply</a>
-                                    <a href="javascript:void();" class="badge badge-dark badge-pill">angularjs</a>
-                                    <a href="javascript:void();" class="badge badge-dark badge-pill">css3</a>
-                                    <a href="javascript:void();" class="badge badge-dark badge-pill">jquery</a>
-                                    <a href="javascript:void();" class="badge badge-dark badge-pill">bootstrap</a>
-                                    <a href="javascript:void();" class="badge badge-dark badge-pill">responsive-design</a>
-                                    <hr/>
-                                    <span class="badge badge-primary"><i class="fa fa-user"></i> 900 Followers</span>
-                                    <span class="badge badge-success"><i class="fa fa-cog"></i> 43 Forks</span>
-                                    <span class="badge badge-danger"><i class="fa fa-eye"></i> 245 Views</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <h5 class="mt-2 mb-3"><span class="fa fa-clock-o ion-clock float-right"></span> Recent Activity</h5>
-                                    <table class="table table-hover table-striped">
-                                        <tbody>                                    
-                                            <tr>
-                                                <td>
-                                                    <strong>Abby</strong> joined ACME Project Team in <strong>`Collaboration`</strong>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <strong>Gary</strong> deleted My Board1 in <strong>`Discussions`</strong>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <strong>Kensington</strong> deleted MyBoard3 in <strong>`Discussions`</strong>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <strong>John</strong> deleted My Board1 in <strong>`Discussions`</strong>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <strong>Skell</strong> deleted his post Look at Why this is.. in <strong>`Discussions`</strong>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                    <div className="tab-content p-3">
+                    {
+                        tabopen === "profile" ? (
+                            <div className="tab-pane active show" id="profile">
+                             <form className="col-12">
+                            <div className="form-group row" >
+                                <label className="col-lg-3 col-form-label text-center form-control-label">Nom et Prénom</label>
+                                   <h5 className="mt-2">{profile ? profile.full_name:""}</h5>
                             </div>
+
+                              
+                            <div className="form-group row">
+                                <label className="col-lg-3 col-form-label form-control-label text-center">Télephone</label>
+                                <h6 className="mt-2">{profile ? profile.tel:""}</h6>
+                            </div>
+
+                            <div className="form-group row">
+                                <label className="col-lg-3 col-form-label form-control-label text-center">equipe</label>
+                                <h6 className="mt-2">{profile.Equipe ? profile.Equipe.Nom_equipe:""}</h6>
+                            </div>
+
+                            <div className="form-group row">
+                                <label className="col-lg-3 col-form-label form-control-label text-center">Service</label>
+                                <h6 className="mt-2">{profile.Equipe ? profile.Equipe.Service.Nom_service:""}</h6>
+                            </div>
+
+                            <div className="form-group row">
+                                <label className="col-lg-3 col-form-label text-center form-control-label">site</label>
+                           
+                                <h6 className="mt-2">{profile ? profile.Website:""}</h6>
+                            </div>
+                         
+
+                            <div className="form-group row">
+                                <label className="col-lg-3 col-form-label form-control-label text-center">Fax</label>
+                                <h6 className="mt-2">{profile ? profile.fax:""}</h6>
+                            </div>
+
+                          
+
+                            <div className="form-group row">
+                                <label className="col-lg-3 col-form-label form-control-label text-center">Adresse</label>
+                              
+                                <h6 className="mt-2">{profile ? profile.address:""}</h6>
+                            </div>                
+                            
+                        </form>
            
                         </div>
-                        {/* tab 2 */}
-                         <div class="tab-pane" id="messages">
-                            <div class="alert alert-info alert-dismissible" role="alert">
-                           <button type="button" class="close" data-dismiss="alert">×</button>
-                            <div class="alert-icon">
-                             <i class="icon-info"></i>
-                            </div>
-                            <div class="alert-message">
-                              <span><strong>Info!</strong> Lorem Ipsum is simply dummy text.</span>
-                            </div>
-                          </div>
-                            <table class="table table-hover table-striped">
-                                <tbody>                                    
-                                    <tr>
-                                        <td>
-                                           <span class="float-right font-weight-bold">3 hrs ago</span> Here is your a link to the latest summary report from the..
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                           <span class="float-right font-weight-bold">Yesterday</span> There has been a request on your account since that was..
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                           <span class="float-right font-weight-bold">9/10</span> Porttitor vitae ultrices quis, dapibus id dolor. Morbi venenatis lacinia rhoncus. 
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                           <span class="float-right font-weight-bold">9/4</span> Vestibulum tincidunt ullamcorper eros eget luctus. 
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                           <span class="float-right font-weight-bold">9/4</span> Maxamillion ais the fix for tibulum tincidunt ullamcorper eros. 
-                                        </td>
-                                    </tr>
-                                </tbody> 
-                            </table>
-                        </div>  
-                        {/* EDIT PROFILE */}
-                        <div class="tab-pane active show" id="edit" className="mt-3">
-                            <form className="col-12">
-                                <div class="form-group row" >
-                                    <label class="col-lg-3 col-form-label text-center form-control-label">Nom et Prénom</label>
-                                        <TextField id="outlined-basic" className="col-8" value={profile ?profile.full_name:"" } 
-                                       onChange={(e)=>{setprofile({...profile , full_name : e.target.value})}} variant="outlined" size="small"/>
-                                    </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label text-center form-control-label">site</label>
-                               
-                                    <TextField id="outlined-basic" className="col-8" value={profile ? profile.Website:""} variant="outlined" size="small" onChange={(e)=>{setprofile({...profile , Website : e.target.value})}}/>
-                                 
+                        ) : (
+                        <div className="tab-pane active show" id="edit" className="mt-3">
+                        <form className="col-12">
+                            <div className="form-group row" >
+                                <label className="col-lg-3 col-form-label text-center form-control-label">Nom et Prénom</label>
+                                    <TextField id="outlined-basic" className="col-8" value={profile ?profile.full_name:"" } 
+                                   onChange={(e)=>{setprofile({...profile , full_name : e.target.value})}} variant="outlined" size="small"/>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label text-center">photo de profile</label>
-                                    <div class="row col-lg-9">
-                                        <input accept="image/*"  id="profileimg" type="file"  style={{display:'none'}} onChange={(e)=>{prev()}}  required/>
-                                        <label htmlFor="profileimg">
-                                            <IconButton className="" color="primary"  aria-label="upload picture" component="span">
-                                            <PhotoCamera style={{color:'#c2c1c1'}}/>
-                                            </IconButton>
-                                        </label>
-                                        <Avatar  style={{width:50, height:50}} className="profile_img cursor ml-2" alt="photo" src={profileimgprev} />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label text-center">Télephone</label>
-                                  
-                                    <TextField id="outlined-basic" className="col-8" variant="outlined" size="small" value={profile ? profile.tel:""} onChange={(e)=>{setprofile({...profile , tel : e.target.value})}}/>
-                             
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label text-center">Adresse</label>
-                                  
-                                    <TextField id="outlined-basic"  className="col-8" variant="outlined" size="small" value={profile ? profile.address:""} onChange={(e)=>{setprofile({...profile , address : e.target.value})}}/> 
-                                 
-                                </div>
-                            
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label text-center">Username</label>
+                            <div className="form-group row">
+                                <label className="col-lg-3 col-form-label text-center form-control-label">site</label>
                            
-                                    <TextField id="outlined-basic" className="col-8" variant="outlined" size="small" value={profile ? profile.user_name:""} onChange={(e)=>{setprofile({...profile , user_name : e.target.value})}}/>
-                          
+                                <TextField id="outlined-basic" className="col-8" value={profile ? profile.Website:""} variant="outlined" size="small" onChange={(e)=>{setprofile({...profile , Website : e.target.value})}}/>
+                             
+                            </div>
+                            <div className="form-group row">
+                                <label className="col-lg-3 col-form-label form-control-label text-center">photo de profile</label>
+                                <div className="row col-lg-9">
+                                    <input accept="image/*"  id="profileimg" type="file"  style={{display:'none'}} onChange={(e)=>{prev()}}  required/>
+                                    <label htmlFor="profileimg">
+                                        <IconButton className="" color="primary"  aria-label="upload picture" component="span">
+                                        <PhotoCamera style={{color:'#c2c1c1'}}/>
+                                        </IconButton>
+                                    </label>
+                                    <Avatar  style={{width:50, height:50}} className="profile_img cursor ml-2" alt="photo" src={profileimgprev} />
                                 </div>
-                                
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label"></label>
-                                    <div class="col-lg-9">
-                                    <Button color="primary" variant="contained" color="primary" startIcon={<EditIcon />} onClick={(e)=>{updatedprofile(e)}}>confirmer</Button>
-                                    <Button color="primary" variant="contained" className ="ml-3" color="success" >change mdp</Button>
-                                    </div>
+                            </div>
+                            <div className="form-group row">
+                                <label className="col-lg-3 col-form-label form-control-label text-center">Télephone</label>
+                              
+                                <TextField id="outlined-basic" className="col-8" variant="outlined" size="small" value={profile ? profile.tel:""} onChange={(e)=>{setprofile({...profile , tel : e.target.value})}}/>
+                         
+                            </div>
+                            <div className="form-group row">
+                                <label className="col-lg-3 col-form-label form-control-label text-center">Adresse</label>
+                              
+                                <TextField id="outlined-basic"  className="col-8" variant="outlined" size="small" value={profile ? profile.address:""} onChange={(e)=>{setprofile({...profile , address : e.target.value})}}/> 
+                             
+                            </div>
+                        
+                            <div className="form-group row">
+                                <label className="col-lg-3 col-form-label form-control-label text-center">Username</label>
+                       
+                                <TextField id="outlined-basic" className="col-8" variant="outlined" size="small" value={profile ? profile.user_name:""} onChange={(e)=>{setprofile({...profile , user_name : e.target.value})}}/>
+                      
+                            </div>
+                            
+                            <div className="form-group row">
+                                <label className="col-lg-3 col-form-label form-control-label"></label>
+                                <div className="col-lg-9">
+                                <Button color="primary" variant="contained" color="primary" startIcon={<EditIcon />} onClick={(e)=>{updatedprofile(e)}}>confirmer</Button>
+                                <Button color="primary" variant="contained" className ="ml-3" color="success" >change mdp</Button>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
+                    </div>
+                        )
+                    }
+                      
+                        
                     </div>
                 </div>
               </div>

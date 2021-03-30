@@ -12,32 +12,146 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import EditIcon from '@material-ui/icons/Edit';
-
-
-function UserView(props) {
-
+function ChUserview(props) {
 
     const token = localStorage.getItem('token')
-    const userId = props.match.params.id
     const [user, setuser] = useState({})
+    const [shownrow, setshownrow] = useState([])
+    const [profileimgprev, setprofileimgprev] = useState("")
+    const [editopen, seteditopen] = useState(false)
+    const [profile, setprofile] = useState({})
+   
+    useEffect(() => {
+    const getcurrentuser = async()=>{
+                setprofile(props.user)
+    }
+    getcurrentuser()  
+    }, [])
 
-        useEffect(() => {
-            const getuser = async () =>{
-                const res = await axios({
-                    headers: {'Authorization': `Bearer ${token}`},
-                    method: 'get',
-                    url : `${Api_url}user/${userId}`,
-                    });
-                  
-                   setuser(res.data.user)
-              }
-              getuser()
-        }, [])
 
+    // update profile
+    const updatedprofile = async (e)=>{
+        e.preventDefault()
+        
+
+        if (((document.getElementById('profileimg').files[0] !== undefined) === true)){
+
+            const formData = new FormData();
+            formData.append('fullName',profile.full_name);
+            formData.append('adresse',profile.address);
+            formData.append('tel',profile.tel);
+            formData.append('fax',profile.fax);
+            formData.append('website',profile.Website);
+            formData.append('user_sex',profile.user_sex);
+            formData.append('country',profile.country);
+            formData.append('myImage',document.getElementById('profileimg').files[0]);
+
+            const res = await axios({
+                headers: {'Authorization': `Bearer ${token}`},
+                method: 'put',
+                url : `${Api_url}user/update/profileimg`,
+                data :formData
+                
+            });
+        
+            console.log(res)
            
+                if(res.status === 200){
+                  toast.success(`Votre profile à été modifée avec succès`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    });
+                   console.log(res)
+                  setprofile(res.data.user)
+                  setuser(res.data.user)
+                }
+                else {
+                  toast.error('error', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    });
+                }
+            
+        }
+        else{
+
+            const data = {
+                fullName :profile.full_name,
+                adresse :profile.address,
+                tel :profile.tel,
+                fax :profile.fax,
+                website :profile.Website,
+                user_sex :profile.user_sex,
+                country :profile.country,
+              }
+
+            const res = await axios({
+                headers: {'Authorization': `Bearer ${token}`},
+                method: 'put',
+                url : `${Api_url}user/update/profile`,
+                data
+                
+            });
+        
+            console.log(res)
+           
+                if(res.status === 200){
+                  toast.success(`Votre profile à été modifée avec succès`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    });
+                   
+                  setprofile(res.data.user)
+                  setuser(res.data.user)
+                }
+                else {
+                  toast.error('error', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    });
+                }
+        }
+
+       
+      }
+  
+        const prev = (e) =>{
+            const url = URL.createObjectURL(document.getElementById('profileimg').files[0])
+            setprofileimgprev(url)
+        }
+        
+    
     return (
-        <div className="col-12 justify-content-center " style={{height:"90vh"}}>
-          <div class="row">
+        
+        <>
+      <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      />
+        <div class="row">
                 <div class="col-lg-4" >
                    <div class="profile-card-4 z-depth-3">
                     <div class="card">
@@ -222,50 +336,51 @@ function UserView(props) {
                             <form className="col-12">
                                 <div class="form-group row" >
                                     <label class="col-lg-3 col-form-label text-center form-control-label">Nom et Prénom</label>
-                                        <TextField id="outlined-basic" className="col-8" value={user.full_name} />
+                                        <TextField id="outlined-basic" className="col-8" value={profile ?profile.full_name:"" } 
+                                       onChange={(e)=>{setprofile({...profile , full_name : e.target.value})}} variant="outlined" size="small"/>
                                     </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label text-center form-control-label">site</label>
                                
-                                    <TextField id="outlined-basic" className="col-8" value={user.Website} variant="outlined" size="small" o/>
+                                    <TextField id="outlined-basic" className="col-8" value={profile ? profile.Website:""} variant="outlined" size="small" onChange={(e)=>{setprofile({...profile , Website : e.target.value})}}/>
                                  
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label text-center">photo de profile</label>
                                     <div class="row col-lg-9">
-                                        <input accept="image/*"  id="profileimg" type="file"  style={{display:'none'}}   required/>
+                                        <input accept="image/*"  id="profileimg" type="file"  style={{display:'none'}} onChange={(e)=>{prev()}}  required/>
                                         <label htmlFor="profileimg">
                                             <IconButton className="" color="primary"  aria-label="upload picture" component="span">
                                             <PhotoCamera style={{color:'#c2c1c1'}}/>
                                             </IconButton>
                                         </label>
-                                        <Avatar  style={{width:50, height:50}} className="profile_img cursor ml-2" alt="photo" src={""} />
+                                        <Avatar  style={{width:50, height:50}} className="profile_img cursor ml-2" alt="photo" src={profileimgprev} />
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label text-center">Télephone</label>
                                   
-                                    <TextField id="outlined-basic" className="col-8" variant="outlined" size="small" value={user ? user.tel:""} />
+                                    <TextField id="outlined-basic" className="col-8" variant="outlined" size="small" value={profile ? profile.tel:""} onChange={(e)=>{setprofile({...profile , tel : e.target.value})}}/>
                              
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label text-center">Adresse</label>
                                   
-                                    <TextField id="outlined-basic"  className="col-8" variant="outlined" size="small" value={user ? user.address:""} /> 
+                                    <TextField id="outlined-basic"  className="col-8" variant="outlined" size="small" value={profile ? profile.address:""} onChange={(e)=>{setprofile({...profile , address : e.target.value})}}/> 
                                  
                                 </div>
                             
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label text-center">Username</label>
                            
-                                    <TextField id="outlined-basic" className="col-8" variant="outlined" size="small" value={user ? user.user_name:""} />
+                                    <TextField id="outlined-basic" className="col-8" variant="outlined" size="small" value={profile ? profile.user_name:""} onChange={(e)=>{setprofile({...profile , user_name : e.target.value})}}/>
                           
                                 </div>
                                 
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label"></label>
                                     <div class="col-lg-9">
-                                    <Button color="primary" variant="contained" color="primary" startIcon={<EditIcon />} >confirmer</Button>
+                                    <Button color="primary" variant="contained" color="primary" startIcon={<EditIcon />} onClick={(e)=>{updatedprofile(e)}}>confirmer</Button>
                                     <Button color="primary" variant="contained" className ="ml-3" color="success" >change mdp</Button>
                                     </div>
                                 </div>
@@ -277,8 +392,11 @@ function UserView(props) {
               </div>
                 
             </div>
-       </div>
+     
+
+            </>
+ 
     )
 }
 
-export default UserView
+export default ChUserview

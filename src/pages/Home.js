@@ -168,9 +168,9 @@ return (
     draggable
     pauseOnHover
     />
-    <div id="account-box" className="row col-12 justify-content-center" >
+    <div id="account-box" className="row col-12 justify-content-center " >
           <AccountTabs />
-            <div id="user-list" className="col-3">
+            <div id="user-list" className="col-3  mr-2">
             {users.map((user, index) => (
 
 
@@ -188,7 +188,7 @@ return (
                 // <User key={index} index={index} user={user}  />
             ))}
             </div>
-            <div className="col-9 border shadow">
+            <div className="col-8 border z-depth-3">
             <Userview selected={selecteduser} setstate={updateuser} delete={deleteuser} showEdit={true} />
 
             <div id="add-account" className="city" style={{display:"none"}}>
