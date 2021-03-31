@@ -11,6 +11,7 @@ function Compteclientequipe() {
     const token = localStorage.getItem('token')
     const user = JSON.parse(localStorage.getItem('user'));
     const [equipeclient, setequipeclient] = useState([])
+    const [length, setlength] = useState(3)
     const history = useHistory();
     
     useEffect(() => {
@@ -21,7 +22,7 @@ function Compteclientequipe() {
             url : `${Api_url}user/${user.id}`,  
             });
             setequipeclient(res.data.user.Equipe.CompteClients)  
-            console.log(res.data.user.Equipe.CompteClients)
+            setlength(res.data.user.Equipe.CompteClients.length)
         }
         getequipe()
         
@@ -38,27 +39,36 @@ function Compteclientequipe() {
 
     return (
         <div className="row col-12 justify-content-center">
-          {
-              equipeclient.map((cl,index)=>(
-                <div key={index} id={cl.id} className="carde d-flex mx-3 my-3 grow cursor" style={{filter: cl.Auths[0].Permission.Read === "false" ?`grayscale(90%)` : ""}}  onClick={()=> gotoclient(cl.id ,cl.Auths[0].Permission.Read )}>
-                <div className="firstinfo text-center d-flex justify-content-center">
-                    <Avatar src={cl.Clientimg.img_profile} style={{width:70, height:70 , zIndex:10}} className="" />
-                    <div className="profileinfo">
-                        <h4 style={{color :cl.Theme.Color}}>{cl.Nom_compteCli}</h4>
-                        <p className="bio">{cl.description}</p>
-                    </div>
-                    </div>
-                    {
-                        cl.Auths[0].Permission.Read === "false" ? (
-                            <img src={accesdenied} className="access" style={{filter:"none"}}/>
-                        ) : (
-                            null
-                        )
-                    }
-                   
-                 </div>
-              ))
-          }
+
+            {
+                length === 0 ? (
+                    
+                    <h1>mafamma chay</h1>
+                    
+                ) : (
+                    equipeclient.map((cl,index)=>(
+                        <div key={index} id={cl.id} className="carde d-flex mx-3 my-3 grow cursor" style={{filter: cl.Auths[0].Permission.Read === "false" ?`grayscale(90%)` : ""}}  onClick={()=> gotoclient(cl.id ,cl.Auths[0].Permission.Read )}>
+                        <div className="firstinfo text-center d-flex justify-content-center">
+                            <Avatar src={cl.Clientimg.img_profile} style={{width:70, height:70 , zIndex:10}} className="" />
+                            <div className="profileinfo">
+                                <h4 style={{color :cl.Theme.Color}}>{cl.Nom_compteCli}</h4>
+                                <p className="bio">{cl.description}</p>
+                            </div>
+                            </div>
+                            {
+                                cl.Auths[0].Permission.Read === "false" ? (
+                                    <img src={accesdenied} className="access" style={{filter:"none"}}/>
+                                ) : (
+                                    null
+                                )
+                            }
+                           
+                         </div>
+                      ))
+                      
+                )
+            }
+          
     
     
         </div>

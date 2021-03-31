@@ -7,26 +7,39 @@ import { Logout } from "../redux/actions/authAction";
 import {useDispatch} from 'react-redux';
 import { useHistory } from "react-router-dom";
 import $ from 'jquery'
+import axios from 'axios'
+import Api_url from './../component/Api_url'
 function Sidebar() {
 
 
   const history = useHistory();
   const dispatch = useDispatch();
-  
+  const token = localStorage.getItem('token')
   const [url, seturl] = useState("")
   const [fullname, setfullname] = useState("")
   const user = JSON.parse(localStorage.getItem('user')) ;
   
   
-
+const [current, setcurrent] = useState("")
   useEffect(() => {
    
-    const info = () =>{
-     
+    const info = async() =>{
+      const user = JSON.parse(localStorage.getItem('user')) ;
+  
+      const currentuser = await axios({
+        headers: {'Authorization': `Bearer ${token}`},
+        method: 'get',
+        url : `${Api_url}user/${user.id}`,  
+        });
+        setcurrent(currentuser.data.user.user_level)
 
     }
 
-    info()
+    if(user){
+      info()
+    }
+
+    
   }, [])
   
   
@@ -57,25 +70,99 @@ function Sidebar() {
         <li className="text-center d-flex flex-column mb-3">
           <div className="d-flex justify-content-center mb-2">
 
-          <Avatar  style={{width:80, height:80}} className="profile_img cursor" alt="Haboubi amine" src={user.user_img } onClick={()=>{history.push("/myprofile")}} />
+          <Avatar  style={{width:80, height:80}} className="profile_img cursor" alt="Haboubi amine" src={user ? user.user_img : "" } onClick={()=>{history.push("/myprofile")}} />
           </div>
-        <h6 id="username" className="text-capitalize">{user.full_name}</h6>
+        <h6 id="username" className="text-capitalize">{user ? user.full_name :""}</h6>
         
           </li>
-          <li className="active">
-            <a className="text-left hover" onClick={()=>{history.push("/home")}}><i className="fas fa-user-friends mr-3"></i>Comptes</a>
-          </li>
-          <li>
+          {
+            current === "admin" ? (
+              <li className="active">
+              <a className="text-left hover" onClick={()=>{history.push("/home")}}><i className="fas fa-user-friends mr-3"></i>Comptes</a>
+            </li>
+            ) : (
+              null
+            )
+          }
+
+        {
+            current === "Chef Service" ? (
+              <li className="active">
+              <a className="text-left hover" onClick={()=>{history.push("/home")}}><i className="fas fa-user-friends mr-3"></i>Comptes</a>
+            </li>
+            ) : (
+              null
+            )
+          }
+
+{
+            current === "admin" ? (
+              <li>
               <a className="text-left hover" onClick={()=>{history.push("/equipe")}}><span className="fa fa-user mr-3"></span>equipes</a>
           </li>
-          <li>
+            ) : (
+              null
+            )
+          }
+
+        {
+            current === "Chef Service" ? (
+              <li>
+              <a className="text-left hover" onClick={()=>{history.push("/equipe")}}><span className="fa fa-user mr-3"></span>equipes</a>
+          </li>
+            ) : (
+              null
+            )
+          }
+
+
+{
+            current === "admin" ? (
+              <li>
+              <a className="text-left hover" onClick={()=>{history.push("/service")}}><span className="fa fa-cogs mr-2"></span> Services</a>
+            </li>
+            ) : (
+              null
+            )
+          }
+
+        {
+            current === "Chef Service" ? (
+              <li>
             <a className="text-left hover" onClick={()=>{history.push("/service")}}><span className="fa fa-cogs mr-2"></span> Services</a>
           </li>
+            ) : (
+              null
+            )
+          }
+
+        
+
+{
+            current === "admin" ? (
+              <li>
+              <a className="text-left hover"  onClick={()=>{history.push("/client")}}><span className="fa fa-sticky-note mr-3"></span> Clients</a>
+            </li>
+            ) : (
+              null
+            )
+          }
+
+        {
+            current === "Chef Service" ? (
+              <li>
+              <a className="text-left hover"  onClick={()=>{history.push("/client")}}><span className="fa fa-sticky-note mr-3"></span> Clients</a>
+            </li>
+            ) : (
+              null
+            )
+          }
+        
+         
+          
+          
           <li>
-            <a className="text-left hover"  onClick={()=>{history.push("/client")}}><span className="fa fa-sticky-note mr-3"></span> Clients</a>
-          </li>
-          <li>
-            <a className="text-left" href="#"><span className="fa fa-suitcase mr-3"></span> Gallery</a>
+            <a className="text-left hover" onClick={()=>{history.push("/Compteclient")}}><span className="fa fa-suitcase mr-3"></span> Compte</a>
           </li>
          
           <li>

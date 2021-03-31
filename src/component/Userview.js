@@ -26,6 +26,7 @@ function Userview(props) {
             setTimeout(() => {
                 setisloading(false)
                 setshow("block")
+                $("#userprofile").append("<div className='anime'></div>")
             }, 800);
  
         }
@@ -48,16 +49,27 @@ const switchtoprofile = ()=>{
     $("#useredit").hide()
     $("#userstat").hide()
     $("#userprofile").show()  
+    $("#statanime").removeClass("anime")
+    $("#editanime").removeClass("anime")
+    $("#profanime").addClass("anime")
 }
 const switchtostat = ()=>{
     $("#useredit").hide()
     $("#userprofile").hide()
     $("#userstat").show()
+    $("#editanime").removeClass("anime")
+    $("#profanime").removeClass("anime")
+    $("#statanime").addClass("anime")
+  
 }
 const switchtoedit = ()=>{
     $("#userstat").hide()
     $("#userprofile").hide()
     $("#useredit").show()
+    $("#profanime").removeClass("anime")
+    $("#statanime").removeClass("anime")
+    $("#editanime").addClass("anime")
+  
 }
 if(!showEdit){
     $("#prof").addClass("col-6")
@@ -84,11 +96,11 @@ if(!showEdit){
                    </div>
                        
                             <div className="row col-12 align-items-center mx-auto text-center border border-gray border-left-0 border-right-0 ">
-                                        <div onClick={()=>{switchtoprofile() }} id="prof"  className=" text-center mt-1 mb-1 inner-user link " ><i className="fas fa-user-alt fa-2x"></i></div>
-                                        <div onClick={()=>{switchtostat()}} id="stat" className=" text-center mt-1 mb-1 inner-user link picked-center "><i className="fas fa-chart-line fa-2x"></i></div>
+                                        <div onClick={()=>{switchtoprofile() }} id="prof"  className=" text-center mt-1 mb-1 inner-user  link-two " ><i className="fas fa-user-alt fa-2x"></i><div id="profanime" className="anime"></div></div>
+                                        <div onClick={()=>{switchtostat()}} id="stat" className=" text-center mt-1 mb-1 inner-user   link-two"><i className="fas fa-chart-line fa-2x"></i><div id="statanime" className=""></div></div>
                                      {
                                          showEdit ? (
-                                            <div onClick={()=>{switchtoedit()}} className="col-4 text-center mt-1 mb-1 inner-user link   "><i className="fas fa-wrench fa-2x"></i></div>
+                                            <div onClick={()=>{switchtoedit()}} className="col-4 text-center mt-1 mb-1 inner-user   link-two "><i className="fas fa-wrench fa-2x"></i><div id="editanime" className=""></div></div>
                                          ) : (
                                              null
                                          )
