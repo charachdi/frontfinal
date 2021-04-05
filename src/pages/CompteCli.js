@@ -28,13 +28,24 @@ function CompteCli(props) {
     const client_id = props.match.params.id
     const [client, setclient] = useState({})
     const history = useHistory();
-
+    const [Auths, setAuths] = useState([])
 
     const [profimg, setprofimg] = useState({})
     const [service, setservice] = useState({})
     const [equipe, setequipe] = useState({})
 
     useEffect(() => {
+
+      // const getcurrentuser = async()=>{
+      //   const user =JSON.parse(localStorage.getItem('user')) ;
+      //   const currentuser = await axios({
+      //     headers: {'Authorization': `Bearer ${token}`},
+      //     method: 'get',
+      //     url : `${Api_url}user/${user.id}`,  
+      //     });
+         
+      
+      //  }
    // fonction affiche table
     const getequipelist = async ()=>{
       const res = await axios({
@@ -42,14 +53,28 @@ function CompteCli(props) {
         method: 'get',
         url : `${Api_url}clients/${client_id}`,  
         });
-        console.log(res)
+        setAuths(res.data.compteCli.Auths)
         setclient(res.data.compteCli)
         setprofimg(res.data.compteCli.Clientimg)
         setequipe(res.data.compteCli.Equipe)
         setservice(res.data.compteCli.Service)
+        const user =JSON.parse(localStorage.getItem('user')) ;
+        res.data.compteCli.Auths.forEach(au => {
+          if(au.UserId === user.id){
+              // Permission.Read
+            if(au.Permission.Read === "false"){
+              console.log("true") 
+              history.push('/compteclient')
+            }
+          }
+     });
+
+        
     }
 
+    
     getequipelist()
+   
     }, [])
   
     
@@ -132,7 +157,7 @@ console.log()
 
 
             <div className="row col-12 mb-2">
-              <Permission clientID={client_id}/>
+              <Permission clientID={client_id} cuurentclient={client}/>
             </div>
             </div>
             </div>

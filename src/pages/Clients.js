@@ -118,7 +118,6 @@ function Clients() {
         });
         setclients(res.data)
         setshownrow(res.data.slice(0,rowselected))
-        console.log(res)
     }
 
     const getequipe = async() =>{
@@ -129,7 +128,7 @@ function Clients() {
         });
         setequipe(res.data)
         
-        // console.log(res)
+      
        
     }
     const getservice = async() =>{
@@ -142,9 +141,36 @@ function Clients() {
         
     }
 
+    const getdata = async() =>{
+      const user =  JSON.parse(localStorage.getItem('user'))
+//get the current user 
+      const currentuser = await axios({
+        headers: {'Authorization': `Bearer ${token}`},
+        method: 'get',
+        url : `${Api_url}user/${user.id}`,  
+        });
+
+      
+    if(currentuser.data.user.user_level === "Chef Service"){
+      const res = await axios({
+        headers: {'Authorization': `Bearer ${token}`},
+        method: 'get',
+        url : `${Api_url}service/dataservice/${user.Equipe.Service.id}`,  
+        });
+        console.log(res)
+        setclients(res.data.clients)
+        setshownrow(res.data.clients.slice(0,rowselected))
+        setequipe(res.data.equipes)
+        setservice([res.data.service])
+    }
+    else{
     getclientlist()
     getequipe()
     getservice()
+    }
+  }
+  getdata()
+    
     }, [])
   
     const [nomclient, setnomclient] = useState("")

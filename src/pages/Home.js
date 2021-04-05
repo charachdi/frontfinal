@@ -20,30 +20,64 @@ import Avatar from '@material-ui/core/Avatar';
 
 function Home() {
   const token = localStorage.getItem('token')
+  const user =  JSON.parse(localStorage.getItem('user'))
   useEffect(() => {
     const showsidebar = ()=>{
       $('#sidebar').show()
     }
 
-      const getuserlist = async ()=>{
-        const res = await axios({
-          headers: {'Authorization': `Bearer ${token}`},
-          method: 'get',
-          url : `${Api_url}user/`,  
-          });
 
-        const equiperes = await axios({
-          headers: {'Authorization': `Bearer ${token}`},
-          method: 'get',
-          url : `${Api_url}equipe/`,  
-          });
-          setusers(res.data)
-          setequipe(equiperes.data)
-       
+    const getuserlist = async ()=>{
+      const res = await axios({
+        headers: {'Authorization': `Bearer ${token}`},
+        method: 'get',
+        url : `${Api_url}user/`,  
+        });
+
+      const equiperes = await axios({
+        headers: {'Authorization': `Bearer ${token}`},
+        method: 'get',
+        url : `${Api_url}equipe/`,  
+        });
+        setusers(res.data)
+        setequipe(equiperes.data)
+     
+  }
+
+
+
+    const getdata = async() =>{
+     
+//get the current user 
+      const currentuser = await axios({
+        headers: {'Authorization': `Bearer ${token}`},
+        method: 'get',
+        url : `${Api_url}user/${user.id}`,  
+        });
+        console.log()
+      
+    if(currentuser.data.user.user_level === "Chef Service"){
+      
+      const res = await axios({
+        headers: {'Authorization': `Bearer ${token}`},
+        method: 'get',
+        url : `${Api_url}service/dataservice/${currentuser.data.user.Equipe.Service.id}`,  
+        });
+        console.log(res)
+        setusers(res.data.users)
+        setequipe(res.data.equipes)
+        
     }
-    
+    else{
+      getuserlist()
+    }
+
+
+    }
+
+      
+    getdata()
     showsidebar()
-    getuserlist()
     }, [])
 
    
@@ -149,8 +183,8 @@ const oneuser = (user) =>{
   setselecteduser(user)
   $("#add-account").hide()
   $("#user-profile").show()
-  $("#addacc").removeClass("picked")
-  $("#profile").addClass("picked")
+  $("#addacc").removeClass("picked-left")
+  $("#profile").addClass("picked-right")
 }
  
        

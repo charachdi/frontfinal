@@ -1,3 +1,4 @@
+import React , {useState , useEffect} from 'react'
 import { BrowserRouter as Router, Route, Switch , useRouteMatch } from 'react-router-dom';
 import './App.css';
 import $ from 'jquery'
@@ -20,24 +21,46 @@ import Test from './pages/Test'
 import Userview from './component/Userview'
 import Sidebar from './component/Sidebar'
 import 'react-toastify/dist/ReactToastify.css';
-function App() {
 
+
+import AdminRoute from './component/AdminRoute'
+import Adminonly from './component/Adminonly'
+import CompteclientCheck from './component/CompteclientCheck'
+
+function App() {
+  const [user, setuser] = useState({})
+useEffect(() => {
+  const getuser = ()=>{
+     setuser(JSON.parse(localStorage.getItem('user')))
+  }
+  getuser()
+}, [])
  
-    console.log(window.location.pathname)
+   console.log(user)
+    const rendersidebar = () =>{
+      if(window.location.pathname !== "/"){
+        return( <Sidebar />)
+      }
+      if(user !== null){
+        return( <Sidebar />)
+      }
+    }
   
   return (
     
     <Router>
       <div className="wrapper d-flex align-items-stretch" >
-        {window.location.pathname === "/" ? null:<Sidebar />}
+       {
+         rendersidebar()
+       }
    
       <div id="content" className="p-4 p-md-5 pt-5" >
       <Switch>
           <Route path='/' component={Login} exact/>
-          <Route path='/home' component={Home} exact/>
+          <AdminRoute path='/home' component={Home} exact/>
           <Route path='/stepper' component={Stepperview} exact/>
-          <Route path='/Equipe' component={Equipe} exact/>
-          <Route path='/Service' component={Service} exact/>
+          <AdminRoute path='/Equipe' component={Equipe} exact/>
+          <Adminonly path='/Service' component={Service} exact/>
           <Route path='/Client' component={Clients} exact/>
           <Route path='/Compteclient' component={Compteclientequipe} exact/>
 
@@ -47,10 +70,10 @@ function App() {
           <Route path='/myProfile' component={Profile} exact/>
 
 
-          
+          <Route path='/test' component={Test} exact/>
           <Route component={Notfound}/>
           
-          <Route path='/test' component={Test} exact/>
+         
         </Switch>
       </div>
      </div>

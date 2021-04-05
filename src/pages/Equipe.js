@@ -72,7 +72,6 @@ function Equipe() {
 
 
     const getservices = async () =>{
-    
         const res = await axios({
           headers: {'Authorization': `Bearer ${token}`},
           method: 'get',
@@ -82,8 +81,37 @@ function Equipe() {
           
     }
 
-    getequipelist()
-    getservices()
+
+    const getdata = async() =>{
+      const user =  JSON.parse(localStorage.getItem('user'))
+//get the current user 
+      const currentuser = await axios({
+        headers: {'Authorization': `Bearer ${token}`},
+        method: 'get',
+        url : `${Api_url}user/${user.id}`,  
+        });
+
+      
+    if(currentuser.data.user.user_level === "Chef Service"){
+      const res = await axios({
+        headers: {'Authorization': `Bearer ${token}`},
+        method: 'get',
+        url : `${Api_url}service/dataservice/${user.Equipe.Service.id}`,  
+        });
+        console.log(res)
+        setservices([res.data.service])
+        setequipes(res.data.equipes)
+        setshownrow(res.data.equipes.slice(0,rowselected))
+    }
+    else{
+      getequipelist()
+      getservices()
+    }
+
+  } 
+
+  getdata()
+   
     }, [])
    
     const [nomequipe, setnomequipe] = useState("")

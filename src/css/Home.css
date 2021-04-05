@@ -283,3 +283,44 @@ body{
         background-position: right;
     }
 }
+
+
+
+
+.link-two {
+  position: relative;
+  border: black;
+  border-width: 1px;
+  overflow: hidden;
+}
+
+.link-two i {
+    z-index: 10000;
+    position: relative;
+}
+.link-two .anime{
+   background-color: #2DCD94;
+   border-radius: 50%;
+   position: absolute;
+   top: 30%;
+   left: 45%;
+   animation: centerfill .5s cubic-bezier(0.18,-0.32, 0.82, 1.28) forwards;
+  }
+
+@keyframes centerfill {
+    0%   {
+        width: 0px;
+        height: 0px;
+        top: 30%;
+        left: 45%;
+        background-color: #2DCD94;
+    }
+   
+    100% {
+        width: 150%;
+        height:500%;
+        top: -50px;
+        left: -60px;;
+        background-color: #2DCD94;
+    }
+  }
