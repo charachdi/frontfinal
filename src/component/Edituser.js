@@ -9,6 +9,7 @@ import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalF
 import home from './../pages/Home'
 
 function Edituser(props) {
+    const user = JSON.parse(localStorage.getItem('user'))
     const token = localStorage.getItem('token') 
     const [selected, setselected] = useState(props.user)
     const [level, setlevel] = useState(selected.user_level)
@@ -18,8 +19,12 @@ function Edituser(props) {
     const [type, settype] = useState("password")
     const [usereq, setusereq] = useState(!selected.Equipe ? "" :selected.Equipe.id)
     const [equipes, setequipes] = useState([])
+    const [services, setservices] = useState([])
 
-
+    const [diasbled, setdiasbled] = useState(false)
+    const [service, setservice] = useState(selected.Chef ? selected.Chef.ServiceId : "")
+    
+console.log(selected)
 
   useEffect(() => {
 
@@ -29,11 +34,53 @@ function Edituser(props) {
         method: 'get',
         url : `${Api_url}equipe/`,  
         });
+        const seviceres = await axios({
+          headers: {'Authorization': `Bearer ${token}`},
+          method: 'get',
+          url : `${Api_url}service/`,  
+          });
+          
+        setservices(seviceres.data)
         setequipes(res.data)
+
+        if(level === "Chef Service"){
+          setdiasbled(true)
+        }else{
+          setdiasbled(false)
+        }
     }
 
-    getequipelist()
     
+
+    const getdata = async() =>{
+     
+      //get the current user 
+            const currentuser = await axios({
+              headers: {'Authorization': `Bearer ${token}`},
+              method: 'get',
+              url : `${Api_url}user/${user.id}`,  
+              });
+              console.log()
+            
+          if(currentuser.data.user.user_level === "Chef Service"){
+            
+            const res = await axios({
+              headers: {'Authorization': `Bearer ${token}`},
+              method: 'get',
+              url : `${Api_url}service/dataservice/${currentuser.data.user.Chef.ServiceId}`,  
+              });
+              console.log(res)
+              
+        setequipes(res.data.equipes)
+              
+          }
+          else{
+            getequipelist()
+          }
+      
+         
+          }
+          getdata()
   }, [])
     const [open, setOpen] = useState(false);
    
@@ -54,7 +101,8 @@ function Edituser(props) {
       pwd:pwd,
       level:level,
       full_name : fullname,
-      equipe_id : usereq
+      equipe_id : usereq , 
+      ServiceId :service
     }
     const res = await axios({
 
@@ -139,33 +187,84 @@ function Edituser(props) {
                 label="Role"
                 helperText="select Role"
                 value={level}
-                onChange={(e)=>{setlevel(e.target.value)}}
-              >
-                <MenuItem value={"admin"}>admin</MenuItem>
-                <MenuItem value={"Chef Service"}>Chef Service</MenuItem>
-                <MenuItem value={"Chef equipe"}>Chef équipe</MenuItem>
-                <MenuItem value={"Collaborateur"}>Collaborateur</MenuItem>
-                <MenuItem value={"RH"}>RH</MenuItem>
-              </TextField>
-
-              <TextField
-                className="float-center mt-2 col-4"
-                id="equipe"
-                select
-                size="medium"
-                label="equipe"
-                helperText="select equipe"
-                value={usereq}
-                onChange={(e)=>{setusereq(e.target.value)}}
+                onChange={(e)=>{setlevel(e.target.value); if(e.target.value==="Chef Service"){setdiasbled(true)}else{setdiasbled(false)}}}
               >
                 {
-                  equipes.map((equ , index) =>(
-                    <MenuItem key={index} value={equ.id}>{equ.Nom_equipe}</MenuItem>
+                  level === "Chef Service" ?  <MenuItem value={"Chef Service"}>Chef Service</MenuItem> : null
+                }
+                {
+                  level === "admin" ?  <MenuItem value={"admin"}>admin</MenuItem> : null
+                }
+                {
+                  level === "Chef equipe" ?  <MenuItem value={"Chef equipe"}>Chef équipe</MenuItem> : null
+                }
+                {
+                  level === "Chef equipe" ?  <MenuItem value={"Collaborateur"}>Collaborateur</MenuItem> : null
+                }
+
+                {
+                  level === "Collaborateur" ?  <MenuItem value={"Chef equipe"}>Chef équipe</MenuItem> : null
+                }
+                {
+                  level === "Collaborateur" ?  <MenuItem value={"Collaborateur"}>Collaborateur</MenuItem> : null
+                }
+                {/* {
+                  level !== "Chef Service" ?  <MenuItem value={"RH"}>RH</MenuItem> : null
+                } */}
+                
+               
+              </TextField>
+
+                {
+                  diasbled ? (
+                    <TextField
+                className="float-center mt-2 col-4"
+                id="service"
+                select
+                size="medium"
+                label="service"
+                helperText="select service"
+                value={service}
+                onChange={(e)=>{setservice(e.target.value)}}
+              >
+                {
+                  services.map((ser , index) =>(
+                    <MenuItem key={index} value={ser.id}>{ser.Nom_service}</MenuItem>
                   ))
                 }
                
                 
               </TextField>
+                  ) :(
+
+                    level !== "admin" ? (
+                      <TextField
+                    className="float-center mt-2 col-4"
+                    id="equipe"
+                    select
+                    size="medium"
+                    label="equipe"
+                    helperText="select equipe"
+                    value={usereq}
+                    onChange={(e)=>{setusereq(e.target.value)}}
+                  >
+                    {
+                      equipes.map((equ , index) =>(
+                        <MenuItem key={index} value={equ.id}>{equ.Nom_equipe}</MenuItem>
+                      ))
+                    }
+                   
+                    
+                  </TextField>
+                    ):null
+                    
+                  )
+                }
+              
+            
+
+
+              
            </div>
 
            <br/>

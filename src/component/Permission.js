@@ -1,4 +1,5 @@
 import React , {useState , useEffect} from 'react'
+import Table from 'react-bootstrap/Table'
 import './../css/permission.css'
 import axios from 'axios'
 import Api_url from './../component/Api_url'
@@ -22,7 +23,6 @@ function Permission(props) {
               url : `${Api_url}clients/${clientID}`,  
               }); 
               setAuths(res.data.compteCli.Auths)
-              console.log(res.data.compteCli.Auths)
           }
       
           getclient()
@@ -47,7 +47,6 @@ function Permission(props) {
                 data
                 });
              if(res.status === 200){
-                 console.log(res)
                  setAuths( 
                      Auths.map(item => 
                         item.id === res.data.id
@@ -73,7 +72,6 @@ function Permission(props) {
         data
         });
      if(res.status === 200){
-         console.log(res)
          setAuths( 
              Auths.map(item => 
                 item.id === res.data.id
@@ -99,7 +97,6 @@ function Permission(props) {
         data
         });
      if(res.status === 200){
-         console.log(res)
          setAuths( 
              Auths.map(item => 
                 item.id === res.data.id
@@ -125,7 +122,7 @@ function Permission(props) {
         data
         });
      if(res.status === 200){
-         console.log(res)
+      
          setAuths( 
              Auths.map(item => 
                 item.id === res.data.id
@@ -137,7 +134,7 @@ function Permission(props) {
     return (
         <div className=" row col-12 ">
             <div class="cards-container row col-12 justify-content-center">
-        {
+        {/* {
             Auths.map((auth , index)=>(
                 <div class=" card card-two mr-2 ml-2 mt-3 d-inline-flex" key={index}>
                 <header>
@@ -191,7 +188,63 @@ function Permission(props) {
                 </div>
                 </div>
             ))
-        } 
+        }  */}
+
+
+            <Table  striped bordered hover className="ml-5" >
+            <thead>
+                    <tr>
+                        <th style={{width:50}}></th>
+                        <th style={{width:50}}>Read</th>
+                        <th style={{width:50}}>Write</th>
+                        <th style={{width:50}}>import</th>
+                        <th style={{width:50}}>export</th>
+                      </tr>
+                    </thead>
+                    <tbody id="equipe-body">
+
+                    {
+                    Auths.map((auth , index)=>(
+                                <tr key={index}>
+                                <td className=""> <div className="row justify-content-center"><Avatar className="ml-4" src={auth.User.user_img} alt={auth.User.full_name} style={{width:40, height:40}}/>  <span className="my-auto mx-auto">{auth.User.full_name ? auth.User.full_name : auth.User.user_email}</span></div></td>
+                                <td>
+                                <Switch
+                                    size="small"
+                                    checked={auth.Permission.Read === "true" ? true : false}
+                                    onChange={(event)=>{handelchangeRead(auth.Permission.id , auth.Permission.Read)}}
+                                />
+                                </td>
+                                <td>
+                                <Switch
+                                    size="small"
+                                    checked={auth.Permission.Write === "true" ? true : false}
+                                    onChange={(e)=>{handelchangewrite(auth.Permission.id , auth.Permission.Write)}}
+                                />
+                                </td>
+                                <td>
+                                <Switch
+                                    size="small"
+                                    checked={auth.Permission.import === "true" ? true : false}
+                                    onChange={(e)=>{handelchangeimport(auth.Permission.id , auth.Permission.import)}}
+                                />
+                                </td>
+                                <td>
+                                <Switch
+                                    size="small"
+                                    checked={auth.Permission.export === "true" ? true : false}
+                                    onChange={(e)=>{handelchangeexport(auth.Permission.id , auth.Permission.export)}}
+                                />
+                                </td>
+                            </tr>
+                       
+                    ))
+                        }
+                            
+
+
+
+                    </tbody>
+            </Table>
   
 
   

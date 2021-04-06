@@ -292,9 +292,15 @@ body{
   border: black;
   border-width: 1px;
   overflow: hidden;
+  border-radius: 10px;
 }
 
 .link-two i {
+    z-index: 10000;
+    position: relative;
+}
+
+.link-two .eqname {
     z-index: 10000;
     position: relative;
 }
@@ -306,6 +312,15 @@ body{
    left: 45%;
    animation: centerfill .5s cubic-bezier(0.18,-0.32, 0.82, 1.28) forwards;
   }
+
+  .link-two .team{
+    background-color: #2DCD94;
+    border-radius: 50%;
+    position: absolute;
+    top: 30%;
+    left: 45%;
+    animation: eqfill .5s cubic-bezier(0.18,-0.32, 0.82, 1.28) forwards;
+   }
 
 @keyframes centerfill {
     0%   {
@@ -320,7 +335,25 @@ body{
         width: 150%;
         height:500%;
         top: -50px;
-        left: -60px;;
+        left: -60px;
+        background-color: #2DCD94;
+    }
+  }
+
+  @keyframes eqfill {
+    0%   {
+        width: 0px;
+        height: 0px;
+        top: 30%;
+        left: 45%;
+        background-color: #2DCD94;
+    }
+   
+    100% {
+        width: 150%;
+        height:500%;
+        top: -90px;
+        left: -10px;
         background-color: #2DCD94;
     }
   }
