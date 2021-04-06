@@ -20,6 +20,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import Avatar from '@material-ui/core/Avatar';
 import { useHistory } from "react-router-dom";
 import Permission from './../component/Permission'
+import Lottie from 'react-lottie';
+import Loading from './../images/loading.json'
 // import { mdbTableEditor } from 'mdb-table-editor'
 
 
@@ -34,6 +36,14 @@ function CompteCli(props) {
     const [service, setservice] = useState({})
     const [equipe, setequipe] = useState({})
 
+    const [isloading, setisloading] = useState(true)
+
+    const defaultOptions = {
+      loop: true,
+      autoplay: true,
+      animationData: Loading,
+    };
+
     useEffect(() => {
 
       // const getcurrentuser = async()=>{
@@ -46,6 +56,17 @@ function CompteCli(props) {
          
       
       //  }
+
+
+
+      //loding screen
+      const loading_screen = ()=>{
+        setisloading(true)
+        setTimeout(() => {
+            setisloading(false)
+        }, 1000);
+
+    }
    // fonction affiche table
     const getequipelist = async ()=>{
       const res = await axios({
@@ -74,7 +95,7 @@ function CompteCli(props) {
 
     
     getequipelist()
-   
+    loading_screen()
     }, [])
   
     
@@ -97,71 +118,82 @@ console.log()
       draggable
       pauseOnHover
       />
-      
-   
- {/* <!-- Page Header--> */}
+      {
+        isloading ? (
+          <Lottie 
+	    options={defaultOptions}
+        height={"50%"}
+        width={"50%"}
+      />
+        ) : (
+          <>
+         
  <header  className="page-header">
             
-          </header>
-          {/* <!-- Breadcrumb--> */}
-          <div className="breadcrumb-holder container-fluid">
-            <ul className="breadcrumb">
-              <li className="breadcrumb-item"><a href="home" onClick={()=>{history.push("/home")}}>Home</a></li>
-              <li className="breadcrumb-item active">Clients</li>
-              <li className="breadcrumb-item active">{client.Nom_compteCli}</li>
-            </ul>
-          </div>
-      
+ </header>
+ {/* <!-- Breadcrumb--> */}
+ <div className="breadcrumb-holder container-fluid">
+   <ul className="breadcrumb">
+     <li className="breadcrumb-item"><a href="home" onClick={()=>{history.push("/home")}}>Home</a></li>
+     <li className="breadcrumb-item active">Clients</li>
+     <li className="breadcrumb-item active">{client.Nom_compteCli}</li>
+   </ul>
+ </div>
 
 
-        <div className="row  justify-content-center">
-            <div className="col-12 text-center">
-            
+
+<div className="row  justify-content-center">
+   <div className="col-12 text-center">
+   
 
 {/* Profile client */}
-  
 
 
 
-    <div className="z-depth-3">
-            <div className="profile-header-cover">
-            <img  id="client-background" style={{width:"100%"}}  src={profimg.img_background}   />
-            </div>
-            <div className="profile-header-content">
-                <div className="profile-header-img ">
-                
-                   <div id="client-image" className="row ml-2">
-                   <span ><Avatar  src={profimg.img_profile} className="mb-4" style={{width:140,height:140}} alt=""/></span> 
-                   <h4 className="mt-5 ml-2" style={{color: client.Theme ? client.Theme.Color : "black"}} >{client.Nom_compteCli}</h4>
-                   </div>
-                  
-                </div>
 
-                <div className="profile-header-info text-right">
-                   
-                    <h6 className="mr-4 ">{service.Nom_service} / {equipe.Nom_equipe}</h6>
-                    
-                    
-                    {/* <Button href="#" color="primary"><EditIcon />Edit Profile</Button> */}
-                </div>
-            </div>
+<div className="z-depth-3">
+   <div className="profile-header-cover">
+   <img  id="client-background" style={{width:"100%"}}  src={profimg.img_background}   />
+   </div>
+   <div className="profile-header-content">
+       <div className="profile-header-img ">
+       
+          <div id="client-image" className="row ml-2">
+          <span ><Avatar  src={profimg.img_profile} className="mb-4" style={{width:140,height:140}} alt=""/></span> 
+          <h4 className="mt-5 ml-2" style={{color: client.Theme ? client.Theme.Color : "black"}} >{client.Nom_compteCli}</h4>
+          </div>
+         
+       </div>
 
-        <ul className="profile-header-tab nav nav-tabs row col-12 mb-4 justify-content-center">
-            <li className="nav-item"><a href="#profile-post" className="nav-link" data-toggle="tab">POSTS</a></li>
-            <li className="nav-item"><a href="#profile-about" className="nav-link" data-toggle="tab">ABOUT</a></li>
-            <li className="nav-item"><a href="#profile-photos" className="nav-link" data-toggle="tab">STUFF</a></li>
-            <li className="nav-item"><a href="#profile-videos" className="nav-link" data-toggle="tab">CHARTS</a></li>
-            <li className="nav-item"><a href="#profile-friends" className="nav-link active show" data-toggle="tab">DATA</a></li>
-        </ul>
-    </div>
+       <div className="profile-header-info text-right">
+          
+           <h6 className="mr-4 ">{service.Nom_service} / {equipe.Nom_equipe}</h6>
+           
+           
+           {/* <Button href="#" color="primary"><EditIcon />Edit Profile</Button> */}
+       </div>
+   </div>
+
+<ul className="profile-header-tab nav nav-tabs row col-12 mb-4 justify-content-center">
+   <li className="nav-item"><a href="#profile-post" className="nav-link" data-toggle="tab">POSTS</a></li>
+   <li className="nav-item"><a href="#profile-about" className="nav-link" data-toggle="tab">ABOUT</a></li>
+   <li className="nav-item"><a href="#profile-photos" className="nav-link" data-toggle="tab">STUFF</a></li>
+   <li className="nav-item"><a href="#profile-videos" className="nav-link" data-toggle="tab">CHARTS</a></li>
+   <li className="nav-item"><a href="#profile-friends" className="nav-link active show" data-toggle="tab">DATA</a></li>
+</ul>
+</div>
 
 
-            <div className="row col-12 mb-2">
-              <Permission clientID={client_id} cuurentclient={client}/>
-            </div>
-            </div>
-            </div>
-            
+   <div className="row col-12 mb-2">
+     <Permission clientID={client_id} cuurentclient={client}/>
+   </div>
+   </div>
+   </div>
+   </>
+        )
+      }
+   
+ 
             </div></>
       
     );

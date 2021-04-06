@@ -33,12 +33,21 @@ function Home() {
         method: 'get',
         url : `${Api_url}user/`,  
         });
+        console.log(res)
 
       const equiperes = await axios({
         headers: {'Authorization': `Bearer ${token}`},
         method: 'get',
         url : `${Api_url}equipe/`,  
         });
+
+        const seviceres = await axios({
+          headers: {'Authorization': `Bearer ${token}`},
+          method: 'get',
+          url : `${Api_url}service/`,  
+          });
+          
+        setservices(seviceres.data)
         setusers(res.data)
         setequipe(equiperes.data)
      
@@ -61,7 +70,7 @@ function Home() {
       const res = await axios({
         headers: {'Authorization': `Bearer ${token}`},
         method: 'get',
-        url : `${Api_url}service/dataservice/${currentuser.data.user.Equipe.Service.id}`,  
+        url : `${Api_url}service/dataservice/${currentuser.data.user.Chef.ServiceId}`,  
         });
         console.log(res)
         setusers(res.data.users)
@@ -99,10 +108,13 @@ function Home() {
     const [selecteduser, setselecteduser] = useState({
       id : ""
     });
+    const [service, setservice] = useState()
     const [users, setusers] = useState([]);
     const [usereq, setusereq] = useState("")
 
 
+    const [eqdisabled, seteqdisabled] = useState(false)
+    const [services, setservices] = useState([])
 
     const Adduser = async (e) =>{
       e.preventDefault()
@@ -110,7 +122,8 @@ function Home() {
         email :email,
         pwd:pwd,
         level:level,
-        equipe_id : usereq
+        equipe_id : usereq,
+        ServiceId : service
       }
 
       const res = await axios({
@@ -242,35 +255,91 @@ return (
                 label="Role"
                 helperText="select Role"
                 value={level}
-                onChange={(e)=>{setlevel(e.target.value)}}
+                onChange={(e)=>{setlevel(e.target.value); if(e.target.value==="Chef Service"){seteqdisabled(true)}else{seteqdisabled(false)}}}
               >
 
-                <MenuItem value={"admin"}>admin</MenuItem>
-                <MenuItem value={"Chef Service"}>Chef Service</MenuItem>
-                <MenuItem value={"Chef equipe"}>Chef équipe</MenuItem>
-                <MenuItem value={"Collaborateur"}>Collaborateur</MenuItem>
-                <MenuItem value={"RH"}>RH</MenuItem>
-              </TextField>
-             
 
-              <TextField
-                className="float-center mt-5 col-4"
-                id="equipe"
-                select
-                size="medium"
-                label="equipe"
-                helperText="select equipe"
-                value={usereq}
-                onChange={(e)=>{setusereq(e.target.value)}}
-              >
                 {
-                  equipe.map((equ , index) =>(
-                    <MenuItem key={index} value={equ.id}>{equ.Nom_equipe}</MenuItem>
-                  ))
+                  user.user_level !== "Chef Service" ? <MenuItem value={"admin"}>admin</MenuItem> : null
                 }
+                
+                {
+                  user.user_level !== "Chef Service" ? <MenuItem value={"Chef Service"}>Chef Service</MenuItem> : null
+                }
+
+                {
+                  user.user_level !== "Chef Service" ? <MenuItem value={"Chef equipe"}>Chef équipe</MenuItem> : null
+                }
+
+                {
+                  user.user_level !== "Chef Service" ? <MenuItem value={"Collaborateur"}>Collaborateur</MenuItem> : null
+                }
+
                
+
+                {
+                  user.user_level === "Chef Service" ? <MenuItem value={"Chef equipe"}>Chef équipe</MenuItem> : null
+                }
+
+                {
+                  user.user_level === "Chef Service" ? <MenuItem value={"Collaborateur"}>Collaborateur</MenuItem> : null
+                }
+
+                
+                {
+                  user.user_level !== "Chef Service" ? <MenuItem value={"RH"}>RH</MenuItem> : null
+                }
+
+
                 
               </TextField>
+             
+              {
+                eqdisabled ? (
+                  <TextField
+                
+                  className="float-center mt-5 col-4"
+                  id="Service"
+                  select
+                  size="medium"
+                  label="Service"
+                  helperText="select Serices"
+                  value={service}
+                  onChange={(e)=>{setservice(e.target.value)}}
+                >
+                  {
+                    services.map((ser , index) =>(
+                      <MenuItem key={index} value={ser.id}>{ser.Nom_service}</MenuItem>
+                    ))
+                  }
+                 
+                  
+                </TextField>
+                ) : (
+                  <TextField
+                  disabled={eqdisabled}
+                  className="float-center mt-5 col-4"
+                  id="equipe"
+                  select
+                  size="medium"
+                  label="equipe"
+                  helperText="select equipe"
+                  value={usereq}
+                  onChange={(e)=>{setusereq(e.target.value)}}
+                >
+                  {
+                    equipe.map((equ , index) =>(
+                      <MenuItem key={index} value={equ.id}>{equ.Nom_equipe}</MenuItem>
+                    ))
+                  }
+                 
+                  
+                </TextField>
+                )
+              }
+            
+
+             
 
               <div className="row justify-content-center mt-5">
               <button type="submit" className="btn text-lowercase" style={{width:100}}  onClick={(e)=>{Adduser(e)}}>ajouter</button>

@@ -96,7 +96,7 @@ function Equipe() {
       const res = await axios({
         headers: {'Authorization': `Bearer ${token}`},
         method: 'get',
-        url : `${Api_url}service/dataservice/${user.Equipe.Service.id}`,  
+        url : `${Api_url}service/dataservice/${currentuser.data.user.Chef.ServiceId}`,  
         });
         console.log(res)
         setservices([res.data.service])

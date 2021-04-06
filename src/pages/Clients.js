@@ -155,7 +155,7 @@ function Clients() {
       const res = await axios({
         headers: {'Authorization': `Bearer ${token}`},
         method: 'get',
-        url : `${Api_url}service/dataservice/${user.Equipe.Service.id}`,  
+        url : `${Api_url}service/dataservice/${currentuser.data.user.Chef.ServiceId}`,  
         });
         console.log(res)
         setclients(res.data.clients)
@@ -195,60 +195,209 @@ function Clients() {
       e.preventDefault()
 
       const formData = new FormData();
-      
-        formData.append('clientimg[]',document.getElementById('client-img').files[0]);
-        formData.append('clientimg[]',document.getElementById('client-bg').files[0]);
+        // formData.append('clientimg[]',document.getElementById('client-img').files[0]);
+        // formData.append('clientimg[]',document.getElementById('client-bg').files[0]);
         formData.append('Nom_compteCli',nomclient);
         formData.append('ServiceId',ServiceId);
         formData.append('EquipeId',EquipeId);
         formData.append('description',description);
         formData.append('color',themeparams.color);
+
+        if (((document.getElementById('client-bg').files[0] !== undefined) === true) && ((document.getElementById('client-img').files[0] !== undefined) === false)){
+         console.log("ok")
+          formData.append('clientimg[]',document.getElementById('client-bg').files[0]);
+          const res = await axios({
+            headers: {'Authorization': `Bearer ${token}`},
+            method: 'post',
+            url : `${Api_url}clients/bg`,
+            data : formData
+            
+            });
+            console.log(res)
+            if(res.status === 200){
+              toast.success(`Le client ${res.data.client.Nom_compteCli} a été ajoutée avec succès`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                });
+                  setTimeout(() => {
+                    setclients([res.data.client ,...clients])
+                    setshownrow([res.data.client ,...shownrow])
+                  }, 500);
+    
+                  setnomclient("")
+                  setprofileimgprev("")
+                  setbgprevimg("https://e7.pngegg.com/pngimages/310/447/png-clipart-white-romantic-starlight-s-white-starlight.png")
+                  setServiceId("")
+                  setEquipeId("")
+                  setdescription("")
+    
+    
+                
+            }
+            else {
+              toast.error('error', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                });
+            }
+              
+        }else if(((document.getElementById('client-bg').files[0] !== undefined) === false ) && ((document.getElementById('client-img').files[0] !== undefined) === true)){
+
+
+         
+          formData.append('clientimg[]',document.getElementById('client-img').files[0]);
+          const res = await axios({
+            headers: {'Authorization': `Bearer ${token}`},
+            method: 'post',
+            url : `${Api_url}clients/img`,
+            data : formData
+            
+            });
+            console.log(res)
+            if(res.status === 200){
+              toast.success(`Le client ${res.data.client.Nom_compteCli} a été ajoutée avec succès`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                });
+                  setTimeout(() => {
+                    setclients([res.data.client ,...clients])
+                    setshownrow([res.data.client ,...shownrow])
+                  }, 500);
+    
+                  setnomclient("")
+                  setprofileimgprev("")
+                  setbgprevimg("https://e7.pngegg.com/pngimages/310/447/png-clipart-white-romantic-starlight-s-white-starlight.png")
+                  setServiceId("")
+                  setEquipeId("")
+                  setdescription("")
+    
+    
+                
+            }
+            else {
+              toast.error('error', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                });
+            }
+        }
+        else if(((document.getElementById('client-bg').files[0] !== undefined) === false) && ((document.getElementById('client-img').files[0] !== undefined) === false)){
+
+          const data ={
+            Nom_compteCli :nomclient,
+            ServiceId: ServiceId,
+            EquipeId: EquipeId,
+            description: description,
+            color: themeparams.color,
+          }
+          const res = await axios({
+            headers: {'Authorization': `Bearer ${token}`},
+            method: 'post',
+            url : `${Api_url}clients/Empty`,
+            data
+            
+            });
+            console.log(res)
+            if(res.status === 200){
+              toast.success(`Le client ${res.data.client.Nom_compteCli} a été ajoutée avec succès`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                });
+                  setTimeout(() => {
+                    setclients([res.data.client ,...clients])
+                    setshownrow([res.data.client ,...shownrow])
+                  }, 500);
+    
+                  setnomclient("")
+                  setprofileimgprev("")
+                  setbgprevimg("https://e7.pngegg.com/pngimages/310/447/png-clipart-white-romantic-starlight-s-white-starlight.png")
+                  setServiceId("")
+                  setEquipeId("")
+                  setdescription("")
+    
+    
+                
+            }
+            else {
+              toast.error('error', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                });
+            }
+        }  else if(((document.getElementById('client-bg').files[0] !== undefined) === true) && ((document.getElementById('client-img').files[0] !== undefined) === true)){ 
+           formData.append('clientimg[]',document.getElementById('client-img').files[0]);
+            formData.append('clientimg[]',document.getElementById('client-bg').files[0]);
+          const res = await axios({
+            headers: {'Authorization': `Bearer ${token}`},
+            method: 'post',
+            url : `${Api_url}clients/`,
+            data : formData
+            
+            });
+            console.log(res)
+            if(res.status === 200){
+              toast.success(`Le client ${res.data.client.Nom_compteCli} a été ajoutée avec succès`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                });
+                  setTimeout(() => {
+                    setclients([res.data.client ,...clients])
+                    setshownrow([res.data.client ,...shownrow])
+                  }, 500);
+    
+                  setnomclient("")
+                  setprofileimgprev("")
+                  setbgprevimg("https://e7.pngegg.com/pngimages/310/447/png-clipart-white-romantic-starlight-s-white-starlight.png")
+                  setServiceId("")
+                  setEquipeId("")
+                  setdescription("")
+    
+    
+                
+            }
+            else {
+              toast.error('error', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                });
+            }
+        }
         
 
      
-      const res = await axios({
-        headers: {'Authorization': `Bearer ${token}`},
-        method: 'post',
-        url : `${Api_url}clients/`,
-        data : formData
-        
-        });
-        console.log(res)
-        if(res.status === 200){
-          toast.success(`Le client ${res.data.client.Nom_compteCli} a été ajoutée avec succès`, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            });
-              setTimeout(() => {
-                setclients([res.data.client ,...clients])
-                setshownrow([res.data.client ,...shownrow])
-              }, 500);
-
-              setnomclient("")
-              setprofileimgprev("")
-              setbgprevimg("https://e7.pngegg.com/pngimages/310/447/png-clipart-white-romantic-starlight-s-white-starlight.png")
-              setServiceId("")
-              setEquipeId("")
-              setdescription("")
-
-
-            
-        }
-        else {
-          toast.error('error', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            });
-        }
-          
+      
         
 
 

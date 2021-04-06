@@ -26,7 +26,6 @@ function Userview(props) {
             setTimeout(() => {
                 setisloading(false)
                 setshow("block")
-                $("#userprofile").append("<div className='anime'></div>")
             }, 800);
  
         }

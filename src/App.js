@@ -18,6 +18,7 @@ import Stepperview from './pages/Stepperview'
 import UserView from './pages/UserView'
 import Login from './pages/Login'
 import Test from './pages/Test'
+import Chefscomptecli from './pages/Chefscomptecli'
 import Userview from './component/Userview'
 import Sidebar from './component/Sidebar'
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,6 +26,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import AdminRoute from './component/AdminRoute'
 import Adminonly from './component/Adminonly'
+import Comptecli from './component/Comptecli'
 import CompteclientCheck from './component/CompteclientCheck'
 
 function App() {
@@ -62,7 +64,9 @@ useEffect(() => {
           <AdminRoute path='/Equipe' component={Equipe} exact/>
           <Adminonly path='/Service' component={Service} exact/>
           <Route path='/Client' component={Clients} exact/>
-          <Route path='/Compteclient' component={Compteclientequipe} exact/>
+          <Comptecli path='/Compteclient' component={Compteclientequipe} exact/>
+          <Route path='/Chefscomptecli' component={Chefscomptecli} exact/>
+
 
           <Route path='/Equipe/:id' component={EquipeView} exact/>
           <Route path='/profile/:id' component={UserView} exact/>

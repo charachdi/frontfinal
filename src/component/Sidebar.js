@@ -126,15 +126,7 @@ const [current, setcurrent] = useState("")
             )
           }
 
-        {
-            current === "Chef Service" ? (
-              <li>
-            <a className="text-left hover" onClick={()=>{history.push("/service")}}><span className="fa fa-cogs mr-2"></span> Services</a>
-          </li>
-            ) : (
-              null
-            )
-          }
+        
 
         
 
@@ -160,10 +152,18 @@ const [current, setcurrent] = useState("")
         
          
           
-          
-          <li>
+        {
+            current === "Chef Service" ? (
+              <li>
+              <a className="text-left hover" onClick={()=>{history.push("/Chefscomptecli")}}><span className="fa fa-suitcase mr-3"></span> Compte</a>
+            </li>
+            ) : (
+              <li>
             <a className="text-left hover" onClick={()=>{history.push("/Compteclient")}}><span className="fa fa-suitcase mr-3"></span> Compte</a>
           </li>
+            )
+          }
+         
          
           <li>
             <a className="text-left" href="#"><span className="fa fa-paper-plane mr-3"></span> Contacts</a>
