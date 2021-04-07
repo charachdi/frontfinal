@@ -75,7 +75,17 @@ body{
 	display: flex;
 	width: 90%;
 }
+#user-badge {
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    background-color: gold;
+    top: -20px;
+   
+}
 
+
+/* clip-path: polygon(51% 100%, 0 0, 100% 0); */
 
 #team-user .card{
 	flex: 0 0 auto;
@@ -357,3 +367,111 @@ body{
         background-color: #2DCD94;
     }
   }
+
+  .equser {
+    /* clip-path: circle(50% at 50% 50%); */
+    border-radius: 20%;
+    white-space: nowrap;
+}
+ 
+ aside {
+     top: 145px;
+	 width: 100%;
+	 position: absolute;
+	 cursor: pointer;
+     color: black;
+     font-size: 12px;
+	 user-select: none;
+     z-index: 10;
+     -webkit-animation: slide-in-blurred-top 0.8s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+	        animation: slide-in-blurred-top 0.8s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+}
+
+ aside.ribbon {
+	 background-color: #2DCD94;
+}
+ aside.ribbon:before, aside.ribbon:after {
+	 top: 5px;
+	 z-index: -10;
+}
+ aside.ribbon:before {
+	 border-color: #2DCD94 #2DCD94 #2DCD94 transparent;
+	 left: -22px;
+	 border-width: 12px;
+}
+ aside.ribbon:after {
+	 border-color: #2DCD94 transparent #2DCD94 #2DCD94;
+	 right: -22px;
+	 border-width: 12px;
+}
+
+ aside:before, aside:after {
+	 content: '';
+	 position: absolute;
+	 height: 0;
+	 width: 0;
+	 border-style: solid;
+	 border-width: 0;
+}
+
+aside.ribbonchef {
+    background-color: #fedb10;
+}
+aside.ribbonchef:before, aside.ribbonchef:after {
+    top: 5px;
+    z-index: -10;
+}
+aside.ribbonchef:before {
+    border-color: #fedb10 #fedb10 #fedb10 transparent;
+    left: -22px;
+    border-width: 12px;
+}
+aside.ribbonchef:after {
+    border-color: #fedb10 transparent #fedb10 #fedb10;
+    right: -22px;
+    border-width: 12px;
+}
+
+
+
+@-webkit-keyframes slide-in-blurred-top {
+    0% {
+      -webkit-transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+              transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+      -webkit-transform-origin: 50% 0%;
+              transform-origin: 50% 0%;
+      -webkit-filter: blur(40px);
+              filter: blur(40px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+              transform: translateY(0) scaleY(1) scaleX(1);
+      -webkit-transform-origin: 50% 50%;
+              transform-origin: 50% 50%;
+      -webkit-filter: blur(0);
+              filter: blur(0);
+      opacity: 1;
+    }
+  }
+  @keyframes slide-in-blurred-top {
+    0% {
+      -webkit-transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+              transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+      -webkit-transform-origin: 50% 0%;
+              transform-origin: 50% 0%;
+      -webkit-filter: blur(40px);
+              filter: blur(40px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+              transform: translateY(0) scaleY(1) scaleX(1);
+      -webkit-transform-origin: 50% 50%;
+              transform-origin: 50% 50%;
+      -webkit-filter: blur(0);
+              filter: blur(0);
+      opacity: 1;
+    }
+  }
+  

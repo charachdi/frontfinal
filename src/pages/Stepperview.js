@@ -343,7 +343,11 @@ function Stepperview() {
 
                 <MenuItem value={"Homme"}>Homme</MenuItem>
                 <MenuItem value={"Femme"}>Femme</MenuItem>
-              </TextField>
+              </TextField><br />
+
+
+              <TextField className="mr-4 mt-3 col-3" id="Linkedin" label="Linkedin"  variant="outlined" />
+              <TextField className="mr-4 mt-3 col-3" id="Facebook" label="Facebook"  variant="outlined" />
                
               
           </div>

@@ -90,8 +90,8 @@ if(!showEdit){
                              
                     <div  className="d-flex justify-content-center mt-3" ><Avatar style={{width:110, height:110}} alt={selected.full_name} src={selected.user_img} /></div>  
                    <div >
-                       <h5 style={{display: show}} className="text-center text-capitalize mt-3">{ !selected.full_name ? null :selected.full_name }</h5>
-                       <h6 style={{display: show}} className="text-center  mt-1">{selected.user_email}</h6>
+                       <h5 style={{display: show}} className="text-center text-capitalize mt-3">{ !selected.full_name ? "Full name" :selected.full_name }</h5>
+                       <h6 style={{display: show}} className="text-center  mt-1">{selected.user_email ? selected.user_email : "User@gmail.com"}</h6>
                    </div>
                        
                             <div className="row col-12 align-items-center mx-auto text-center border border-gray border-left-0 border-right-0 ">

@@ -238,20 +238,7 @@ function Profile(props) {
                           </div>
                         </li>
                         </ul>
-                        <div className="row text-center mt-1">
-                          <div className="col ">
-                           <h4 className="mb-1 line-height-5">154</h4>
-                            <small className="mb-0 font-weight-bold">Projects</small>
-                           </div>
-                            <div className="col ">
-                              <h4 className="mb-1 line-height-5">2.2k</h4>
-                             <small className="mb-0 font-weight-bold">Followers</small>
-                            </div>
-                            <div className="col ">
-                             <h4 className="mb-1 line-height-5">9.1k</h4>
-                             <small className="mb-0 font-weight-bold">Views</small>
-                            </div>
-                         </div>
+                        
                        </div>
                       
                      </div>
@@ -287,14 +274,22 @@ function Profile(props) {
                                 <h6 className="mt-2">{profile ? profile.tel:""}</h6>
                             </div>
 
-                            <div className="form-group row">
+
+                            {
+                              profile.user_level !== "Chef Service"? (
+                                <div className="form-group row">
                                 <label className="col-lg-3 col-form-label form-control-label text-center">equipe</label>
                                 <h6 className="mt-2">{profile.Equipe ? profile.Equipe.Nom_equipe:""}</h6>
                             </div>
+                              ) : (
+                                null
+                              )
+                            }
+                           
 
                             <div className="form-group row">
                                 <label className="col-lg-3 col-form-label form-control-label text-center">Service</label>
-                                <h6 className="mt-2">{profile.Equipe ? profile.Equipe.Service.Nom_service:""}</h6>
+                                <h6 className="mt-2">{profile.Chef ? profile.Chef.Service.Nom_service:""}</h6>
                             </div>
 
                             <div className="form-group row">

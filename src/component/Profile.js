@@ -2,6 +2,7 @@ import React , { useState , useEffect} from 'react'
 import TextField from '@material-ui/core/TextField';
 function Profile(props) {
   const [selected, setselected] = useState(props.user)
+  console.log(selected)
   const [level, setlevel] = useState(!selected.user_level ? "":selected.user_level)
     return (
         <div className="row col-12 justify-content-center mt-3">
@@ -21,7 +22,7 @@ function Profile(props) {
               <p><i class="fas fa-fax mr-3 mt-2 "style={{color:'#2DCD94'}}></i>{selected.fax ? selected.fax : null}</p>
               <p><i class="fas fa-globe mr-3 mt-2"style={{color:'#2DCD94'}}></i>{selected.Website ? selected.Website : null}</p>
               <p><i class="fas fa-venus-mars mr-3 mt-2"style={{color:'#2DCD94'}}></i>{selected.user_sex ? selected.user_sex : null}</p>
-              <p><i class="fab fa-teamspeak mr-3 mt-2"style={{color:'#2DCD94'}}></i>{selected.Equipe ? selected.Equipe.Nom_equipe + " / " : null}{selected.Equipe ? selected.Equipe.Service : null}</p>
+              {/* <p><i class="fab fa-teamspeak mr-3 mt-2"style={{color:'#2DCD94'}}></i>{selected.Equipe ? selected.Equipe.Nom_equipe + " / " : null}{selected.Equipe ? selected.Equipe.Service.Nom_service : null}</p> */}
              
           </div>
         </div>

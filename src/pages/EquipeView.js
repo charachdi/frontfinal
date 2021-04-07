@@ -53,24 +53,31 @@ function EquipeView(props) {
 
 
                 <div className=" row col-12 justify-content-center text-center " >
-                    <div id="team-user" className="row justufy-content-center mt-4" >
+                    <div id="team-user" className="row col-10 justufy-content-center mt-4 mr-5 " >
                               {chefE.map((user , index)=>(
-                                  <div id={user.id}  className="card shadow grow mr-2 ml-2 mt-2 mb-4" style={{width:150 , height:175}} key={index} onClick={()=>{history.push(`/profile/${user.id}`)}} >
+                                  <div id={user.id}  className="card equser shadow cursor  mr-4 ml-4 mt-2 mb-4" style={{width:150 , height:175}} key={index} onClick={()=>{history.push(`/profile/${user.id}`)}} >
+                                    {/* <div id="user-badge" className=""></div> */}
+                                    <aside className="ribbonchef">{user.user_level}</aside>
                                   <div className="card-body justufy-content-center">
                                       <Avatar className="ml-2" style={{width:90, height:90}} alt={user.full_name} src={user.user_img} />
-                                      <div className="text-center mt-2">{user.full_name}</div>
-                                      <span className="text-center mt-1 small">{user.user_level}</span>
+                                      <div className="text-center mt-2"style={{fontSize:12}}>{user.full_name ? user.full_name : user.user_email}</div>
+                                      {/* <span className="text-center mt-1 small">{user.user_level}</span> */}
                                   </div>
                                   
                                 </div>
                               ))}
 
                               {collab.map((user , index)=>(
-                                  <div id={user.id}  className="card shadow grow mr-2 ml-2 mt-2 mb-4" style={{width:150, height:175}} key={index} onClick={()=>{history.push(`/profile/${user.id}`)}} >
+                                  <div id={user.id}  className="card equser shadow cursor  mr-4 ml-4 mt-2 mb-4" style={{width:150, height:175}} key={index} onClick={()=>{history.push(`/profile/${user.id}`)}} >
+                                  
+                              
+                                  <aside className="ribbon">{user.user_level}</aside>
+                                 
                                   <div className="card-body justufy-content-center">
+                                    
                                       <Avatar className="ml-2" style={{width:90, height:90}} alt={user.full_name} src={user.user_img} />
-                                      <div className="text-center mt-2">{user.full_name}</div>
-                                      <span className="text-center mt-1 small">{user.user_level}</span>
+                                      <div className="text-center mt-2" style={{fontSize:12}}>{user.full_name ? user.full_name : user.user_email}</div>
+                                      {/* <span className="text-center mt-1 small">{user.user_level}</span> */}
                                   </div>
                                   
                                 </div>
@@ -80,8 +87,8 @@ function EquipeView(props) {
                    
                  </div>
                 
-                 <div className="col-12 justify-content-center text-center">
-                        <ul className="profile-header-tab nav nav-tabs col-12 mt-4">
+                 <div className="row col-12 justify-content-center text-center">
+                        <ul className="profile-header-tab nav nav-tabs  mt-4">
                           <li className="nav-item"><a href="#profile-post" className="nav-link" data-toggle="tab">POSTS</a></li>
                           <li className="nav-item"><a href="#profile-about" className="nav-link" data-toggle="tab">ABOUT</a></li>
                           <li className="nav-item"><a href="#profile-photos" className="nav-link" data-toggle="tab">STUFF</a></li>
