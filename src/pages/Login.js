@@ -53,7 +53,14 @@ const handellogin = (e)=>{
 			window.setTimeout(() => {
 			history.push("/stepper")
           }, 1500);
-		}else{
+		}
+		else if (response.data.user.user_level === "Chef equipe" || response.data.user.user_level === "Collaborateur"){
+			window.setTimeout(() => {
+				window.location.replace("/Compteclient"); 
+			$('#sidebar').show()
+          }, 1500);
+		}	
+		else{
 			window.setTimeout(() => {
 				window.location.replace("/home"); 
 			$('#sidebar').show()

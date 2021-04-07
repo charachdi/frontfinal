@@ -53,6 +53,7 @@ function Chefscomptecli() {
             console.log(res)
             setequipes(res.data.Equipes)
             setcomptcli(res.data.Equipes[0].CompteClients)
+            $(`#equipe${res.data.Equipes[0].id} .animate`).addClass("team")
         }
         getequipe()
         loading_screen()
@@ -64,7 +65,7 @@ function Chefscomptecli() {
             setisloading(true)
             setcomptcli([])
             $(`.animate`).removeClass("team")
-            $(`#${eq.id} .animate`).addClass("team")
+            $(`#equipe${eq.id} .animate`).addClass("team")
             setcomptcli(eq.CompteClients)
             setTimeout(() => {
                 setisloading(false)
@@ -75,11 +76,11 @@ function Chefscomptecli() {
     
     return (
         <>
-        <div  className="row justify-content-center mt-3 mb-4 ">
+        <div  className="row col-12 justify-content-center mt-3 mb-4 ">
             <div id="eq-list" className="d-inline-flex">
             {
                 equipes.map((eq , index)=>(
-                    <div id={eq.id} key={index} className="card  z-depth-3 mx-2 link-two">
+                    <div id={"equipe"+eq.id} key={index} className="card z-depth-3 mx-2 link-two">
                         <div className="animate"></div>
                     <div key={index} className="p-2 eqname cursor" onClick={(e)=>{changeequipe(eq)}}>{eq.Nom_equipe}</div>
                     </div>
