@@ -115,6 +115,8 @@ function Home() {
 
     const [eqdisabled, seteqdisabled] = useState(false)
     const [services, setservices] = useState([])
+    
+    const [domaine, setdomaine] = useState("")
 
     const Adduser = async (e) =>{
       e.preventDefault()
@@ -123,7 +125,8 @@ function Home() {
         pwd:pwd,
         level:level,
         equipe_id : usereq,
-        ServiceId : service
+        ServiceId : service,
+        domaine : domaine
       }
 
       const res = await axios({
@@ -148,7 +151,7 @@ function Home() {
                 }, 500);
 
                 setemail("")
-                setpwd("")
+                setdomaine("")
 
 
               
@@ -217,11 +220,11 @@ return (
     />
     <div id="account-box" className="row col-12 justify-content-center " >
           <AccountTabs />
-            <div id="user-list" className="col-3  mr-2">
+            <div id="user-list" className="col-xl-3  mr-2">
             {users.map((user, index) => (
 
 
-                 <div id={user.id}  className="card shadow grow mb-2 mt-2 mr-2 ml-2" key={index} onClick={()=>{oneuser(user)}} >
+                 <div id={user.id}  className="border shadow grow mb-2 mt-2 mr-2 ml-2 user" key={index} onClick={()=>{oneuser(user)}} >
                  <div className="card-body d-flex flex-row">
                      <div className="avatar float-left"> <Avatar style={{width:70, height:70}} alt={user.full_name} src={user.user_img} /></div>
                      <div id="user_info" className="ml-2">
@@ -235,17 +238,31 @@ return (
                 // <User key={index} index={index} user={user}  />
             ))}
             </div>
-            <div className="col-8 border z-depth-3">
+            <div id="view" className="col-xl-8  z-depth-3" >
             <Userview selected={selecteduser} setstate={updateuser} delete={deleteuser} showEdit={true} />
 
-            <div id="add-account" className="city" style={{display:"none"}}>
+            <div id="add-account" className="city" >
             <form className="row col-12 justify-content-center align-middle" autoComplete={"off"}>
               <div className="mt-5 text-center">
               <img className="mb-5" src={avatar} style={{width:100 , height:100}} />
               <hr />
               <br />
-              <TextField  value={email} onChange={(e)=>{setemail(e.target.value)}} className="mr-5" label="Email" id="standard-size-small" type="email"  size="small" required/>
-              <TextField value={pwd} onChange={(e)=>{setpwd(e.target.value)}} className="ml-5 add-password" label="Password" type={type} id="standard-size-"   size="small" required /><i className="far fa-eye mt-3 eye"></i>
+              <div className="row" >
+              <TextField  value={email} onChange={(e)=>{setemail(e.target.value)}} className="" label="Email" id="standard-size-small" type="email"  size="" required/>
+              <TextField
+                  className="ml-3"
+                  style={{width:250}}
+                  id="domaine"
+                  select
+                  label="domaine"
+                  value={domaine}
+                  onChange={(e)=>{setdomaine(e.target.value)}}
+                >
+                 <MenuItem  value={"@infopro-digital.com"}>@infopro-digital.com</MenuItem>
+                
+                </TextField>
+              </div>
+             
               <br />
                <TextField
                 className="float-center mt-5 col-4 mr-5"
@@ -312,8 +329,7 @@ return (
                       <MenuItem key={index} value={ser.id}>{ser.Nom_service}</MenuItem>
                     ))
                   }
-                 
-                  
+                
                 </TextField>
                 ) : (
                   <TextField

@@ -321,7 +321,7 @@ const Prevpage = (e) =>{
           </div>
 
         <div className="row  justify-content-center">
-            <div className="col-10 text-center">
+            <div className="col-12 text-center">
             
 
             <div className="row col-12 mb-2">

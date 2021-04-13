@@ -78,10 +78,10 @@ if(!showEdit){
     $("#stat").addClass("col-4")
   }
     return (
-        <div id="user-profile" className="">
+        <div id="user-profile" className="" style={{display:"none"}}>
             {
                 isloading ?(
-                    <i className=" fas fa-spinner fa-spin fa-3x load"></i>
+                    <i id="loading" className=" fas fa-spinner fa-spin fa-3x load"></i>
                 ):(
                     <>
                     
