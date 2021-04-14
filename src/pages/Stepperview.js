@@ -70,6 +70,10 @@ function Stepperview() {
     const [country, setcountry] = useState("")
     const [sex, setsex] = useState("")
 
+
+    const [pwd, setpwd] = useState("")
+    const [repwd, setrepwd] = useState("")
+
     
 
   useEffect(() => {
@@ -90,6 +94,13 @@ function Stepperview() {
               var val = $("#Fax").val()
               setFax(val)
             });
+
+            $( "#password" ).change(function(e) {
+              e.preventDefault();
+              var val = $("#password").val()
+              setpwd(val)
+            });
+
           }
         }
         else if (activeStep === 1){
@@ -231,8 +242,9 @@ function Stepperview() {
         formData.append('website',Website);
         formData.append('sex',sex);
         formData.append('country',country);
+        formData.append('pwd',pwd);
 
-
+        console.log(pwd)
 
         console.log(formData)
         const res = await axios({
@@ -303,6 +315,7 @@ function Stepperview() {
               </IconButton>
             </label>
              </div>
+             <TextField className="mr-4 mt-5" id="password" label="password" variant="outlined" type="password" required/>
             
           </div>
 
@@ -346,8 +359,8 @@ function Stepperview() {
               </TextField><br />
 
 
-              <TextField className="mr-4 mt-3 col-3" id="Linkedin" label="Linkedin"  variant="outlined" />
-              <TextField className="mr-4 mt-3 col-3" id="Facebook" label="Facebook"  variant="outlined" />
+              {/* <TextField className="mr-4 mt-3 col-3" id="Linkedin" label="Linkedin"  variant="outlined" />
+              <TextField className="mr-4 mt-3 col-3" id="Facebook" label="Facebook"  variant="outlined" /> */}
                
               
           </div>
