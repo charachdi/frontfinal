@@ -17,6 +17,8 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { updateduser } from './../redux/actions/authAction';
 
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -73,6 +75,13 @@ function Stepperview() {
 
     const [pwd, setpwd] = useState("")
     const [repwd, setrepwd] = useState("")
+
+    const [pwdcheck, setpwdcheck] = useState({
+      length : false,
+      unique : false, 
+      uppercase : false,
+
+    })
 
     
 
@@ -181,7 +190,32 @@ function Stepperview() {
   }, [activeStep])
 
    
+const checkpwd = ()=>{
+  
+var value = $("#password").val()
 
+
+
+var count = 0
+for (let i = 0; i < value.length; i++) {
+  if(value[i] === value[i].toUpperCase()){
+   count++
+  }
+}
+
+if(count === 0){
+  setpwdcheck({...pwdcheck ,uppercase : false })
+}else {
+  setpwdcheck({...pwdcheck ,uppercase : true })
+}
+
+if(value.length < 8 ){
+  setpwdcheck({...pwdcheck , length : false })
+}else{
+  setpwdcheck({...pwdcheck , length : true })
+}
+
+}
    
 
     const isStepOptional = (step) => {
@@ -315,7 +349,19 @@ function Stepperview() {
               </IconButton>
             </label>
              </div>
-             <TextField className="mr-4 mt-5" id="password" label="password" variant="outlined" type="password" required/>
+             <TextField className="mr-4 mt-5" id="password" onChange={checkpwd} size={"small"} style={{width:300}} label="password" variant="outlined" type="password" required/><br />
+             <div>
+             <CheckCircleIcon style={{color : pwdcheck.length ? "#2DCD94" :  "#e01818"}} /> length
+              </div><br/>
+
+              <div>
+             <CheckCircleIcon style={{color : pwdcheck.uppercase ? "#2DCD94" :  "#e01818"}} /> uppercase
+              </div><br/>
+
+              <div>
+             <CheckCircleIcon style={{color : "#e01818"}} /> unique
+              </div><br/>
+             
             
           </div>
 

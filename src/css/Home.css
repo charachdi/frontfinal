@@ -666,3 +666,31 @@ aside.ribbonchef:after {
     top: 4px;
 
 }
+
+.file{
+    min-width:200px;
+    max-width: 200px;
+    min-height: 75px;
+}
+.prog-value{
+    position: absolute;
+    bottom: 40%;
+    left: 43%;
+    font-size: x-small;
+}
+
+
+.dot-red{
+    width: 25px;
+    height: 25px;
+    background-color: #ced10e;
+    border-radius: 50%;
+
+}
+
+.dot-green{
+    width: 25px;
+    height: 25px;
+    background-color: #2DCD94;
+    border-radius: 50%;
+}

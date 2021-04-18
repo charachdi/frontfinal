@@ -112,6 +112,8 @@ function Home() {
     const [users, setusers] = useState([]);
     const [usereq, setusereq] = useState("")
 
+    const [fullname, setfullname] = useState("")
+
 
     const [eqdisabled, seteqdisabled] = useState(false)
     const [services, setservices] = useState([])
@@ -126,7 +128,8 @@ function Home() {
         level:level,
         equipe_id : usereq,
         ServiceId : service,
-        domaine : domaine
+        domaine : domaine,
+        fullname : fullname
       }
 
       const res = await axios({
@@ -262,10 +265,12 @@ return (
                 
                 </TextField>
               </div>
+
+
              
               <br />
                <TextField
-                className="float-center mt-5 col-4 mr-5"
+                className="float-center mt-5 col-5 mr-5"
                 id="role"
                 select
                 size="medium"
@@ -315,7 +320,7 @@ return (
                 eqdisabled ? (
                   <TextField
                 
-                  className="float-center mt-5 col-4"
+                  className="float-center mt-5 col-5"
                   id="Service"
                   select
                   size="medium"
@@ -334,7 +339,7 @@ return (
                 ) : (
                   <TextField
                   disabled={eqdisabled}
-                  className="float-center mt-5 col-4"
+                  className="float-center mt-5 col-5"
                   id="equipe"
                   select
                   size="medium"
@@ -355,7 +360,8 @@ return (
               }
             
 
-             
+            <TextField  value={fullname} onChange={(e)=>{setfullname(e.target.value)}} className="mt-5 col-8" label="Nom et Prenom" id="standard-size-small" type="text"  size="" required/>
+
 
               <div className="row justify-content-center mt-5">
               <button type="submit" className="btn text-lowercase" style={{width:100}}  onClick={(e)=>{Adduser(e)}}>ajouter</button>

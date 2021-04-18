@@ -381,7 +381,7 @@ const Prevpage = (e) =>{
               
                </div> 
 
-               <div  className="row col-xl-4 col-lg-4 col-md-5 col-sm-4 col-4d-flex justify-content-center" style={{width:"50%"}}>
+               <div  className="row col-xl-4 col-lg-4 col-md-5 col-sm-4 col-4d-flex justify-content-between" style={{width:"50%"}}>
                <h5 id="pagebtn" className="text-center mt-2 "><i class="fas fa-arrow-left mr-5 cursor" onClick={(e)=>{Prevpage(e)}}></i>{pageselected}<i class="fas fa-arrow-right ml-5 cursor" onClick={(e)=>{Nextpage(e)}}></i></h5>
                <TextField className="col-2  mt-2" size="small" type="number" value={rowselected} onChange={(e)=>{handelchangerow(e)}} id="row_shown" />
                </div>
