@@ -1,4 +1,4 @@
-import React , {useState , useEffect} from 'react'
+import React , {useState , useEffect , Component} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -16,6 +16,8 @@ import Api_url from './../component/Api_url'
 import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { updateduser } from './../redux/actions/authAction';
+import PasswordStrengthMeter from './../component/PasswordStrengthMeter';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   
   
   function getSteps() {
-    return ['Select profile image', 'personal info', 'Create an ad'];
+    return ['Select profile image', 'personal info'];
   }
 
 
@@ -72,7 +74,7 @@ function Stepperview() {
 
 
     const [pwd, setpwd] = useState("")
-    const [repwd, setrepwd] = useState("")
+    const [next, setnext] = useState("")
 
     
 
@@ -219,8 +221,6 @@ function Stepperview() {
 
       const show = () =>{
           console.log(`
-            nom :  ${Nom}
-            prenom :${Prenom}
             tel : ${Tel}
             address : ${Address}
             fax : ${Fax}
@@ -231,11 +231,16 @@ function Stepperview() {
       }
 
 
+      const disablnext = ()=>{
+        // setnext(value)
+        console.log("value")
+      }
+
+
 
       const updateprofile = async (e)=>{
         const formData = new FormData();
         formData.append('myImage',document.getElementById('prof-img').files[0]);
-        formData.append('fullName',Nom+" "+Prenom);
         formData.append('address',Address);
         formData.append('tel',Tel);
         formData.append('fax',Fax);
@@ -269,7 +274,10 @@ function Stepperview() {
 
       }
     
-    
+      const canBeSubmitted = async (e)=>{
+        const { pwd } = this.state;
+        return pwd.length > 0;
+      }
      
    
     return (
@@ -307,17 +315,21 @@ function Stepperview() {
              <div  className="d-flex justify-content-center mt-5" >
              <Avatar style={{width:160, height:160}}  alt="Haboubi amine" src={previewimage} />
              </div>
+
             <div  className="d-flex justify-content-center mt-3" >
             <input accept="image/*"  id="prof-img" type="file"  style={{display:'none'}} onChange={()=>{prev()}} required/>
-            <label htmlFor="prof-img">
-              <IconButton color="primary"  aria-label="upload picture" component="span">
-                <PhotoCamera style={{color:'#2DCD94'}}/>
-              </IconButton>
-            </label>
+              <label htmlFor="prof-img">
+                <IconButton color="primary"  aria-label="upload picture" component="span">
+                  <PhotoCamera style={{color:'#2DCD94'}}/>
+                </IconButton>
+              </label>
              </div>
-             <TextField className="mr-4 mt-5" id="password" label="password" variant="outlined" type="password" required/>
-            
-          </div>
+             
+             <div className="mr-4 mt-5">
+             <TextField  id="password" label="password" onChange={(e)=>{setpwd(e.target.value)}} variant="outlined" type="password" required/>
+             <PasswordStrengthMeter  password={pwd} />
+             </div>
+         </div>
 
           {/* step1!! */}
 
@@ -325,45 +337,40 @@ function Stepperview() {
           {/* step2!!! */}
           <div id="Info" className=" col-12 text-center mb-5 mt-5 justify-content-center" style={{display :"none"}}>
                
-               <TextField className="mr-4 mt-5" id="Nom" label="Nom" variant="outlined" type="text" required/>
-               <TextField className="ml-4 mt-5" id="prenom" label="Prenom" variant="outlined"  required/><br/>
+              <div className="row justify-content-center">
                <TextField className="mr-4 mt-4 " id="tel" label="N°tel" variant="outlined" required/> 
                <TextField className="ml-4 mt-4" size="medium" id="address" label="address" variant="outlined" required/>
-
-           
-         </div>
-
-         {/* step2!!! */}
-
-          {/* step3 */}
-
-         <div id="Prof" className="col-12 mb-5 mt-5 text-center" style={{display :"none"}}>
-                <TextField className="mr-4 mt-5 col-2" id="country" label="country"  variant="outlined" />
-                <TextField className="ml-4 mt-5 col-2" id="fax" label="fax" placeholder="www.exemple.com" variant="outlined" /><br/>
-                <TextField className="mr-4 mt-4 col-2" id="Website" label="Website" placeholder="www.exemple.com" variant="outlined" />
-                <TextField
-                className="float-center mt-4 ml-4 col-2"
+              </div> 
+              <div className="row justify-content-center">
+               <TextField className="mr-4 mt-4" id="country" label="country"  variant="outlined" />
+               <TextField className="ml-4 mt-4" id="fax" label="fax"  variant="outlined" /><br/>
+               </div> 
+              <div className="row ml-1 justify-content-center col-12">
+               <TextField className="mr-4 mt-4 " id="Website" label="Website" placeholder="www.exemple.com" variant="outlined" />
+               <TextField
+                className=" ml-4 mt-4 col-2"
                 id="sex"
                 variant="outlined"
                 size="medium"
                 select
-                size="medium"
                 label="sex"
-                helperText="select Role"
+                
                 value={sex}
                 onChange={(e)=>{setsex(e.target.value)}}
               >
 
                 <MenuItem value={"Homme"}>Homme</MenuItem>
                 <MenuItem value={"Femme"}>Femme</MenuItem>
-              </TextField><br />
+              </TextField>
 
+              </div>
+         </div>
 
-              {/* <TextField className="mr-4 mt-3 col-3" id="Linkedin" label="Linkedin"  variant="outlined" />
-              <TextField className="mr-4 mt-3 col-3" id="Facebook" label="Facebook"  variant="outlined" /> */}
-               
-              
-          </div>
+         {/* step2!!! */}
+
+          {/* step3 */}
+
+       
         {/* step3 */}
 
 
@@ -386,11 +393,13 @@ function Stepperview() {
                     </Button>
                     ):(
                       <Button
+                      id="next"
                       variant="contained"
                       color="primary"
                       onClick={handleNext}
                       className={classes.button}
                       style={{backgroundColor:'#2DCD94'}}
+                      disabled={false}
                     >
                       Next
                     </Button>
