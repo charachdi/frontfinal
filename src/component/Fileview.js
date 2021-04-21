@@ -7,12 +7,15 @@ import Complete from './../images/complete.json'
 import Avatar from '@material-ui/core/Avatar';
 import axios from 'axios'
 import Api_url from './../component/Api_url'
+import { useHistory } from "react-router-dom";
+
 
 
 function Fileview(props) {
     const token = localStorage.getItem('token')
     const [value, setvalue] = useState(0)
     const [file, setfile] = useState(props.file)
+    const history = useHistory();
     
     useEffect(() => {
   //  console.log(props.file)
@@ -38,7 +41,7 @@ function Fileview(props) {
 
      //file %
     props.socket.on(`${props.file.Roomid}`, (data)=>{
-      setvalue(data.data)
+      setvalue(data.value)
     });
 
     //updatefile
@@ -55,7 +58,7 @@ function Fileview(props) {
       }
   });
     return (
-        <div key={props.index}  className="file card mx-3 my-3 z-depth-3">
+        <div key={props.index}  className="file card mx-3 my-3 z-depth-3 grow" onClick={()=>{window.location.replace(`/File/${file.Nom_file}/${file.id}`)}}>
       
        <div className="d-flex flex-row ml-2 mt-3">
        <i  style={{color:"#2DCD94"}} className="far fa-file-excel fa-3x "></i>

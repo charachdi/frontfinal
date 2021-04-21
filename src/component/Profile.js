@@ -25,7 +25,7 @@ function Profile(props) {
               <p><i class="fas fa-globe mr-3 mt-2"style={{color:'#2DCD94'}}></i>{selected.Website ? selected.Website : null}</p>
               <p><i class="fas fa-venus-mars mr-3 mt-2"style={{color:'#2DCD94'}}></i>{selected.user_sex ? selected.user_sex : null}</p>
               {
-                level === "Chef Service" ? <p>Service : {selected.Chef.Service ? selected.Chef.Service.Nom_service : null} </p> : null
+                level === "Chef Service" ? <p>Service : {selected.Chef.Service ? selected.Chef.Service.Nom_service : ""} </p> : null
               }
 
 {

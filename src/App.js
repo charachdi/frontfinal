@@ -15,6 +15,8 @@ import Notfound from './pages/Notfound'
 import CompteCli from './pages/CompteCli'
 import EquipeView from './pages/EquipeView'
 import Stepperview from './pages/Stepperview'
+import FileView from './pages/FileView'
+
 import UserView from './pages/UserView'
 import Login from './pages/Login'
 import Test from './pages/Test'
@@ -32,13 +34,14 @@ import Adminonly from './component/Adminonly'
 import Comptecli from './component/Comptecli'
 import CompteclientCheck from './component/CompteclientCheck'
 import { Component } from 'react';
+import Fileview from './component/Fileview';
 
 function App() {
 
   
 
   var connectionOptions =  {
-    "force new connection" : true,
+    "force new connection" : false,
     "reconnectionAttempts": "Infinity", 
     "timeout" : 100000000000000000,                  
     "transports" : ["websocket"]
@@ -101,6 +104,7 @@ useEffect(() => {
           <Route path='/Equipe/:id' render={(props) => <EquipeView socket={socket} {...props} /> } exact/>
           <Route path='/profile/:id' component={UserView} exact/>
           <Route path='/Client/:id' component={CompteCli} exact/>
+          <Route path='/File/:name/:id' component={FileView} exact/>
           <Route path='/myProfile' component={Profile} exact/>
 
 

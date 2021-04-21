@@ -861,7 +861,7 @@ const down = () =>{
                         shownrow.map((client , index)=>(
                             <tr key={index} id={client.id} >
                         <td> {client.id}</td>
-                        <td id="img"  className=" d-flex justify-content-start align-items-center "> <Avatar className=" prof_img ml-3" src={client.Clientimg.img_profile} style={{width: 30, height :30}} /> <span id="Nomcli" className="ml-3 text-center">{client.Nom_compteCli}</span></td>
+                        <td id="img"  className=" d-flex justify-content-start align-items-center "> <Avatar className=" prof_img ml-3" src={client.Clientimg ? client.Clientimg.img_profile : ""} style={{width: 30, height :30}} /> <span id="Nomcli" className="ml-3 text-center">{client.Nom_compteCli}</span></td>
                         <td id="sercli"  className=""> <div className="cursor" >{client.Service.Nom_service}</div> </td>
                         <td id="eqcli"  > <span className="cursor" onClick={()=>{history.push(`/Equipe/${client.Equipe.id}`)}}>{client.Equipe ? client.Equipe.Nom_equipe : ""}</span></td>
                         <td>
