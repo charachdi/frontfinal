@@ -275,7 +275,7 @@ return (
                 select
                 size="medium"
                 label="Role"
-                helperText="select Role"
+                helperText="selectioner Role"
                 value={level}
                 onChange={(e)=>{setlevel(e.target.value); if(e.target.value==="Chef Service"){seteqdisabled(true)}else{seteqdisabled(false)}}}
               >
@@ -325,7 +325,7 @@ return (
                   select
                   size="medium"
                   label="Service"
-                  helperText="select Serices"
+                  helperText="selectioner Serices"
                   value={service}
                   onChange={(e)=>{setservice(e.target.value)}}
                 >
