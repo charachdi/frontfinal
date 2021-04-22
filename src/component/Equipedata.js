@@ -30,8 +30,8 @@ function Equipedata() {
     return (
 <>
         <div className="col-4">
-        <div className="card ">
-aezeza
+        <div className="card z-depth-3">
+              
         </div>
         </div>
         <div className="col-4">

@@ -15,6 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useHistory } from "react-router-dom";
 import Lottie from 'react-lottie';
 import Loading from './../images/loading.json'
+import ReactDatatable from '@ashvin27/react-datatable';
 import Onecompte from './../component/Onecompte'
 
 function Listcompte(props) {
@@ -44,17 +45,60 @@ const filter = ()=>{
   }, [])
 
 
+console.log(props.clients)
+
+
+  const [column, setcolumn] = useState([
+    {
+      key: "Numero_de_la_requete",
+      text: "#",
+    },
+     {
+      key: "Numero_de_la_requete",
+      text: "#",
+    },
+     {
+      key: "Numero_de_la_requete",
+      text: "#",
+    },
+    {
+      key: "Numero_de_la_requete",
+      text: "#",
+    },
+    {
+      key: "Numero_de_la_requete",
+      text: "#",
+    },
+    {
+      key: "Numero_de_la_requete",
+      text: "#",
+    },
+  ])
+  const config = {
+    page_size: 10,
+    length_menu: [10, 20, 50],
+    show_filter: true,
+    show_pagination: true,
+    pagination: 'advance',
+    button: {
+        excel: false,
+        print: false
+    }
+  }
 
     return (
         <>
         
 
-                    <MDBFormInline className="md-form mb-4">
+                    {/* <MDBFormInline className="md-form mb-4">
                         <MDBIcon icon="search" className="mr-1" />
                         <TextField id="equipclient" onChange={filter} label="search" variant="outlined" size='small' />
-                    </MDBFormInline>
-
-         <Table id="equipeclitab" className="col-12 justify-content-center" size={"small"}  striped bordered hover>
+                    </MDBFormInline> */}
+              <ReactDatatable
+                config={config}
+                records={props.clients}
+                columns={column}/>
+         {/* <Table id="equipeclitab" className="col-12 justify-content-center" size={"small"}  striped bordered hover>
                     
                     <thead>
                     <tr>
@@ -77,7 +121,7 @@ const filter = ()=>{
                     
                         
                     </tbody>
-                    </ Table >
+                    </ Table > */}
         </>
     )
 }

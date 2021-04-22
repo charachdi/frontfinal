@@ -41,7 +41,10 @@ function Fileview(props) {
 
      //file %
     props.socket.on(`${props.file.Roomid}`, (data)=>{
-      setvalue(data.value)
+      if(data.Rid === props.file.Roomid){
+        setvalue(data.value)
+      }
+     
     });
 
     //updatefile
@@ -83,10 +86,7 @@ function Fileview(props) {
         }
        
  
-       <div className="d-flex flex-row">
-          <div className="dot-red mx-auto"><span className="text-wrap" style={{fontSize:10 , color:"black"}}>{file.error}</span></div>
-          <div  className="dot-green mx-auto"><span className="text-wrap" style={{fontSize:10, color:"black"}}>{file.sussces}</span></div>
-       </div>
+       
        <div className="mt-4 mb-3  d-flex flex-row" >
        <a className=" mx-auto"><Avatar src={file.User.user_img} alt="aaa" style={{width:25 , height :25}} /></a><span>{file.User.full_name}</span>
        <a href={file.url_file} className=" mx-auto"><i className="fas fa-download  cursor"></i></a>

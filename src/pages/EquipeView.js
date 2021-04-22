@@ -96,7 +96,7 @@ function EquipeView(props) {
       }
       loading_screen()
       getequipe()
-      // getcomptecli()
+      getcomptecli()
     }, [])
 
 const toggle = ()=>{
@@ -260,9 +260,9 @@ const switchtocompte = () =>{
         <Equipedata />
         </div>  
 
-        {/* <div id="listcompte" style={{display:"none" , width:"100%"}}>
+        <div id="listcompte" style={{display:"none" , width:"100%"}}>
         <Listcompte clients={comptecli} />
-        </div> */}
+        </div>
         </>
         
    
