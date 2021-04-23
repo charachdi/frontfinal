@@ -64,11 +64,11 @@ const [current, setcurrent] = useState("")
           <span className="sr-only">Toggle Menu</span>
         </button>
       </div>
-      <div className="p-4">
+      <div id="bigicon" className="p-4">
       
         <ul className="list-unstyled components mb-5">
         <li className="text-center d-flex flex-column mb-3">
-          <div className="d-flex justify-content-center mb-2">
+          <div id="sidebarprofile" className="d-flex justify-content-center mb-2">
 
           <Avatar  style={{width:80, height:80}} className="profile_img cursor" alt="Haboubi amine" src={user ? user.user_img : "" } onClick={()=>{history.push("/myprofile")}} />
           </div>
@@ -164,12 +164,118 @@ const [current, setcurrent] = useState("")
             )
           }
          
-         
+       
           <li>
-            <a className="text-left" href="#"><span className="fa fa-paper-plane mr-3"></span> Contacts</a>
+            <a className="text-left" href="#" onClick={()=>{handelLogout()}}><i class="fas fa-sign-out-alt mr-3" style={{color:'white'}}></i> logout</a>
           </li>
+        </ul>
+  
+        
+  
+       
+  
+      </div>
+
+
+      <div id="smallicon" className="p-4 ">
+      
+        <ul className="list-unstyled components mb-5">
+        <li className="text-center d-flex flex-column mb-3">
+         
+        
+          </li>
+          {
+            current === "admin" ? (
+              <li className="active">
+              <a className="text-left hover" onClick={()=>{history.push("/home")}}><i className="fas fa-user-friends "></i></a>
+            </li>
+            ) : (
+              null
+            )
+          }
+
+        {
+            current === "Chef Service" ? (
+              <li className="active">
+              <a className="text-left hover" onClick={()=>{history.push("/home")}}><i className="fas fa-user-friends "></i></a>
+            </li>
+            ) : (
+              null
+            )
+          }
+
+{
+            current === "admin" ? (
+              <li>
+              <a className="text-left hover" onClick={()=>{history.push("/equipe")}}><span className="fa fa-user "></span></a>
+          </li>
+            ) : (
+              null
+            )
+          }
+
+        {
+            current === "Chef Service" ? (
+              <li>
+              <a className="text-left hover" onClick={()=>{history.push("/equipe")}}><span className="fa fa-user "></span></a>
+          </li>
+            ) : (
+              null
+            )
+          }
+
+
+{
+            current === "admin" ? (
+              <li>
+              <a className="text-left hover" onClick={()=>{history.push("/service")}}><span className="fa fa-cogs mr-2"></span> </a>
+            </li>
+            ) : (
+              null
+            )
+          }
+
+        
+
+        
+
+{
+            current === "admin" ? (
+              <li>
+              <a className="text-left hover"  onClick={()=>{history.push("/client")}}><span className="fa fa-sticky-note "></span> </a>
+            </li>
+            ) : (
+              null
+            )
+          }
+
+        {
+            current === "Chef Service" ? (
+              <li>
+              <a className="text-left hover"  onClick={()=>{history.push("/client")}}><span className="fa fa-sticky-note "></span> </a>
+            </li>
+            ) : (
+              null
+            )
+          }
+        
+         
+          
+        {
+            current === "Chef Service" ? (
+              <li>
+              <a className="text-left hover" onClick={()=>{history.push("/Chefscomptecli")}}><span className="fa fa-suitcase "></span> </a>
+            </li>
+            ) : (
+              <li>
+            <a className="text-left hover" onClick={()=>{history.push("/Compteclient")}}><span className="fa fa-suitcase "></span> </a>
+          </li>
+            )
+          }
+         
+       
           <li>
-            <a className="text-left" href="#" onClick={()=>{handelLogout()}}><i class="fas fa-sign-out-alt mr-3" style={{color:'red'}}></i> logout</a>
+            <a className="text-left" href="#" onClick={()=>{handelLogout()}}><i class="fas fa-sign-out-alt " style={{color:'white'}}></i> </a>
           </li>
         </ul>
   

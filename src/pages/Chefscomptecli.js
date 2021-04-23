@@ -105,12 +105,12 @@ function Chefscomptecli() {
                         ) : (
                             
                                 comptcli.map((cl,index)=>(
-                                    <div key={index} id={cl.id} className="carde d-flex mx-3 my-3 mt-5 grow cursor" onClick={()=> history.push(`/client/${cl.id}`)}>
+                                    <div key={index} id={cl.id} className="carde d-flex mx-3 my-3 mt-5 grow cursor equipe-cli" onClick={()=> history.push(`/client/${cl.id}`)}>
                                     <div className="firstinfo text-center d-flex justify-content-center">
                                         <Avatar src={cl.Clientimg.img_profile} style={{width:70, height:70 , zIndex:10}} className="" />
-                                        <div className="profileinfo">
-                                            <h4 style={{color :cl.Theme.Color}}>{cl.Nom_compteCli}</h4>
-                                            <p className="bio">{cl.description}</p>
+                                        <div className="profileinfo mt-3">
+                                            <h6 style={{color :cl.Theme.Color}}>{cl.Nom_compteCli}</h6>
+                                           
                                         </div>
                                         </div>
                                      </div>

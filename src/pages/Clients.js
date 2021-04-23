@@ -823,7 +823,7 @@ const down = () =>{
 
 
         <div className="row  justify-content-center">
-            <div className="col-10 text-center">
+            <div className="col-12 text-center">
             
 
             <div className="row col-12 mb-2">
@@ -861,7 +861,7 @@ const down = () =>{
                         shownrow.map((client , index)=>(
                             <tr key={index} id={client.id} >
                         <td> {client.id}</td>
-                        <td id="img"  className=" d-flex justify-content-start align-items-center "> <Avatar className=" prof_img ml-3" src={client.Clientimg.img_profile} style={{width: 30, height :30}} /> <span id="Nomcli" className="ml-3 text-center">{client.Nom_compteCli}</span></td>
+                        <td id="img"  className=" d-flex justify-content-start align-items-center "> <Avatar className=" prof_img ml-3" src={client.Clientimg ? client.Clientimg.img_profile : ""} style={{width: 30, height :30}} /> <span id="Nomcli" className="ml-3 text-center">{client.Nom_compteCli}</span></td>
                         <td id="sercli"  className=""> <div className="cursor" >{client.Service.Nom_service}</div> </td>
                         <td id="eqcli"  > <span className="cursor" onClick={()=>{history.push(`/Equipe/${client.Equipe.id}`)}}>{client.Equipe ? client.Equipe.Nom_equipe : ""}</span></td>
                         <td>
@@ -887,8 +887,8 @@ const down = () =>{
             </Table>
 
                         {/* MODAL ADD */}
-              <MDBModal isOpen={open} toggle={()=>toggle()} backdrop="off" size="lg">
-                {/* <MDBModalHeader toggle={()=>toggle()} className="text-center">Ajouter un nouveau client</MDBModalHeader> */}
+              <MDBModal isOpen={open} toggle={()=>toggle()} disableBackdrop={true} size="lg">
+                <MDBModalHeader toggle={()=>toggle()} className="text-center"></MDBModalHeader>
                 <MDBModalBody >
                 <form className="row col-12 justify-content-center align-middle" >
                   <div className="col-12 mt-2">
@@ -1002,7 +1002,7 @@ const down = () =>{
                 </MDBModalBody>
                 </MDBModal>
                         {/* MODAL EDIT */}
-                <MDBModal isOpen={editopen} toggle={()=>toggleEdit()} size="lg">
+                <MDBModal isOpen={editopen} toggle={()=>toggleEdit()} disableBackdrop={true} size="lg">
                 <MDBModalHeader toggle={()=>toggleEdit()} className="text-center">Modifier les données du client</MDBModalHeader>
                 <MDBModalBody>
                 <form className="row col-12 justify-content-center align-middle" >
@@ -1120,7 +1120,7 @@ const down = () =>{
 
 
                       {/* MODAL SUPP */}
-                <MDBModal isOpen={suppopen} toggle={()=>toggleSupp()} size="sm">
+                <MDBModal isOpen={suppopen} toggle={()=>toggleSupp()} disableBackdrop={true} size="sm">
                 <MDBModalHeader toggle={()=>toggleSupp()} className="text-center sm">Supprimer le client</MDBModalHeader>
                     <MDBModalBody>
                         <div className="row col-12 ">

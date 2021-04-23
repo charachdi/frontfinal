@@ -15,6 +15,8 @@ import Notfound from './pages/Notfound'
 import CompteCli from './pages/CompteCli'
 import EquipeView from './pages/EquipeView'
 import Stepperview from './pages/Stepperview'
+import FileView from './pages/FileView'
+
 import UserView from './pages/UserView'
 import Login from './pages/Login'
 import Test from './pages/Test'
@@ -23,19 +25,46 @@ import Userview from './component/Userview'
 import Sidebar from './component/Sidebar'
 import 'react-toastify/dist/ReactToastify.css';
 
+import io from "socket.io-client";
+
+
 
 import AdminRoute from './component/AdminRoute'
 import Adminonly from './component/Adminonly'
 import Comptecli from './component/Comptecli'
 import CompteclientCheck from './component/CompteclientCheck'
+import { Component } from 'react';
+import Fileview from './component/Fileview';
 
 function App() {
+
+  
+
+  var connectionOptions =  {
+    "force new connection" : false,
+    "reconnectionAttempts": "Infinity", 
+    "timeout" : 100000000000000000,                  
+    "transports" : ["websocket"]
+  };
+  const ENDPOINT = "http://127.0.0.1:3001";
   const [user, setuser] = useState({})
+
+  const socket = io.connect(ENDPOINT, connectionOptions);
+ 
+   socket.on("outgoing data", (data)=>{
+      //Here we broadcast it out to all other sockets EXCLUDING the socket which sent us the data
+    console.log(data)
+  });
 useEffect(() => {
   const getuser = ()=>{
      setuser(JSON.parse(localStorage.getItem('user')))
   }
+
+  const socketconn = () =>{
+   
+  }
   getuser()
+  socketconn()
 }, [])
  
    console.log(user)
@@ -47,7 +76,11 @@ useEffect(() => {
         return( <Sidebar />)
       }
     }
+   
   
+      //     //Here we broadcast it out to all other sockets EXCLUDING the socket which sent us the data
+      //    socket.broadcast.emit("outgoing data", {num: data});
+      // });
   return (
     
     <Router>
@@ -68,9 +101,10 @@ useEffect(() => {
           <Route path='/Chefscomptecli' component={Chefscomptecli} exact/>
 
 
-          <Route path='/Equipe/:id' component={EquipeView} exact/>
+          <Route path='/Equipe/:id' render={(props) => <EquipeView socket={socket} {...props} /> } exact/>
           <Route path='/profile/:id' component={UserView} exact/>
           <Route path='/Client/:id' component={CompteCli} exact/>
+          <Route path='/File/:name/:id' component={FileView} exact/>
           <Route path='/myProfile' component={Profile} exact/>
 
 
@@ -89,3 +123,4 @@ useEffect(() => {
 }
 
 export default App;
+

@@ -19,6 +19,7 @@ import Api_url from './../component/Api_url';
 import { ToastContainer, toast } from 'react-toastify';
 import { useHistory } from "react-router-dom";
 import GroupIcon from '@material-ui/icons/Group';
+import Select from '@material-ui/core/Select';
 // import { mdbTableEditor } from 'mdb-table-editor'
 
 
@@ -366,26 +367,26 @@ const Prevpage = (e) =>{
           </div>
 
         <div className="row  justify-content-center">
-            <div className="col-10 text-center">
+            <div className="col-12 text-center">
             
 
             <div className="row col-12 mb-2">
-              <div className="col-4"> 
+              <div id="ser" className="col-xl-4 col-lg-4 col-md-3 col-sm-4 col-4"> 
               <MDBCol >
                 <MDBFormInline className="row md-form">
                   <MDBIcon icon="search" />
-                  <TextField className="ml-3 " size="small" label="Recherche" variant="outlined" id="equipe-search" type="text" onChange={()=>{filter()}}/>
+                  <TextField className="ml-3 " size="small" style={{width:"50%"}} label="Recherche" variant="outlined" id="equipe-search" type="text" onChange={()=>{filter()}}/>
                 </MDBFormInline>
               </MDBCol>
               
                </div> 
 
-               <div className="row col-5 d-flex justify-content-between">
-               <h5 className="text-center mt-2 ml-4 "><i class="fas fa-arrow-left mr-5 cursor" onClick={(e)=>{Prevpage(e)}}></i>{pageselected}<i class="fas fa-arrow-right ml-5 cursor" onClick={(e)=>{Nextpage(e)}}></i></h5>
-               <TextField className="col-2 mr-4 mt-2" size="medium" type="number" value={rowselected} onChange={(e)=>{handelchangerow(e)}} id="row_shown" />
+               <div  className="row col-xl-4 col-lg-4 col-md-5 col-sm-4 col-4d-flex justify-content-between" style={{width:"50%"}}>
+               <h5 id="pagebtn" className="text-center mt-2 "><i class="fas fa-arrow-left mr-5 cursor" onClick={(e)=>{Prevpage(e)}}></i>{pageselected}<i class="fas fa-arrow-right ml-5 cursor" onClick={(e)=>{Nextpage(e)}}></i></h5>
+               <TextField className="col-2  mt-2" size="small" type="number" value={rowselected} onChange={(e)=>{handelchangerow(e)}} id="row_shown" />
                </div>
-               <div className="col-3"> 
-                <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={()=>toggle(!open)}> Ajouter </Button> 
+               <div id="addbtn" className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4" style={{width:"50%"}}> 
+                <Button variant="contained"  color="primary" startIcon={<AddIcon />} onClick={()=>toggle(!open)}> Ajouter </Button> 
                </div>
             </div> 
                 <Table  striped bordered hover>
@@ -431,14 +432,14 @@ const Prevpage = (e) =>{
             </Table>
 
                         {/* MODAL ADD */}
-              <MDBModal isOpen={open} toggle={()=>toggle()} size="lg">
+              <MDBModal isOpen={open} toggle={()=>toggle()}  size="lg" disableBackdrop={true}>
                 <MDBModalHeader toggle={()=>toggle()} className="text-center">Ajouter une nouvelle équipe</MDBModalHeader>
                 <MDBModalBody>
                 <form className="row col-12 justify-content-center align-middle" >
                       
                       <div className="mb-5 col-12">
                       <TextField className="col-3" value={nomequipe} onChange={(e)=>{setnomequipe(e.target.value)}} id="standard-basic" label="Nom de l'equipe" required />
-                      <TextField className="ml-5 col-2" id="standard-select-currency" select required size="medium" label="Service"value={service} onChange={(e)=>{setservice(e.target.value)}}>
+                      <TextField className="ml-5 col-2" id="standard-select-currency"  select required size="medium" label="Service"value={service} onChange={(e)=>{setservice(e.target.value)}}>
                       <MenuItem ></MenuItem>
                               {
                                 services.map((ser , index)=>(
@@ -459,7 +460,7 @@ const Prevpage = (e) =>{
                 </MDBModalBody>
                 </MDBModal>
                         {/* MODAL EDIT */}
-                <MDBModal isOpen={editopen} toggle={()=>toggleEdit()} size="lg">
+                <MDBModal isOpen={editopen} toggle={()=>toggleEdit()} disableBackdrop={true} size="lg">
                 <MDBModalHeader toggle={()=>toggleEdit()} className="text-center">Modifier les données de l'équipe</MDBModalHeader>
                 <MDBModalBody>
                 <form className="row col-12 justify-content-center align-middle" >
@@ -501,7 +502,7 @@ const Prevpage = (e) =>{
 
 
                       {/* MODAL SUPP */}
-                <MDBModal isOpen={suppopen} toggle={()=>toggleSupp()} size="sm">
+                <MDBModal isOpen={suppopen} toggle={()=>toggleSupp()} size="sm" disableBackdrop={true}>
                 <MDBModalHeader toggle={()=>toggleSupp()} className="text-center sm">Supprimer l'équipe</MDBModalHeader>
                     <MDBModalBody>
                         <div className="row col-12 ">
