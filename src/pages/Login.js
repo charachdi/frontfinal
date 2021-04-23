@@ -106,6 +106,7 @@ function Login() {
             response.data.token,
             JSON.stringify(response.data.user)
           );
+          
           window.setTimeout(() => {
             history.push("/stepper");
           }, 1500);
@@ -156,7 +157,7 @@ function Login() {
         <div className="login-content">
           <form action="index.html">
             <img src={avatar} />
-            <h2 className="title">Welcome</h2>
+            <h2 className="title">Bienvenue</h2>
             <div className="input-div one">
               <div className="i">
                 <i className="fas fa-user"></i>
@@ -204,7 +205,7 @@ function Login() {
                 <i className="fas fa-lock"></i>
               </div>
               <div className="div">
-                <h5>Password</h5>
+                <h5>Mot de passe</h5>
                 <input
                   type="password"
                   id="password"

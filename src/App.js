@@ -51,10 +51,6 @@ function App() {
 
   const socket = io.connect(ENDPOINT, connectionOptions);
  
-   socket.on("outgoing data", (data)=>{
-      //Here we broadcast it out to all other sockets EXCLUDING the socket which sent us the data
-    console.log(data)
-  });
 useEffect(() => {
   const getuser = ()=>{
      setuser(JSON.parse(localStorage.getItem('user')))
