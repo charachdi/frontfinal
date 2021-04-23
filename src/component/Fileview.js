@@ -40,8 +40,8 @@ function Fileview(props) {
     }
 
      //file %
-    props.socket.on(`${props.file.Roomid}`, (data)=>{
-      if(data.Rid === props.file.Roomid){
+    props.socket.on(`${file.Roomid}`, (data)=>{
+      if(data.Rid === file.Roomid){
         setvalue(data.value)
       }
      
@@ -61,7 +61,7 @@ function Fileview(props) {
       }
   });
     return (
-        <div key={props.index}  className="file card mx-3 my-3 z-depth-3 grow" onClick={()=>{window.location.replace(`/File/${file.Nom_file}/${file.id}`)}}>
+        <div key={file.id}  className="file card mx-3 my-3 z-depth-3 grow" onClick={()=>{window.location.replace(`/File/${file.Nom_file}/${file.id}`)}}>
       
        <div className="d-flex flex-row ml-2 mt-3">
        <i  style={{color:"#2DCD94"}} className="far fa-file-excel fa-3x "></i>
@@ -88,7 +88,7 @@ function Fileview(props) {
  
        
        <div className="mt-4 mb-3  d-flex flex-row" >
-       <a className=" mx-auto"><Avatar src={file.User.user_img} alt="aaa" style={{width:25 , height :25}} /></a><span>{file.User.full_name}</span>
+       <a className=" mx-auto"><Avatar src={file.User.user_img} alt="aaa" style={{width:25 , height :25}} /></a><span style={{fontSize:10}}>{file.User.full_name} <br/> {file.createdAt}</span>
        <a href={file.url_file} className=" mx-auto"><i className="fas fa-download  cursor"></i></a>
        </div>
        

@@ -19,7 +19,8 @@ import Api_url from './../component/Api_url';
 import { ToastContainer, toast } from 'react-toastify';
 import Avatar from '@material-ui/core/Avatar';
 import { useHistory } from "react-router-dom";
-import Permission from './../component/Permission'
+import Permission from './../component/Comptcli/Permission'
+import Requete from './../component/Comptcli/Requete'
 import Lottie from 'react-lottie';
 import Loading from './../images/loading.json'
 // import { mdbTableEditor } from 'mdb-table-editor'
@@ -37,6 +38,7 @@ function CompteCli(props) {
     const [equipe, setequipe] = useState({})
 
     const [isloading, setisloading] = useState(true)
+    const [requete, setrequete] = useState([])
 
     const defaultOptions = {
       loop: true,
@@ -93,13 +95,45 @@ function CompteCli(props) {
         
     }
 
+    const getrequetes = async()=>{
+      const res = await axios({
+        headers: {'Authorization': `Bearer ${token}`},
+        method: 'get',
+        url : `${Api_url}clients/requete/${client_id}`,  
+        });
+        console.log(res.data.compteCli.Requetes)
+        setrequete(res.data.compteCli.Requetes)
+    }
+
     
     getequipelist()
     loading_screen()
+    getrequetes()
     }, [])
   
     
-console.log()
+const switchtodata = () =>{
+}
+const switchtoreq = () =>{
+
+  $("#permissiontab").hide()
+  $("#requetetab").show()
+
+  $("#perbtn").removeClass("active")
+  $("#databtn").removeClass("active")
+  $("#reqbtn").addClass("active")
+}
+
+const switchtoper = () =>{
+
+  $("#requetetab").hide()
+  $("#permissiontab").show()
+
+  $("#reqbtn").removeClass("active")
+  $("#databtn").removeClass("active")
+  $("#perbtn").addClass("active")
+}
+
 
 
     return (
@@ -175,18 +209,26 @@ console.log()
    </div>
 
 <ul className="profile-header-tab nav nav-tabs row col-12 mb-4 justify-content-center">
-   <li className="nav-item"><a href="#profile-post" className="nav-link" data-toggle="tab">POSTS</a></li>
+   {/* <li className="nav-item"><a href="#profile-post" className="nav-link" data-toggle="tab">POSTS</a></li>
    <li className="nav-item"><a href="#profile-about" className="nav-link" data-toggle="tab">ABOUT</a></li>
    <li className="nav-item"><a href="#profile-photos" className="nav-link" data-toggle="tab">STUFF</a></li>
-   <li className="nav-item"><a href="#profile-videos" className="nav-link" data-toggle="tab">CHARTS</a></li>
-   <li className="nav-item"><a href="#profile-friends" className="nav-link active show" data-toggle="tab">DATA</a></li>
+   <li className="nav-item"><a href="#profile-videos" className="nav-link" data-toggle="tab">CHARTS</a></li> */}
+   <li onClick={(e)=>{switchtodata()}} className="nav-item"><span id="databtn"  className="nav-link cursor active" data-toggle="tab">DATA</span></li>
+   <li onClick={(e)=>{switchtoreq()}} className="nav-item"><span  id="reqbtn"  className="nav-link cursor" data-toggle="tab">Requetes</span></li>
+   <li onClick={(e)=>{switchtoper()}} className="nav-item"><span  id="perbtn"  className="nav-link cursor" data-toggle="tab">Permission</span></li>
 </ul>
 </div>
 
 
-   <div className="row col-12 mb-2">
+   <div id="permissiontab" className="row col-12 mb-2" style={{display:"none"}}>
      <Permission clientID={client_id} cuurentclient={client}/>
    </div>
+
+   <div id="requetetab" className="row col-12 mb-2">
+     <Requete Requetelist={requete}/>
+   </div>
+
+  
    </div>
    </div>
    </>

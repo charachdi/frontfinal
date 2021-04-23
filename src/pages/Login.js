@@ -106,6 +106,7 @@ function Login() {
             response.data.token,
             JSON.stringify(response.data.user)
           );
+          
           window.setTimeout(() => {
             history.push("/stepper");
           }, 1500);
