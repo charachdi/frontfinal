@@ -34,59 +34,71 @@ const [column, setcolumn] = useState([
   {
     key: "Numero_de_la_requete",
     text: "#",
+    className:"datatabel",
   },
   {
     key: "Proprietaire_de_la_requete",
     text: "Proprietaire de la requete",
+    className: "datatabel Name",
     cell: (req, index) => {
       return (
-        <>
-            <Avatar src={req.User.user_img} style={{width:50 , height:50}} />
-            <p>{req.User.full_name}</p>
-         </>
+        <div className="d-flex flex-row">
+            <Avatar src={req.User.user_img} style={{width:30 , height:30}} />
+            <span className=" ml-2">{req.User.full_name}</span>
+         </div>
       );
   }
   },
   {
     key: "Statut",
     text: "Statut",
+    className: "datatabel status",
+    sortable :true
   },
   {
     key: "Origine_de_la_requete",
     text: "Origine de la requete",
+    className: "datatabel colum",
   },
   {
     key: "Heure_douverture",
     text: "Heure d'ouverture",
+    className:"datatabel date"
   },
   {
     key: "Heure_de_fermeture",
     text: "Heure de fermeture",
+    className:" datatabel date"
   },
   {
     key: "Type_de_la_demande_RC",
     text: "Type de la demande",
+    className:"datatabel Type_de_la_demande_RC"
   },
   {
     key: "Famille_de_demande_RC",
     text: "Famille de demande",
+    className:"datatabel Type_de_la_demande_RC"
   },
   {
     key: "Motifs_de_resiliation",
     text: "Motifs de resiliation",
-  },
-  {
-    key: "Statut",
-    text: "Statut",
-  },
-  {
-    key: "Anciennete",
-    text: "Anciennete",
+    className:"datatabel Type_de_la_demande_RC"
   },
   {
     key: "Raison_sociale_du_compte",
     text: "Raison sociale du compte",
+    className:"datatabel Type_de_la_demande_RC"
   },
+  {
+    key: "Anciennete",
+    text: "Anciennete",
+    className:"datatabel Anciennete",
+    sortable :true
+    
+  },
+  
+  
 ])
 
 
