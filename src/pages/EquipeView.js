@@ -10,11 +10,19 @@ import AddIcon from '@material-ui/icons/Add';
 import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter , MDBCol, MDBFormInline , MDBIcon } from 'mdbreact';
 import { DropzoneArea } from 'material-ui-dropzone';
 import Fileview from './../component/Fileview'
-import Equipedata from './../component/Equipedata'
-import Listcompte from './../component/Listcompte'
+import Equipedata from '../component/Equipe/Equipedata'
+import Listcompte from '../component/Equipe/Listcompte'
+import Equipesetting from './../component/Equipe/Equipesetting'
+
+import IconButton from '@material-ui/core/IconButton';
+import AttachFileIcon from '@material-ui/icons/AttachFile';
+import BackupIcon from '@material-ui/icons/Backup';
+import DescriptionIcon from '@material-ui/icons/Description';
 
 import Lottie from 'react-lottie';
 import Loading from './../images/loading.json'
+import Import from './../images/import.json'
+import Fileempty from './../images/fileempty.json'
 
 
 function EquipeView(props) {
@@ -30,7 +38,9 @@ function EquipeView(props) {
     const history = useHistory();
     const [open, setopen] = useState(false)
 
-    const [file, setfile] = useState({})
+    const [file, setfile] = useState({
+      name :""
+    })
     const [loading, setloading] = useState(true)
 
     //add file listiner
@@ -45,6 +55,14 @@ function EquipeView(props) {
       autoplay: true,
       animationData: Loading,
     };
+
+    const importlotti = {
+      loop: true,
+      autoplay: true,
+      animationData: Import,
+    };
+
+   
 
     //update file :complete
     const updatecomplete = (file)=> {
@@ -67,6 +85,8 @@ function EquipeView(props) {
         setTimeout(() => {
           setloading(false)
         }, 2000);
+    $("#Fileview").hide()
+
 
     }
 
@@ -104,6 +124,8 @@ const toggle = ()=>{
 }
 
 const Importfile = async (e)=>{
+
+  
   // e.preventDefault();
   const formData = new FormData();
   formData.append('csv',file);
@@ -130,11 +152,15 @@ if (res.status === 200){
 const switchtodata = () =>{
   
   $("#Fileview").hide()
+  $("#settings").hide()
   $("#listcompte").hide()
   $("#Equipedata").show()
+
   $("#filetab").removeClass("active")
   $("#listcompt").removeClass("active")
   $("#dattab").addClass("active")
+  $("#setting").removeClass("active")
+ 
 
 }
 
@@ -143,10 +169,13 @@ const switchtofile = () =>{
   $("#listcompte").hide()
   $("#Equipedata").hide()
   $("#Fileview").show()
+  $("#settings").hide()
+
   $("#dattab").removeClass("active")
   $("#listcompt").removeClass("active")
   $("#filetab").addClass("active")
-
+  $("#setting").removeClass("active")
+  
 }
 
 const switchtocompte = () =>{
@@ -154,9 +183,26 @@ const switchtocompte = () =>{
   $("#Fileview").hide()
   $("#Equipedata").hide()
   $("#listcompte").show()
+  $("#settings").hide()
+
   $("#dattab").removeClass("active")
   $("#filetab").removeClass("active")
   $("#listcompt").addClass("active")
+  $("#setting").removeClass("active")
+
+
+}
+
+const switchtosetting = () =>{
+  
+  $("#Fileview").hide()
+  $("#listcompte").hide()
+  $("#Equipedata").hide()
+  $("#settings").show()
+  $("#dattab").removeClass("active")
+  $("#filetab").removeClass("active")
+  $("#listcompt").removeClass("active")
+  $("#setting").addClass("active")
 
 }
 
@@ -172,35 +218,37 @@ const switchtocompte = () =>{
           options={defaultOptions}
             height={"80%"}
             width={"80%"}
+            isClickToPauseDisabled={true}
           />
         ) : (
           <>
           <div className=" row col-12 ">
-
-          <header class="page-header">
-            <div class="container-fluid">
+          <header className="page-header">
+            <div className="container-fluid">
               <h2 className="no-margin-bottom justify-content-start ">Membre de l'équipe {equipe.Nom_equipe}</h2>
             </div>
           </header> 
           {/* <!-- Breadcrumb--> */}
-          <div class="breadcrumb-holder container-fluid">
-            <ul class="breadcrumb">
-            <li class="breadcrumb-item" ><a href="home" onClick={()=>{history.push("/home")}}>Home </a></li>
-              <li class="breadcrumb-item active">{equipe.Nom_equipe}</li>
+          <div className="breadcrumb-holder container-fluid">
+            <ul className="breadcrumb">
+            <li className="breadcrumb-item" ><a href="home" onClick={()=>{history.push("/home")}}>Home </a></li>
+              <li className="breadcrumb-item active">{equipe.Nom_equipe}</li>
             </ul>
           </div>
 
-          <div className="row col-12 justify-content-end"> <Button variant="contained"  style={{backgroundColor : "#2DCD94" , textTransform : 'lowercase'}} onClick={(e)=>{toggle()}} startIcon={<AddIcon />} > Import </Button> </div>   
+          <div className="row col-12 justify-content-end">
+             <IconButton  onClick={(e)=>{toggle()}} className="mt-1" color="primary"  aria-label="upload picture" component="span">
+                  <BackupIcon  fontSize="large" style={{color:'#2DCD94'}}/>
+            </IconButton> </div>   
         <div className=" row col-12 justify-content-center text-center " >
-            <div id="team-user" className="row col-10 justufy-content-center mt-4 mr-5 " >
+            <div id="team-user" className="row col-12 justufy-content-center mt-4  " >
                       {chefE.map((user , index)=>(
                           <div id={user.id}  className="card equser shadow cursor  mr-4 ml-4 mt-2 mb-4" style={{width:150 , height:175}} key={index} onClick={()=>{history.push(`/profile/${user.id}`)}} >
-                            {/* <div id="user-badge" className=""></div> */}
+                      
                             <aside className="ribbonchef">{user.user_level}</aside>
                           <div className="card-body justufy-content-center">
                               <Avatar className="ml-2" style={{width:90, height:90}} alt={user.full_name} src={user.user_img} />
                               <div className="text-center mt-2"style={{fontSize:12}}>{user.full_name ? user.full_name : user.user_email}</div>
-                              {/* <span className="text-center mt-1 small">{user.user_level}</span> */}
                           </div>
                           
                         </div>
@@ -216,7 +264,7 @@ const switchtocompte = () =>{
                             
                               <Avatar className="ml-2" style={{width:90, height:90}} alt={user.full_name} src={user.user_img} />
                               <div className="text-center mt-2" style={{fontSize:12}}>{user.full_name ? user.full_name : user.user_email}</div>
-                              {/* <span className="text-center mt-1 small">{user.user_level}</span> */}
+                           
                           </div>
                           
                         </div>
@@ -226,11 +274,12 @@ const switchtocompte = () =>{
            
          </div>
         
-         <div className="row col-12 justify-content-center text-center">
-                <ul className="profile-header-tab nav nav-tabs  mt-4 mb-4">
-                  <li onClick={()=>{switchtodata()}} className="nav-item"><a id="dattab" href="#" className="nav-link active show" data-toggle="tab">Data</a></li>
-                  <li onClick={()=>{switchtocompte()}} className="nav-item"><a id="listcompt" href="#" className="nav-link" data-toggle="tab">Compte</a></li>
-                  <li onClick={()=>{switchtofile()}} className="nav-item"><a id="filetab" href="#" className="nav-link" data-toggle="tab">Files</a></li>
+         <div className="row col-12 justify-content-center text-center" >
+                <ul className="profile-header-tab nav nav-tabs  mt-4 mb-4" style={{backgroundColor:"#E9ECEF"}}>
+                  <li onClick={()=>{switchtodata()}} className="nav-item"><span id="dattab" href="#" className="nav-link active show cursor" data-toggle="tab">Data</span></li>
+                  <li onClick={()=>{switchtocompte()}} className="nav-item"><span id="listcompt" href="#" className="nav-link cursor" data-toggle="tab">Compte</span></li>
+                  <li onClick={()=>{switchtofile()}} className="nav-item"><span id="filetab" href="#" className="nav-link cursor" data-toggle="tab">Files</span></li>
+                  <li onClick={()=>{switchtosetting()}}className="nav-item"><span id="setting" href="#" className="nav-link cursor" data-toggle="tab"><i className="fas fa-cog"></i></span></li>
                 
                 </ul>   
                   
@@ -243,29 +292,45 @@ const switchtocompte = () =>{
       
         
           <>
-          <div id="Fileview" style={{display:"none"}} >
+          
+
+        <div id="Equipedata" className="row col-12" style={{minHeight:800}}>
+        <Equipedata />
+        </div>  
+
+        <div id="Fileview" style={{display:"none"}} style={{minHeight:800}}>
           <div className="row justify-content-center d-inline-flex ">
 
+
+            {
+              files.length === 0 ? (
+                <DescriptionIcon  fontSize="large" style={{color:'#00000'}}/>
+              ):(
+                
+                  files.map((file,index)=>(
+                    <Fileview file={file} updatecom={updatecomplete} index={index} socket={props.socket}/>
+                  ))
+                
+              )
+            }
+
                          
-                          {
-                              files.map((file,index)=>(
-                                <Fileview file={file} updatecom={updatecomplete} index={file.id} socket={props.socket}/>
-                              ))
-                            }
+                         
           </div>
                             
         </div>
 
-        <div id="Equipedata" className="row col-12">
-        <Equipedata />
-        </div>  
-
         <div id="listcompte" style={{display:"none" , width:"100%"}}>
         <Listcompte clients={comptecli} />
         </div>
+
+        <div id="settings" style={{display:"none" , width:"100%"}}>
+        <Equipesetting />
+        </div>
         </>
-        
-   
+
+      
+      
       
    
     </div>
@@ -278,15 +343,41 @@ const switchtocompte = () =>{
       <MDBModalBody>
 
 
-          <div className="">
-          <DropzoneArea
-          filesLimit={1}
-          showAlerts={false}
-          onChange={(files) => {setfile(files[0])}}
+          <div className="drop-file">
+         
+          <input onChange={() => {setfile(document.getElementById('importfile').files[0])}}  id="importfile" type="file"  style={{display:'none'}}  required/>
+         
+            <Lottie 
+            options={importlotti}
+            height={"80%"}
+            width={"80%"}
+            isClickToPauseDisabled={true}
           />
+          <div className="row col-12 justify-content-center">
+          <label htmlFor="importfile">
+                <IconButton className="ml-4" color="primary"  aria-label="upload picture" component="span">
+                  <AttachFileIcon fontSize="large" style={{color:'#2DCD94'}}/>
+                </IconButton>
+              </label>
+          </div>
+
+           <div className="mt-5" style={{minHeight : 60}}>
+           {
+          file.name !== "" ? (
+            <div  className="d-flex flex-row">
+            <i  style={{color:"#2DCD94"}} className="far fa-file-excel fa-4x ml-5"></i>
+            <span style={{fontSize:12}} className="ml-3">{file.name}</span>
+            </div>
+          ) : (null)
+        }
+          </div> 
+      
           </div>
           <div className="float-right mt-3">
-          <Button variant="contained"  style={{backgroundColor : "#2DCD94" , textTransform : 'lowercase'}} onClick={(e)=>{Importfile(e)}}  startIcon={<AddIcon />} > import </Button>
+          <IconButton  onClick={(e)=>{Importfile(e)}} className="mt-5" color="primary"  aria-label="upload picture" component="span">
+                  <BackupIcon  fontSize="large" style={{color:'#2DCD94'}}/>
+            </IconButton>
+        
           </div>
 
       </MDBModalBody>
