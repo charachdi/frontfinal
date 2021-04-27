@@ -201,7 +201,7 @@ function Profile(props) {
                 <div className="col-lg-4" >
                    <div className="profile-card-4 z-depth-3">
                     <div className="card">
-                      <div className="card-body text-center rounded-top" style={{backgroundColor:"#2DCD94", width:"100%"}}>
+                      <div className="card-body text-center rounded-top" style={{backgroundColor:"#babebd", width:"100%"}}>
                        <div className="user-box text-center">
                        <Avatar  style={{width:200, height:200}} className="profile_img cursor" alt="Haboubi amine" src={user ? user.user_img:"" } />
                       </div>

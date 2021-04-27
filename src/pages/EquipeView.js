@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter , MDBCol, MDBFormInline , MDBIcon } from 'mdbreact';
-import { DropzoneArea } from 'material-ui-dropzone';
+
 import Fileview from './../component/Fileview'
 import Equipedata from '../component/Equipe/Equipedata'
 import Listcompte from '../component/Equipe/Listcompte'

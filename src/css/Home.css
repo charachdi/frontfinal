@@ -24,7 +24,7 @@ body{
 
 ::-webkit-scrollbar-track
 {
-	-webkit-box-shadow: inset 0 0 6px rgb(45, 205, 148);
+	-webkit-box-shadow: inset 0 0 6px rgb(102, 121, 143);
 	border-radius: 10px;
 	height: 8px;
 	background-color: #F5F5F5;
@@ -34,14 +34,14 @@ body{
 {
 	width: 8px;
 	height: 6px;
-	background-color: #2DCD94;
+	background-color: #767192;
 }
 
 ::-webkit-scrollbar-thumb
 {
 
-	-webkit-box-shadow: inset 0 0 6px rgb(45, 205, 148);
-	background-color: #2DCD94;
+	-webkit-box-shadow: inset 0 0 6px rgb(102, 121, 143);
+	background-color: #767192;
 }
 
 
@@ -250,7 +250,7 @@ body{
     color: white;
     background-size: 200% 200%;
     transition: background-position 0.5s cubic-bezier(0.25, 0.1, 0.19, 1.19); 
-    background-image: linear-gradient(to right, #38d39f 50% ,  white 0%);
+    background-image: linear-gradient(to right, #babebd 50% ,  white 0%);
     background-position: left;
     animation: slide-left .5s ;
   
@@ -260,7 +260,7 @@ body{
 
 .picked-center{
     color: gray;
-    background-color: #38d39f;
+    background-color: #babebd;
     background-size: 50%;
 }
 
@@ -338,7 +338,7 @@ body{
         height: 0px;
         top: 30%;
         left: 45%;
-        background-color: #2DCD94;
+        background-color: #fdfdfd;
     }
    
     100% {
@@ -346,7 +346,7 @@ body{
         height:500%;
         top: -50px;
         left: -60px;
-        background-color: #2DCD94;
+        background-color: #bfbfc2;
     }
   }
 
@@ -356,7 +356,7 @@ body{
         height: 0px;
         top: 30%;
         left: 45%;
-        background-color: #2DCD94;
+        background-color: #92909e;
     }
    
     100% {

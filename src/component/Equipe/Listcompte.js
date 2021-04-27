@@ -111,9 +111,7 @@ const history = useHistory();
       cell: (cli, index) => {
         return (
           <>
-          <IconButton size="small" aria-label="delete" color="primary" onClick={()=>{history.push(`/client/${cli.id}`)}} style={{color :"#388e3c"}}>
-            <Visibility />
-          </IconButton>    
+             
            </>
         );
     }

@@ -39,7 +39,7 @@
 }
 
 .profile-card-2 .card.profile-primary::before {
-	background-color: #2DCD94;
+	background-color: #babebd;
 }
 .profile-card-2 .card.profile-success::before {
 	background-color: #15ca20;
@@ -130,14 +130,14 @@
 }
 
 .nav-tabs-primary.nav-tabs{
-	border-bottom: 1px solid #2DCD94;
+	border-bottom: 1px solid #babebd;
 }
 
 .nav-tabs-primary .nav-link.active, .nav-tabs-primary .nav-item.show>.nav-link {
-    color: #2DCD94;
+    color: #babebd;
     background-color: #fff;
-    border-color: #2DCD94 #2DCD94 #fff;
-    border-top: 3px solid #2DCD94;
+    border-color: #babebd #babebd #fff;
+    border-top: 3px solid #babebd;
 }
 
 .nav-tabs-success.nav-tabs{
@@ -152,7 +152,7 @@
 }
 
 .nav-tabs-info.nav-tabs{
-	border-bottom: 1px solid #2DCD94;
+	border-bottom: 1px solid #babebd;
 }
 
 .nav-tabs-info .nav-link.active, .nav-tabs-info .nav-item.show>.nav-link {
@@ -237,16 +237,16 @@
 
 .tabs-vertical-primary.tabs-vertical .nav-tabs{
 	border:0;
-	border-right: 1px solid #2DCD94;
+	border-right: 1px solid #babebd;
 }
 
 .tabs-vertical-primary.tabs-vertical .nav-tabs .nav-item.show .nav-link, .tabs-vertical-primary.tabs-vertical .nav-tabs .nav-link.active {
-    color: #2DCD94;
+    color: #babebd;
     background-color: #fff;
-    border-color: #2DCD94 #2DCD94 #fff;
-    border-bottom: 1px solid #2DCD94;
+    border-color: #babebd #babebd #fff;
+    border-bottom: 1px solid #babebd;
     border-right: 0;
-    border-left: 3px solid #2DCD94;
+    border-left: 3px solid #babebd;
 }
 
 .tabs-vertical-success.tabs-vertical .nav-tabs{
@@ -370,7 +370,7 @@
 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     color: #fff;
-    background-color: #2DCD94;
+    background-color: #babebd;
     box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(0, 140, 255, 0.5);
 }
 
